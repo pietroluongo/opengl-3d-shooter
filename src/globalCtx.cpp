@@ -6,14 +6,10 @@ GlobalCtx::GlobalCtx(GLint w, GLint h) {
     this->game = new Game();
 }
 
-GlobalCtx::~GlobalCtx() {
-    delete this->game;
-}
+GlobalCtx::~GlobalCtx() { delete this->game; }
 
 glivec2 GlobalCtx::getWindowSize() {
     return glivec2(this->windowWidth, this->windowHeight);
 }
 
-Game* GlobalCtx::getGameRef() {
-    return this->game;
-}
+Game* GlobalCtx::getGameRef() { return this->game; }

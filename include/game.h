@@ -4,10 +4,10 @@
 
 class Game {
     Player* player;
-    public:
-        Game();
-        glfvec2 getPlayerPosition();
 
+  public:
+    Game();
+    glfvec2 getPlayerPosition();
 };
 
 #endif

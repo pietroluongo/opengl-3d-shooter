@@ -29,7 +29,7 @@ void setupGlut(int argc, char** argv) {
     glutCreateWindow(WINDOW_TITLE);
     init();
     debug::imgui_init(context);
-    
+
     glutDisplayFunc(display);
 }
 
@@ -39,6 +39,6 @@ int main(int argc, char** argv) {
     setupGlut(argc, argv);
     glutMainLoop();
 
-    delete(context);
+    delete (context);
     return 0;
 }

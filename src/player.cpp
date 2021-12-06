@@ -1,12 +1,11 @@
 #include "../include/player.h"
 
-Player::Player(GLfloat x, GLfloat y){
+Player::Player(GLfloat x, GLfloat y) {
     this->position.x = x;
     this->position.y = y;
 }
 
-Player::Player(){
-}
+Player::Player() {}
 
 void Player::draw() {
     glPushMatrix();
@@ -21,6 +20,4 @@ void Player::draw() {
     glPopMatrix();
 }
 
-glfvec2 Player::getPosition() {
-    return this->position;
-}
+glfvec2 Player::getPosition() { return this->position; }
