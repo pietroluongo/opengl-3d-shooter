@@ -4,6 +4,6 @@
 constexpr const int WINDOW_WIDTH = 500;
 constexpr const int WINDOW_HEIGHT = 500;
 
-constexpr const char* WINDOW_TITLE = "Snake";
+constexpr const char* WINDOW_TITLE = "trabalhocg";
 
 #endif

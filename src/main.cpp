@@ -2,18 +2,14 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#include <type_traits>
-
 #include "../include/constants.h"
-#include "../include/globalCtx.h"
-
-GlobalCtx* context;
-
-void init();
-void display();
+#include "../include/debug.h"
+#include "_main.h"
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
+    debug::drawUI();
+    glutPostRedisplay();
     glutSwapBuffers();
 }
 
@@ -26,17 +22,21 @@ void init() {
     glLoadIdentity();
 }
 
-int main(int argc, char** argv) {
-    context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT);
-
+void setupGlut(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
     init();
-
+    debug::imgui_init(context);
+    
     glutDisplayFunc(display);
+}
 
+int main(int argc, char** argv) {
+    context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    setupGlut(argc, argv);
     glutMainLoop();
 
     delete(context);
