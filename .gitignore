@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+trabalhocg
+
+# Compiled libraries folder
+build
