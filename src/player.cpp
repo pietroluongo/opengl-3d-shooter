@@ -13,9 +13,9 @@ void Player::draw() {
     glBegin(GL_QUADS);
     glColor3f(0.0f, 1.0f, 0.0f);
     glVertex2f(0.0f, 0.0f);
-    glVertex2f(0.0f, 1.0f);
-    glVertex2f(1.0f, 1.0f);
-    glVertex2f(1.0f, 0.0f);
+    glVertex2f(0.0f, 0.1f);
+    glVertex2f(0.1f, 0.1f);
+    glVertex2f(0.1f, 0.0f);
     glEnd();
     glPopMatrix();
 }

@@ -4,8 +4,7 @@
 #include "../include/game.h"
 
 namespace debug {
-void imgui_init(GlobalCtx* context) {
-    debug::context = context;
+void imgui_init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();

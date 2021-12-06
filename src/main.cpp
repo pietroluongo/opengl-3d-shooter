@@ -9,6 +9,7 @@
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     debug::drawUI();
+    context->getGameRef()->draw();
     glutPostRedisplay();
     glutSwapBuffers();
 }
@@ -28,7 +29,7 @@ void setupGlut(int argc, char** argv) {
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
     init();
-    debug::imgui_init(context);
+    debug::imgui_init();
 
     glutDisplayFunc(display);
 }

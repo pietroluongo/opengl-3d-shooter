@@ -8,6 +8,7 @@ class Game {
   public:
     Game();
     glfvec2 getPlayerPosition();
+    void draw();
 };
 
 #endif
