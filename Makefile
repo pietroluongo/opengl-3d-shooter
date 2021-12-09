@@ -1,4 +1,8 @@
 .DEFAULT_GOAL := all
+
+GIT_HASH = `git rev-parse HEAD`
+COMPILE_TIME=`date -u +'%Y-%m-%d %H:%M:%S UTC'`
+
 # the compiler: gcc for C program, define as g++ for C++
 CC = gcc
 CXX = g++
@@ -7,10 +11,12 @@ BUILD_DIR = build
 IMGUI_DIR = libs/imgui
 TINYXML_DIR = libs/tinyxml2
 
+COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
+
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -g -Wall -std=c++11
+CFLAGS  = -g -Wall -std=c++11 $(COMPILE_VARS)
 LINKING = -lglut -lGL -lGLU
 
 IMGUI_SOURCES_DIRTY := $(wildcard $(IMGUI_DIR)/*.cpp)

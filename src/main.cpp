@@ -103,7 +103,7 @@ void idle() {
 
 int main(int argc, char** argv) {
     context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT);
-
+    printf("git hash is %s\n", GIT_HASH);
     setupGlut(argc, argv);
     glutMainLoop();
 
