@@ -30,6 +30,7 @@ void drawUI() {
 void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
     glm::ivec2 mousePos = context->getMousePos();
+    glm::ivec4 cameraBounds = context->getCurrentCameraBounds();
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
@@ -39,7 +40,16 @@ void imgui_display() {
         ImGui::Text("DeltaTime from GLUT: %.3f", context->getDeltaTime());
         ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
-        ImGui::Checkbox("Draw debug info", &context->shouldDrawDebugInfo);
+
+        ImGui::End();
+    }
+    if (context->shouldDrawCameraInfo) {
+        ImGui::Begin("Camera", &context->shouldDrawCameraInfo);
+        ImGui::Text("Camera bounds: %d, %d, %d, %d", cameraBounds.x,
+                    cameraBounds.y, cameraBounds.z, cameraBounds.w);
+        ImGui::Checkbox("Toggle Free Camera (control w/ IJKL)",
+                        &context->freeCamEnabled);
+        ImGui::Checkbox("Toggle Chase Camera", &context->chaseCam);
         ImGui::End();
     }
 }

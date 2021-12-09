@@ -58,7 +58,7 @@ clean-full:
 
 # Domain classes
 
-trabalhocgDeps: $(BUILD_DIR)/main.o $(BUILD_DIR)/globalctx.o $(BUILD_DIR)/game.o $(BUILD_DIR)/player.o $(BUILD_DIR)/debug.o
+trabalhocgDeps: $(BUILD_DIR)/main.o $(BUILD_DIR)/globalctx.o $(BUILD_DIR)/game.o $(BUILD_DIR)/player.o $(BUILD_DIR)/debug.o $(BUILD_DIR)/platform.o
 
 $(BUILD_DIR)/globalctx.o: src/globalCtx.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -73,4 +73,7 @@ $(BUILD_DIR)/main.o: src/main.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/debug.o: src/debug.cpp | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/platform.o: src/platform.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

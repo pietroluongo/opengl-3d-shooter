@@ -6,6 +6,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h) {
     this->windowWidth = w;
     this->game = new Game();
     this->shouldDrawDebugInfo = false;
+    this->bounds = glm::ivec2(0, 0);
 }
 
 GlobalCtx::~GlobalCtx() { delete this->game; }
@@ -24,6 +25,10 @@ glm::ivec2 GlobalCtx::getMousePos() {
 
 void GlobalCtx::toggleDebugInfo() {
     this->shouldDrawDebugInfo = !this->shouldDrawDebugInfo;
+}
+
+void GlobalCtx::toggleCameraInfo() {
+    this->shouldDrawCameraInfo = !this->shouldDrawCameraInfo;
 }
 
 void GlobalCtx::updateTiming(GLdouble framerate, GLdouble deltaTime) {
@@ -50,3 +55,21 @@ bool GlobalCtx::isKeyPressed(unsigned char key) {
 }
 
 double GlobalCtx::getDeltaTime() { return this->deltaTime; }
+
+void GlobalCtx::moveBoundsX(int x) { this->bounds.x += x; }
+
+void GlobalCtx::moveBoundsY(int y) { this->bounds.y += y; }
+
+void GlobalCtx::idle() {
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(-WINDOW_WIDTH + this->bounds.x, WINDOW_WIDTH + this->bounds.x,
+            WINDOW_HEIGHT + this->bounds.y, -WINDOW_HEIGHT + this->bounds.y, -1,
+            1);
+    this->game->idle();
+}
+
+glm::ivec4 GlobalCtx::getCurrentCameraBounds() {
+    return glm::ivec4(-10 + this->bounds.x, 10 + this->bounds.x,
+                      10 + this->bounds.y, -10 + this->bounds.y);
+}

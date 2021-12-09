@@ -13,23 +13,33 @@ class GlobalCtx {
     int keyStatus[256] = {0};
     GLdouble framerate = 0, deltaTime = 0;
 
+    glm::ivec2 bounds = {0, 0};
+
   public:
     bool shouldDrawDebugInfo = false;
+    bool shouldDrawCameraInfo = false;
+    bool freeCamEnabled = false;
+    bool chaseCam = false;
 
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();
-    glivec2 getWindowSize();
-    Game* getGameRef();
-    void updateMousePos(glm::ivec2 pos);
-    glm::ivec2 getMousePos();
-    void toggleDebugInfo();
-    void updateTiming(GLdouble framerate, GLdouble deltaTime);
-    double getFramerate();
-    void updateKeyStatus(int key, int status);
-    void updateKeyStatus(unsigned char key, int status);
     bool isKeyPressed(int key);
     bool isKeyPressed(unsigned char key);
     double getDeltaTime();
+    double getFramerate();
+    Game* getGameRef();
+    glivec2 getWindowSize();
+    glm::ivec2 getMousePos();
+    glm::ivec4 getCurrentCameraBounds();
+    void idle();
+    void moveBoundsX(int x);
+    void moveBoundsY(int y);
+    void toggleDebugInfo();
+    void toggleCameraInfo();
+    void updateKeyStatus(int key, int status);
+    void updateKeyStatus(unsigned char key, int status);
+    void updateMousePos(glm::ivec2 pos);
+    void updateTiming(GLdouble framerate, GLdouble deltaTime);
 };
 
 #endif

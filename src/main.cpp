@@ -9,8 +9,9 @@
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
-    debug::drawUI();
     context->getGameRef()->draw();
+    debug::drawUI();
+
     glutPostRedisplay();
     glutSwapBuffers();
 }
@@ -19,7 +20,7 @@ void init() {
     glClearColor(0.f, 0.f, 0.f, 1.f);
 
     glMatrixMode(GL_PROJECTION);
-    glOrtho(-10, 10, 10, -10, -1, 1);
+    glOrtho(-WINDOW_WIDTH, WINDOW_WIDTH, WINDOW_HEIGHT, -WINDOW_HEIGHT, -1, 1);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -33,6 +34,9 @@ void specialDown(int key, int x, int y) {
     context->updateKeyStatus(key, KEY_DOWN_STATUS);
     if (key == GLUT_KEY_F1) {
         context->toggleDebugInfo();
+    }
+    if (key == GLUT_KEY_F2) {
+        context->toggleCameraInfo();
     }
     glutPostRedisplay();
 }
@@ -77,20 +81,22 @@ void idle() {
     double framerate = 1.0 / deltaTime * 1000;
     context->updateTiming(framerate, deltaTime / 1000);
 
-    if (context->isKeyPressed('d') || context->isKeyPressed('D')) {
-        context->getGameRef()->getPlayer()->moveX(1);
-    }
-    if (context->isKeyPressed('D') || context->isKeyPressed('a')) {
-        context->getGameRef()->getPlayer()->moveX(-1);
+    if (context->freeCamEnabled) {
+        if (context->isKeyPressed('l')) {
+            context->moveBoundsX(1);
+        }
+        if (context->isKeyPressed('j')) {
+            context->moveBoundsX(-1);
+        }
+        if (context->isKeyPressed('i')) {
+            context->moveBoundsY(-1);
+        }
+        if (context->isKeyPressed('k')) {
+            context->moveBoundsY(1);
+        }
     }
 
-    if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        context->getGameRef()->getPlayer()->moveY(-1);
-    }
-
-    if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-        context->getGameRef()->getPlayer()->moveY(1);
-    }
+    context->idle();
 
     glutPostRedisplay();
 }
