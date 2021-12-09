@@ -26,26 +26,19 @@ void init() {
 
 void keyDown(unsigned char key, int x, int y) {
     context->updateKeyStatus(key, KEY_DOWN_STATUS);
-    // switch (key) {
-    // case 'a':
-    // case 'A':
-    //     context->updateKeyStatus('a', KEY_DOWN_STATUS);
-    //     break;
-    // case 'd':
-    // case 'D':
-    //     context->updateKeyStatus('d', KEY_DOWN_STATUS);
-    //     break;
-    // case 'w':
-    // case 'W':
-    //     context->updateKeyStatus('w', KEY_DOWN_STATUS);
-    //     break;
-    // case 's':
-    // case 'S':
-    //     context->updateKeyStatus('s', KEY_DOWN_STATUS);
-    //     break;
-    // default:
-    //     break;
-    // }
+    glutPostRedisplay();
+}
+
+void specialDown(int key, int x, int y) {
+    context->updateKeyStatus(key, KEY_DOWN_STATUS);
+    if (key == GLUT_KEY_F1) {
+        context->toggleDebugInfo();
+    }
+    glutPostRedisplay();
+}
+
+void specialUp(int key, int x, int y) {
+    context->updateKeyStatus(key, KEY_UP_STATUS);
     glutPostRedisplay();
 }
 
@@ -64,21 +57,16 @@ void setupGlut(int argc, char** argv) {
 
     glutDisplayFunc(display);
     glutPassiveMotionFunc(passiveMotion);
-    glutSpecialFunc(specialFunc);
     glutIdleFunc(idle);
+
     glutKeyboardFunc(keyDown);
     glutKeyboardUpFunc(keyUp);
+
+    glutSpecialFunc(specialDown);
+    glutSpecialUpFunc(specialUp);
 }
 
 void passiveMotion(int x, int y) { context->updateMousePos(glm::ivec2(x, y)); }
-
-void specialFunc(int key, int x, int y) {
-    // switch (key) {
-    // case GLUT_KEY_F1:
-    //     context->toggleDebugInfo();
-    //     break;
-    // }
-}
 
 void idle() {
     static GLdouble prevTime = glutGet(GLUT_ELAPSED_TIME);

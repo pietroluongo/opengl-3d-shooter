@@ -5,6 +5,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h) {
     this->windowHeight = h;
     this->windowWidth = w;
     this->game = new Game();
+    this->shouldDrawDebugInfo = false;
 }
 
 GlobalCtx::~GlobalCtx() { delete this->game; }

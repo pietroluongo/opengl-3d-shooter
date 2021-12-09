@@ -11,7 +11,8 @@ void display();
 void idle();
 void mouse();
 void passiveMotion(int x, int y);
-void specialFunc(int key, int x, int y);
+void specialDown(int key, int x, int y);
+void specialUp(int key, int x, int y);
 void keyUp(unsigned char key, int x, int y);
 void keyDown(unsigned char key, int x, int y);
 

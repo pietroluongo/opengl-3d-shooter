@@ -10,11 +10,12 @@ class GlobalCtx {
     GLint windowWidth, windowHeight;
     Game* game;
     glm::vec2 mousePos;
-    bool shouldDrawDebugInfo = false;
     int keyStatus[256] = {0};
     GLdouble framerate = 0, deltaTime = 0;
 
   public:
+    bool shouldDrawDebugInfo = false;
+
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();
     glivec2 getWindowSize();
