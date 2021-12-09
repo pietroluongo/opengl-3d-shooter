@@ -11,6 +11,8 @@ class Player {
     Player(GLfloat x, GLfloat y);
     void draw();
     glfvec2 getPosition();
+    void moveX(double amount);
+    void moveY(double amount);
 };
 
 #endif

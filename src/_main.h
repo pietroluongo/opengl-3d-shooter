@@ -9,9 +9,10 @@ void setupGlut(int argc, char** argv);
 void init();
 void display();
 void idle();
-void keyboard(int key, int x, int y);
 void mouse();
 void passiveMotion(int x, int y);
 void specialFunc(int key, int x, int y);
+void keyUp(unsigned char key, int x, int y);
+void keyDown(unsigned char key, int x, int y);
 
 #endif

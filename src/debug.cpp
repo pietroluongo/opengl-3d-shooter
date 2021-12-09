@@ -31,8 +31,10 @@ void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
     glm::ivec2 mousePos = context->getMousePos();
     ImGui::Begin("Debug");
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+    ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
                 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("Framerate from GLUT: %.3f", context->getFramerate());
+    ImGui::Text("DeltaTime from GLUT: %.3f", context->getDeltaTime());
     ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
     ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
     ImGui::End();

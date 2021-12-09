@@ -1,4 +1,7 @@
 #include "../include/player.h"
+#include "../include/globalCtx.h"
+
+extern GlobalCtx* context;
 
 Player::Player(GLfloat x, GLfloat y) {
     this->position.x = x;
@@ -21,3 +24,11 @@ void Player::draw() {
 }
 
 glfvec2 Player::getPosition() { return this->position; }
+
+void Player::moveX(double amount) {
+    this->position.x += (amount * context->getDeltaTime());
+}
+
+void Player::moveY(double amount) {
+    this->position.y += (amount * context->getDeltaTime());
+}

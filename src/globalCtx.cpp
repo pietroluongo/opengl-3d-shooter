@@ -1,4 +1,5 @@
 #include "../include/globalCtx.h"
+#include "../include/constants.h"
 
 GlobalCtx::GlobalCtx(GLint w, GLint h) {
     this->windowHeight = h;
@@ -23,3 +24,28 @@ glm::ivec2 GlobalCtx::getMousePos() {
 void GlobalCtx::toggleDebugInfo() {
     this->shouldDrawDebugInfo = !this->shouldDrawDebugInfo;
 }
+
+void GlobalCtx::updateTiming(GLdouble framerate, GLdouble deltaTime) {
+    this->framerate = framerate;
+    this->deltaTime = deltaTime;
+}
+
+double GlobalCtx::getFramerate() { return this->framerate; }
+
+void GlobalCtx::updateKeyStatus(int key, int status) {
+    this->keyStatus[key] = status;
+}
+
+void GlobalCtx::updateKeyStatus(unsigned char key, int status) {
+    this->updateKeyStatus((int)key, status);
+}
+
+bool GlobalCtx::isKeyPressed(int key) {
+    return this->keyStatus[key] == KEY_DOWN_STATUS;
+}
+
+bool GlobalCtx::isKeyPressed(unsigned char key) {
+    return this->isKeyPressed((int)key);
+}
+
+double GlobalCtx::getDeltaTime() { return this->deltaTime; }
