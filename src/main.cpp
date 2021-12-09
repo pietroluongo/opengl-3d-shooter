@@ -1,6 +1,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <cstdio>
 
 #include "../include/constants.h"
 #include "../include/debug.h"
@@ -32,6 +33,18 @@ void setupGlut(int argc, char** argv) {
     debug::imgui_init();
 
     glutDisplayFunc(display);
+    glutPassiveMotionFunc(passiveMotion);
+    glutSpecialFunc(specialFunc);
+}
+
+void passiveMotion(int x, int y) { context->updateMousePos(glm::ivec2(x, y)); }
+
+void specialFunc(int key, int x, int y) {
+    switch (key) {
+    case GLUT_KEY_F1:
+        context->toggleDebugInfo();
+        break;
+    }
 }
 
 int main(int argc, char** argv) {

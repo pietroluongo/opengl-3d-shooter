@@ -29,10 +29,12 @@ void drawUI() {
 
 void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
+    glm::ivec2 mousePos = context->getMousePos();
     ImGui::Begin("Debug");
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
+    ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
     ImGui::End();
 }
 

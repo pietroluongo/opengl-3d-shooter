@@ -2,11 +2,12 @@
 #define CUSTOM_TYPES_H
 #include "../libs/glm/glm.hpp"
 #include <GL/gl.h>
+#include <memory>
 
-typedef glm::vec<2, GLint, glm::defaultp> glivec2;
-typedef glm::vec<3, GLint, glm::defaultp> glivec3;
+using glivec2 = glm::vec<2, GLint, glm::defaultp>;
+using glivec3 = glm::vec<3, GLint, glm::defaultp>;
 
-typedef glm::vec<2, GLfloat, glm::defaultp> glfvec2;
-typedef glm::vec<3, GLfloat, glm::defaultp> glfvec3;
+using glfvec2 = glm::vec<2, GLfloat, glm::defaultp>;
+using glfvec3 = glm::vec<3, GLfloat, glm::defaultp>;
 
 #endif
