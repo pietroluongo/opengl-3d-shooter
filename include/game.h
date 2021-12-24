@@ -15,6 +15,8 @@ class Game {
     void draw();
     Player* getPlayer();
     void idle();
+    void addPlatform(Platform* platform);
+    void createPlayer(double x, double y, double size);
 };
 
 #endif
