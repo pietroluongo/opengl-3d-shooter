@@ -9,7 +9,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h) {
     this->bounds = glm::ivec2(0, 0);
 }
 
-GlobalCtx::~GlobalCtx() { delete this->game; }
+GlobalCtx::~GlobalCtx() { delete (this->game); }
 
 glivec2 GlobalCtx::getWindowSize() {
     return glivec2(this->windowWidth, this->windowHeight);

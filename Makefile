@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := dev
 
 GIT_HASH = `git rev-parse HEAD`
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
@@ -30,6 +30,12 @@ TINYXML_SOURCES := $(TINYXML_SOURCES_NO_PREFIX:.cpp=)
 TINYXML_OBJS := $(TINYXML_SOURCES:%=$(BUILD_DIR)/tinyxml/%.o)
 
 all: trabalhocg
+
+dev: trabalhocg
+	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
+
+leakTest: trabalhocg
+	valgrind ./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 
 trabalhocg: trabalhocgDeps imgui tinyxml
 	$(CXX) $(CFLAGS) -o $@ $(BUILD_DIR)/*.o $(BUILD_DIR)/imgui/*.o $(BUILD_DIR)/tinyxml/*.o $(LINKING)

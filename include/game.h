@@ -10,6 +10,7 @@ class Game {
 
   public:
     Game();
+    ~Game();
     glfvec2 getPlayerPosition();
     void draw();
     Player* getPlayer();
