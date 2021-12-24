@@ -103,7 +103,14 @@ void idle() {
 
 int main(int argc, char** argv) {
     context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT);
-    printf("git hash is %s\n", GIT_HASH);
+    static const char* header = 
+"########################################################## \n\
+#                 Mario Shooter 2D                       # \n\
+#        %s        # \n\
+#        compiled at %s           # \n\
+########################################################## \
+            \n";
+    printf(header, GIT_HASH, COMPILE_TIME);
     setupGlut(argc, argv);
     glutMainLoop();
 
