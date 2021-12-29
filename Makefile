@@ -70,7 +70,7 @@ clean-full:
 
 # Domain classes
 
-trabalhocgDeps: $(BUILD_DIR)/main.o $(BUILD_DIR)/globalctx.o $(BUILD_DIR)/game.o $(BUILD_DIR)/player.o $(BUILD_DIR)/debug.o $(BUILD_DIR)/platform.o $(BUILD_DIR)/glutCallbacks.o
+trabalhocgDeps: $(BUILD_DIR)/main.o $(BUILD_DIR)/globalctx.o $(BUILD_DIR)/game.o $(BUILD_DIR)/player.o $(BUILD_DIR)/debug.o $(BUILD_DIR)/platform.o $(BUILD_DIR)/glutCallbacks.o $(BUILD_DIR)/camera.o
 
 $(BUILD_DIR)/globalctx.o: src/globalCtx.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -91,4 +91,7 @@ $(BUILD_DIR)/platform.o: src/platform.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/glutCallbacks.o: src/glutCallbacks.cpp | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/camera.o: src/camera.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

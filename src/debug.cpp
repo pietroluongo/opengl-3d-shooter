@@ -30,7 +30,8 @@ void drawUI() {
 void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
     glm::ivec2 mousePos = context->getMousePos();
-    glm::ivec4 cameraBounds = context->getCurrentCameraBounds();
+    glm::ivec4 cameraBounds =
+        context->getGameRef()->getMainCamera()->getBounds();
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",

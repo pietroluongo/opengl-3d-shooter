@@ -1,4 +1,5 @@
 #include "../include/glutCallbacks.h"
+#include "../include/camera.h"
 #include "../include/constants.h"
 #include "../include/debug.h"
 #include <GL/gl.h>
@@ -68,19 +69,20 @@ void idle() {
     prevTime = curTime;
     double framerate = 1.0 / deltaTime * 1000;
     context->updateTiming(framerate, deltaTime / 1000);
+    Camera* cam = context->getGameRef()->getMainCamera();
 
     if (context->freeCamEnabled) {
         if (context->isKeyPressed('l')) {
-            context->moveBoundsX(1);
+            cam->moveBoundsX(1);
         }
         if (context->isKeyPressed('j')) {
-            context->moveBoundsX(-1);
+            cam->moveBoundsX(-1);
         }
         if (context->isKeyPressed('i')) {
-            context->moveBoundsY(-1);
+            cam->moveBoundsY(-1);
         }
         if (context->isKeyPressed('k')) {
-            context->moveBoundsY(1);
+            cam->moveBoundsY(1);
         }
     }
 

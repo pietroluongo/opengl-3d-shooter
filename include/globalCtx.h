@@ -13,8 +13,6 @@ class GlobalCtx {
     int keyStatus[256] = {0};
     GLdouble framerate = 0, deltaTime = 0;
 
-    glm::ivec2 bounds = {0, 0};
-
   public:
     bool shouldDrawDebugInfo = false;
     bool shouldDrawCameraInfo = false;
@@ -30,10 +28,7 @@ class GlobalCtx {
     Game* getGameRef();
     glivec2 getWindowSize();
     glm::ivec2 getMousePos();
-    glm::ivec4 getCurrentCameraBounds();
     void idle();
-    void moveBoundsX(int x);
-    void moveBoundsY(int y);
     void toggleDebugInfo();
     void toggleCameraInfo();
     void updateKeyStatus(int key, int status);
