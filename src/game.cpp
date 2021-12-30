@@ -26,6 +26,7 @@ Player* Game::getPlayer() { return this->player; }
 
 void Game::idle() {
     this->player->idle();
+    // this->cam->setCenter(this->player->getPosition());
     this->cam->idle();
 }
 

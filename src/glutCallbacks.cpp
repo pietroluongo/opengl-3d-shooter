@@ -73,16 +73,16 @@ void idle() {
 
     if (context->freeCamEnabled) {
         if (context->isKeyPressed('l')) {
-            cam->moveBoundsX(1);
+            cam->moveX(1);
         }
         if (context->isKeyPressed('j')) {
-            cam->moveBoundsX(-1);
+            cam->moveX(-1);
         }
         if (context->isKeyPressed('i')) {
-            cam->moveBoundsY(-1);
+            cam->moveY(-1);
         }
         if (context->isKeyPressed('k')) {
-            cam->moveBoundsY(1);
+            cam->moveY(1);
         }
     }
 

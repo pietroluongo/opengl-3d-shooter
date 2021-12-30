@@ -4,21 +4,30 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#define WINDOW_WIDTH_TMP 500
-#define WINDOW_HEIGHT_TMP 500
+#define BASE_CAMERA_WIDTH 100
+#define BASE_CAMERA_HEIGHT 100
+
+constexpr int CAMERA_WIDTH = BASE_CAMERA_WIDTH / 2;
+constexpr int CAMERA_HEIGHT = BASE_CAMERA_HEIGHT / 2;
 
 Camera::Camera() {}
+
 void Camera::idle() {
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION);
-    glOrtho(-WINDOW_WIDTH_TMP + this->bounds.x,
-            WINDOW_WIDTH_TMP + this->bounds.x,
-            WINDOW_HEIGHT_TMP + this->bounds.y,
-            -WINDOW_HEIGHT_TMP + this->bounds.y, -1, 1);
+    glOrtho(center.x - CAMERA_WIDTH, center.x + CAMERA_WIDTH,
+            center.y + CAMERA_HEIGHT, center.y - CAMERA_HEIGHT, -1, 1);
 }
 glm::ivec4 Camera::getBounds() {
-    return glm::ivec4(-10 + this->bounds.x, 10 + this->bounds.x,
-                      10 + this->bounds.y, -10 + this->bounds.y);
+    return glm::ivec4(center.x - CAMERA_WIDTH, center.x + CAMERA_WIDTH,
+                      center.y + CAMERA_HEIGHT, center.y - CAMERA_HEIGHT);
 }
-void Camera::moveBoundsX(int x) { this->bounds.x += x; }
-void Camera::moveBoundsY(int y) { this->bounds.y += y; }
+void Camera::moveX(int x) { this->center.x += x; }
+void Camera::moveY(int y) { this->center.y += y; }
+
+void Camera::setCenter(glm::vec2 focus) {
+    this->bounds.x = focus.x - BASE_CAMERA_WIDTH;
+    this->bounds.y = focus.y - BASE_CAMERA_HEIGHT;
+}
+
+glm::ivec2 Camera::getPosition() { return glm::vec2(center.x, center.y); }

@@ -4,13 +4,17 @@
 
 class Camera {
     glm::ivec2 bounds = {0, 0};
+    glm::ivec2 center = {0, 0};
+    double zoomLevel = 1.0;
 
   public:
     Camera();
     void idle();
     glm::ivec4 getBounds();
-    void moveBoundsX(int x);
-    void moveBoundsY(int y);
+    glm::ivec2 getPosition();
+    void moveX(int x);
+    void moveY(int y);
+    void setCenter(glm::vec2 focus);
 };
 
 #endif

@@ -32,6 +32,8 @@ void imgui_display() {
     glm::ivec2 mousePos = context->getMousePos();
     glm::ivec4 cameraBounds =
         context->getGameRef()->getMainCamera()->getBounds();
+    glm::ivec2 cameraPosition =
+        context->getGameRef()->getMainCamera()->getPosition();
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
@@ -48,6 +50,8 @@ void imgui_display() {
         ImGui::Begin("Camera", &context->shouldDrawCameraInfo);
         ImGui::Text("Camera bounds: %d, %d, %d, %d", cameraBounds.x,
                     cameraBounds.y, cameraBounds.z, cameraBounds.w);
+        ImGui::Text("Camera position: %d, %d", cameraPosition.x,
+                    cameraPosition.y);
         ImGui::Checkbox("Toggle Free Camera (control w/ IJKL)",
                         &context->freeCamEnabled);
         ImGui::Checkbox("Toggle Chase Camera", &context->chaseCam);
