@@ -10,6 +10,14 @@
 #include "../libs/tinyxml2/tinyxml2.h"
 #include "_main.h"
 
+#ifndef GIT_HASH
+#define GIT_HASH "unknown revision"
+#endif
+
+#ifndef COMPILE_TIME
+#define COMPILE_TIME "unknown time"
+#endif
+
 void init() {
     glClearColor(0.f, 0.f, 0.f, 1.f);
 
