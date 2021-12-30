@@ -81,7 +81,8 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/platform.o \
 	$(BUILD_DIR)/glutCallbacks.o \
 	$(BUILD_DIR)/camera.o \
-	$(BUILD_DIR)/object.o
+	$(BUILD_DIR)/object.o \
+	$(BUILD_DIR)/map.o
 	
 $(BUILD_DIR)/globalctx.o: src/globalCtx.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -108,4 +109,7 @@ $(BUILD_DIR)/camera.o: src/camera.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/object.o: src/object.cpp | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/map.o: src/map.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

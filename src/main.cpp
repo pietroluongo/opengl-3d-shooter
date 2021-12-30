@@ -50,7 +50,7 @@ void loadArena(char* file) {
                                            currentNode->IntAttribute("y"),
                                            currentNode->IntAttribute("width"),
                                            currentNode->IntAttribute("height"));
-                context->getGameRef()->addPlatform(p);
+                context->getGameRef()->getMap()->addPlatform(p);
             }
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYABLE_AREA)) {
                 int x, y, w, h;
@@ -62,10 +62,10 @@ void loadArena(char* file) {
                 Platform* p1 = new Platform(x - 1, y - 1, 1, h + 1);
                 Platform* p2 = new Platform(x, y + h, w, 1);
                 Platform* p3 = new Platform(x + w, y - 1, 1, h + 1);
-                context->getGameRef()->addPlatform(p0);
-                context->getGameRef()->addPlatform(p1);
-                context->getGameRef()->addPlatform(p2);
-                context->getGameRef()->addPlatform(p3);
+                context->getGameRef()->getMap()->addPlatform(p0);
+                context->getGameRef()->getMap()->addPlatform(p1);
+                context->getGameRef()->getMap()->addPlatform(p2);
+                context->getGameRef()->getMap()->addPlatform(p3);
             }
         } else if (svgIsCircle(currentNode->Name())) {
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYER)) {

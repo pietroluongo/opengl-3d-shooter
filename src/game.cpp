@@ -2,6 +2,7 @@
 
 Game::Game() {
     this->player = NULL;
+    this->map = new Map();
     this->cam = new Camera();
 }
 
@@ -10,18 +11,15 @@ Game::~Game() {
         delete (this->player);
     if (this->cam != NULL)
         delete (this->cam);
-    for (auto platform : this->platforms) {
-        delete (platform);
-    }
+    if (this->map != NULL)
+        delete (this->map);
 }
 
 glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
 
 void Game::draw() {
-    for (auto platform : this->platforms) {
-        platform->draw();
-    }
     this->player->draw();
+    this->map->draw();
 }
 
 Player* Game::getPlayer() { return this->player; }
@@ -31,13 +29,11 @@ void Game::idle() {
     this->cam->idle();
 }
 
-void Game::addPlatform(Platform* platform) {
-    this->platforms.push_back(platform);
-}
-
 void Game::createPlayer(double x, double y, double size) {
     this->player = new Player(x, y, size);
     this->cam->setFollowTarget(this->player);
 }
 
 Camera* Game::getMainCamera() { return this->cam; }
+
+Map* Game::getMap() { return this->map; }
