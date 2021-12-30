@@ -9,18 +9,21 @@ class Camera {
 
     Object* followTarget = nullptr;
 
-    bool shouldFollowTarget = false;
     double zoomLevel = 1.0;
     void updateBounds();
+    void handleInput();
 
   public:
+    bool shouldFollowTarget = false;
+    bool freeCamEnabled = false;
+
     Camera();
     void idle();
     glm::fvec4 getBounds();
     glm::fvec2 getPosition();
-    void moveX(int x);
-    void moveY(int y);
-    void setCenter(glm::vec2 focus);
+    void moveX(float x);
+    void moveY(float y);
+    void setCenter(glm::fvec2 focus);
     void setFollowTarget(Object* target);
 };
 

@@ -16,17 +16,16 @@ Game::~Game() {
 glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
 
 void Game::draw() {
-    this->player->draw();
     for (auto platform : this->platforms) {
         platform->draw();
     }
+    this->player->draw();
 }
 
 Player* Game::getPlayer() { return this->player; }
 
 void Game::idle() {
     this->player->idle();
-    // this->cam->setCenter(this->player->getPosition());
     this->cam->idle();
 }
 

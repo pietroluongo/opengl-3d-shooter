@@ -69,24 +69,6 @@ void idle() {
     prevTime = curTime;
     double framerate = 1.0 / deltaTime * 1000;
     context->updateTiming(framerate, deltaTime / 1000);
-    Camera* cam = context->getGameRef()->getMainCamera();
-
-    if (context->freeCamEnabled) {
-        if (context->isKeyPressed('l')) {
-            cam->moveX(1);
-        }
-        if (context->isKeyPressed('j')) {
-            cam->moveX(-1);
-        }
-        if (context->isKeyPressed('i')) {
-            cam->moveY(-1);
-        }
-        if (context->isKeyPressed('k')) {
-            cam->moveY(1);
-        }
-    }
-
     context->idle();
-
     glutPostRedisplay();
 }

@@ -52,9 +52,12 @@ void imgui_display() {
                     cameraBounds.y, cameraBounds.z, cameraBounds.w);
         ImGui::Text("Camera position: %.2f, %.2f", cameraPosition.x,
                     cameraPosition.y);
-        ImGui::Checkbox("Toggle Free Camera (control w/ IJKL)",
-                        &context->freeCamEnabled);
-        ImGui::Checkbox("Toggle Chase Camera", &context->chaseCam);
+        ImGui::Checkbox(
+            "Toggle Free Camera (control w/ IJKL)",
+            &context->getGameRef()->getMainCamera()->freeCamEnabled);
+        ImGui::Checkbox(
+            "Toggle Chase Camera",
+            &context->getGameRef()->getMainCamera()->shouldFollowTarget);
         ImGui::End();
     }
 }

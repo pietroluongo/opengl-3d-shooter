@@ -16,8 +16,6 @@ class GlobalCtx {
   public:
     bool shouldDrawDebugInfo = false;
     bool shouldDrawCameraInfo = false;
-    bool freeCamEnabled = false;
-    bool chaseCam = false;
 
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();
