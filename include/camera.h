@@ -3,9 +3,11 @@
 #include "../libs/glm/glm.hpp"
 
 class Camera {
-    glm::ivec2 bounds = {0, 0};
+    glm::ivec4 bounds = {0, 0, 0, 0};
     glm::ivec2 center = {0, 0};
+
     double zoomLevel = 1.0;
+    void updateBounds();
 
   public:
     Camera();
