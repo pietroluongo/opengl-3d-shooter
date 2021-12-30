@@ -32,5 +32,11 @@
 *.app
 trabalhocg
 
+# Imgui settings
+imgui.ini
+
+# Vscode stuff
+.vscode
+
 # Compiled libraries folder
 build
