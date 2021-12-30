@@ -51,12 +51,21 @@ void imgui_display() {
                     cameraBounds.y, cameraBounds.z, cameraBounds.w);
         ImGui::Text("Camera position: %.2f, %.2f", cameraPosition.x,
                     cameraPosition.y);
+        ImGui::SliderFloat("Zoom level", &context->getGameRef()
+                                                ->getMainCamera()
+                                                ->zoomLevel,
+                           0.1f, 10.0f);
         ImGui::Checkbox(
             "Toggle Free Camera (control w/ IJKL)",
             &context->getGameRef()->getMainCamera()->freeCamEnabled);
         ImGui::Checkbox(
             "Toggle Chase Camera",
             &context->getGameRef()->getMainCamera()->shouldFollowTarget);
+        ImGui::End();
+    }
+    if(context->shouldDrawPhysicsInfo){
+        ImGui::Begin("Physics [F3]", &context->shouldDrawPhysicsInfo);
+        ImGui::Checkbox("Toggle Coordinate Systems", &context->shouldObjectsDrawCoordinateSystem);
         ImGui::End();
     }
 }

@@ -7,7 +7,6 @@
 class Object {
   protected:
     glfvec2 position = {0, 0};
-
   public:
     Object();
     Object(GLfloat x, GLfloat y);
@@ -18,6 +17,7 @@ class Object {
     virtual void moveY(double amount);
     virtual void setPosition(glfvec2 position);
     virtual void setPosition(GLfloat x, GLfloat y);
+    void drawAxis();
 };
 
 #endif

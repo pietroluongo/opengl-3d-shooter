@@ -14,6 +14,8 @@ class Platform {
     glfvec3 color;
     pivotPosition pivot;
 
+    void drawAxis();
+
   public:
     Platform(float x, float y, float w, float h,
              pivotPosition pivot = pivotPosition::TOP_LEFT);

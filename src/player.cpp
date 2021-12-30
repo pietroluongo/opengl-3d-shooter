@@ -12,13 +12,16 @@ Player::~Player() {}
 void Player::draw() {
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0.0f);
+    glColor3f(0.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
-    glColor3f(0.0f, this->size, 0.0f);
-    glVertex2f(0.0f, 0.0f);
-    glVertex2f(0.0f, this->size);
-    glVertex2f(this->size, this->size);
-    glVertex2f(this->size, 0.0f);
+    glVertex2f(-this->size/2, -this->size/2);
+    glVertex2f(this->size/2, -this->size/2);
+    glVertex2f(this->size/2, this->size/2);
+    glVertex2f(-this->size/2, this->size/2);
     glEnd();
+    if(context->shouldObjectsDrawCoordinateSystem) {
+        this->drawAxis();
+    }
     glPopMatrix();
 }
 void Player::idle() { this->handleMovementKeys(); }

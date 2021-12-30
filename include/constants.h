@@ -18,4 +18,8 @@ constexpr const char* SVG_PLAYABLE_AREA = "blue";
 constexpr const char* SVG_ENEMY = "red";
 constexpr const char* SVG_PLAYER = "green";
 
+constexpr const float DEBUG_AXIS_SIZE = 5.0f;
+constexpr const float DEBUG_CENTER_POINT_SIZE = 5.0f;
+
+
 #endif

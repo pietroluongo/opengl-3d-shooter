@@ -16,6 +16,10 @@ class GlobalCtx {
   public:
     bool shouldDrawDebugInfo = false;
     bool shouldDrawCameraInfo = false;
+    bool shouldDrawPhysicsInfo = false;
+
+    bool shouldObjectsDrawCoordinateSystem = false;
+
 
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();
@@ -29,6 +33,7 @@ class GlobalCtx {
     void idle();
     void toggleDebugInfo();
     void toggleCameraInfo();
+    void togglePhysicsInfo();
     void updateKeyStatus(int key, int status);
     void updateKeyStatus(unsigned char key, int status);
     void updateMousePos(glm::ivec2 pos);

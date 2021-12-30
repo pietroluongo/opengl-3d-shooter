@@ -9,13 +9,13 @@ class Camera {
 
     Object* followTarget = nullptr;
 
-    double zoomLevel = 1.0;
     void updateBounds();
     void handleInput();
 
   public:
     bool shouldFollowTarget = false;
     bool freeCamEnabled = false;
+    float zoomLevel = 1.0;
 
     Camera();
     void idle();

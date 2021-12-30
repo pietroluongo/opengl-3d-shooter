@@ -1,5 +1,6 @@
 #include "../include/object.h"
 #include "../include/globalCtx.h"
+#include "../include/constants.h"
 
 extern GlobalCtx* context;
 
@@ -20,3 +21,26 @@ void Object::setPosition(glfvec2 position) { this->position = position; }
 void Object::setPosition(float x, float y) { this->position = {x, y}; }
 
 glfvec2 Object::getPosition() { return this->position; }
+
+void Object::drawAxis() {
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glPointSize(DEBUG_CENTER_POINT_SIZE);
+    glBegin(GL_POINTS);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glEnd();
+
+    glBegin(GL_LINES);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(DEBUG_AXIS_SIZE, 0.0f, 0.0f);
+    
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, DEBUG_AXIS_SIZE, 0.0f);
+    
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, DEBUG_AXIS_SIZE);
+    glEnd();
+}

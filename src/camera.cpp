@@ -40,10 +40,10 @@ void Camera::setCenter(glm::fvec2 focus) {
 }
 
 void Camera::updateBounds() {
-    this->bounds[0] = center.x - CAMERA_WIDTH;
-    this->bounds[1] = center.x + CAMERA_WIDTH;
-    this->bounds[2] = center.y + CAMERA_HEIGHT;
-    this->bounds[3] = center.y - CAMERA_HEIGHT;
+    this->bounds[0] = center.x - (CAMERA_WIDTH * this->zoomLevel);
+    this->bounds[1] = center.x + (CAMERA_WIDTH * this->zoomLevel);
+    this->bounds[2] = center.y + (CAMERA_HEIGHT * this->zoomLevel);
+    this->bounds[3] = center.y - (CAMERA_HEIGHT * this->zoomLevel);
 }
 
 glm::fvec2 Camera::getPosition() { return glm::fvec2(center.x, center.y); }

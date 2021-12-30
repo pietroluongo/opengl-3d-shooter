@@ -28,6 +28,9 @@ void specialDown(int key, int x, int y) {
     if (key == GLUT_KEY_F2) {
         context->toggleCameraInfo();
     }
+    if (key == GLUT_KEY_F3) {
+        context->togglePhysicsInfo();
+    }
     glutPostRedisplay();
 }
 

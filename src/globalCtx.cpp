@@ -30,6 +30,10 @@ void GlobalCtx::toggleCameraInfo() {
     this->shouldDrawCameraInfo = !this->shouldDrawCameraInfo;
 }
 
+void GlobalCtx::togglePhysicsInfo() {
+    this->shouldDrawPhysicsInfo = !this->shouldDrawPhysicsInfo;
+}
+
 void GlobalCtx::updateTiming(GLdouble framerate, GLdouble deltaTime) {
     this->framerate = framerate;
     this->deltaTime = deltaTime;
