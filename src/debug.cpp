@@ -35,19 +35,18 @@ void imgui_display() {
     glm::fvec2 cameraPosition =
         context->getGameRef()->getMainCamera()->getPosition();
     if (context->shouldDrawDebugInfo) {
-        ImGui::Begin("Debug", &context->shouldDrawDebugInfo);
+        ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
                     1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
-        ImGui::Text("Framerate from GLUT: %.3f", context->getFramerate());
-        ImGui::Text("DeltaTime from GLUT: %.3f", context->getDeltaTime());
+        ImGui::Text("DeltaTime from GLUT: %.6f", context->getDeltaTime());
         ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
 
         ImGui::End();
     }
     if (context->shouldDrawCameraInfo) {
-        ImGui::Begin("Camera", &context->shouldDrawCameraInfo);
+        ImGui::Begin("Camera [F2]", &context->shouldDrawCameraInfo);
         ImGui::Text("Camera bounds: %.2f, %.2f, %.2f, %.2f", cameraBounds.x,
                     cameraBounds.y, cameraBounds.z, cameraBounds.w);
         ImGui::Text("Camera position: %.2f, %.2f", cameraPosition.x,
