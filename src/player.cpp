@@ -14,12 +14,12 @@ void Player::draw() {
     glTranslatef(this->position.x, this->position.y, 0.0f);
     glColor3f(0.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
-    glVertex2f(-this->size/2, -this->size/2);
-    glVertex2f(this->size/2, -this->size/2);
-    glVertex2f(this->size/2, this->size/2);
-    glVertex2f(-this->size/2, this->size/2);
+    glVertex2f(-this->size / 2, -this->size / 2);
+    glVertex2f(this->size / 2, -this->size / 2);
+    glVertex2f(this->size / 2, this->size / 2);
+    glVertex2f(-this->size / 2, this->size / 2);
     glEnd();
-    if(context->shouldObjectsDrawCoordinateSystem) {
+    if (context->shouldObjectsDrawCoordinateSystem) {
         this->drawAxis();
     }
     glPopMatrix();

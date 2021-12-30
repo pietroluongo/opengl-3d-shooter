@@ -18,8 +18,8 @@ Game::~Game() {
 glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
 
 void Game::draw() {
-    this->player->draw();
     this->map->draw();
+    this->player->draw();
 }
 
 Player* Game::getPlayer() { return this->player; }

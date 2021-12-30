@@ -13,6 +13,7 @@ class Map {
     ~Map();
     void addPlatform(Platform* platform);
     void draw();
+    void loadArena(char* fileName);
 };
 
 #endif
