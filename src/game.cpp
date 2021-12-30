@@ -8,6 +8,8 @@ Game::Game() {
 Game::~Game() {
     if (this->player != NULL)
         delete (this->player);
+    if (this->cam != NULL)
+        delete (this->cam);
     for (auto platform : this->platforms) {
         delete (platform);
     }
