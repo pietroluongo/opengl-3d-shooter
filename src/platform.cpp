@@ -23,16 +23,21 @@ void Platform::draw() {
         glVertex2f(this->width / 2, this->height / 2);
         glVertex2f(-this->width / 2, this->height / 2);
         break;
-    case pivotPosition::TOP_LEFT:
+    case pivotPosition::BOT_LEFT:
         glVertex2f(0, -this->height);
         glVertex2f(this->width, -this->height);
         glVertex2f(this->width, 0);
         glVertex2f(0, 0);
         break;
+    case pivotPosition::TOP_LEFT:
+        glVertex2f(0, 0);
+        glVertex2f(0, this->height);
+        glVertex2f(this->width, this->height);
+        glVertex2f(this->width, 0);
     }
     glEnd();
 
-    if(context->shouldObjectsDrawCoordinateSystem) {
+    if (context->shouldObjectsDrawCoordinateSystem) {
         this->drawAxis();
     }
 
@@ -51,12 +56,11 @@ void Platform::drawAxis() {
     glColor3f(1.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(DEBUG_AXIS_SIZE, 0.0f, 0.0f);
-    
-    
+
     glColor3f(0.0f, 1.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, DEBUG_AXIS_SIZE, 0.0f);
-    
+
     glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, DEBUG_AXIS_SIZE);

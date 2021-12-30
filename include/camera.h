@@ -15,7 +15,7 @@ class Camera {
   public:
     bool shouldFollowTarget = false;
     bool freeCamEnabled = false;
-    float zoomLevel = 1.0;
+    float zoomLevel = 10.0;
 
     Camera();
     void idle();

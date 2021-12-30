@@ -68,6 +68,8 @@ clean:
 clean-full:
 	$(RM) $(BUILD_DIR) trabalhocg -rf
 
+remake: clean all
+
 # Domain classes
 
 trabalhocgDeps: \

@@ -5,6 +5,7 @@
 enum pivotPosition {
     TOP_LEFT,
     CENTER,
+    BOT_LEFT
 };
 
 class Platform {

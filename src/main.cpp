@@ -53,16 +53,19 @@ void loadArena(char* file) {
                 context->getGameRef()->addPlatform(p);
             }
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYABLE_AREA)) {
-                // Platform* p0 =
-                //     new Platform(currentNode->IntAttribute("x"),
-                //                  currentNode->IntAttribute("y") - 1,
-                //                  currentNode->IntAttribute("width"), 1);
-                // Platform* p1 =
-                //     new Platform(currentNode->IntAttribute("x") - 1,
-                //                  currentNode->IntAttribute("y") + 1, 1,
-                //                  currentNode->IntAttribute("height") + 1);
-                // context->getGameRef()->addPlatform(p0);
-                // context->getGameRef()->addPlatform(p1);
+                int x, y, w, h;
+                x = currentNode->IntAttribute("x");
+                y = currentNode->IntAttribute("y");
+                w = currentNode->IntAttribute("width");
+                h = currentNode->IntAttribute("height");
+                Platform* p0 = new Platform(x, y - 1, w, 1);
+                Platform* p1 = new Platform(x - 1, y - 1, 1, h + 1);
+                Platform* p2 = new Platform(x, y + h, w, 1);
+                Platform* p3 = new Platform(x + w, y - 1, 1, h + 1);
+                context->getGameRef()->addPlatform(p0);
+                context->getGameRef()->addPlatform(p1);
+                context->getGameRef()->addPlatform(p2);
+                context->getGameRef()->addPlatform(p3);
             }
         } else if (svgIsCircle(currentNode->Name())) {
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYER)) {
