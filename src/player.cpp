@@ -3,13 +3,11 @@
 
 extern GlobalCtx* context;
 
-void handleMovementKeys();
-
-Player::Player(GLfloat x, GLfloat y, GLfloat size) {
-    this->position.x = x;
-    this->position.y = y;
-    this->size = size;
+Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y) {
+    this->setSize(size);
 }
+
+Player::~Player() {}
 
 void Player::draw() {
     glPushMatrix();
@@ -23,16 +21,7 @@ void Player::draw() {
     glEnd();
     glPopMatrix();
 }
-
-glfvec2 Player::getPosition() { return this->position; }
-
-void Player::moveX(double amount) {
-    this->position.x += (amount * context->getDeltaTime());
-}
-
-void Player::moveY(double amount) {
-    this->position.y += (amount * context->getDeltaTime());
-}
+void Player::idle() { this->handleMovementKeys(); }
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
@@ -50,5 +39,3 @@ void Player::handleMovementKeys() {
         this->moveY(50);
     }
 }
-
-void Player::idle() { this->handleMovementKeys(); }
