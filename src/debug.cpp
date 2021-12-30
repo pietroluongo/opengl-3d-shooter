@@ -30,9 +30,9 @@ void drawUI() {
 void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
     glm::ivec2 mousePos = context->getMousePos();
-    glm::ivec4 cameraBounds =
+    glm::fvec4 cameraBounds =
         context->getGameRef()->getMainCamera()->getBounds();
-    glm::ivec2 cameraPosition =
+    glm::fvec2 cameraPosition =
         context->getGameRef()->getMainCamera()->getPosition();
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug", &context->shouldDrawDebugInfo);
@@ -48,9 +48,9 @@ void imgui_display() {
     }
     if (context->shouldDrawCameraInfo) {
         ImGui::Begin("Camera", &context->shouldDrawCameraInfo);
-        ImGui::Text("Camera bounds: %d, %d, %d, %d", cameraBounds.x,
+        ImGui::Text("Camera bounds: %.2f, %.2f, %.2f, %.2f", cameraBounds.x,
                     cameraBounds.y, cameraBounds.z, cameraBounds.w);
-        ImGui::Text("Camera position: %d, %d", cameraPosition.x,
+        ImGui::Text("Camera position: %.2f, %.2f", cameraPosition.x,
                     cameraPosition.y);
         ImGui::Checkbox("Toggle Free Camera (control w/ IJKL)",
                         &context->freeCamEnabled);

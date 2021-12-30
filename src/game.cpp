@@ -36,6 +36,7 @@ void Game::addPlatform(Platform* platform) {
 
 void Game::createPlayer(double x, double y, double size) {
     this->player = new Player(x, y, size);
+    this->cam->setFollowTarget(this->player);
 }
 
 Camera* Game::getMainCamera() { return this->cam; }

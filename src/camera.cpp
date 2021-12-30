@@ -13,6 +13,9 @@ constexpr int CAMERA_HEIGHT = BASE_CAMERA_HEIGHT / 2;
 Camera::Camera() {}
 
 void Camera::idle() {
+    if (this->shouldFollowTarget) {
+        this->setCenter(this->followTarget->getPosition());
+    }
     this->updateBounds();
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION);
@@ -20,7 +23,7 @@ void Camera::idle() {
             -1, 1);
 }
 
-glm::ivec4 Camera::getBounds() { return this->bounds; }
+glm::fvec4 Camera::getBounds() { return this->bounds; }
 
 void Camera::moveX(int x) { this->center.x += x; }
 void Camera::moveY(int y) { this->center.y += y; }
@@ -37,4 +40,9 @@ void Camera::updateBounds() {
     this->bounds[3] = center.y - CAMERA_HEIGHT;
 }
 
-glm::ivec2 Camera::getPosition() { return glm::vec2(center.x, center.y); }
+glm::fvec2 Camera::getPosition() { return glm::vec2(center.x, center.y); }
+
+void Camera::setFollowTarget(Object* target) {
+    this->followTarget = target;
+    this->shouldFollowTarget = true;
+}
