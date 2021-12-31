@@ -9,7 +9,7 @@ Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
     this->width = w;
     this->height = h;
     this->pivot = pivot;
-    this->collider = new Collider(x, y, w, h, pivot);
+    this->collider = new Collider(x, y, w, h, nullptr, pivot);
 }
 
 Platform::~Platform() { delete this->collider; }

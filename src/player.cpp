@@ -25,11 +25,13 @@ void Player::draw() {
         this->drawAxis();
     }
     glPopMatrix();
+    this->collider->draw();
 }
 
 void Player::idle() {
     this->updateArmAngle();
     this->handleMovementKeys();
+    this->collider->idle();
     Platform** platforms = context->getGameRef()->getMap()->getPlatforms();
 }
 

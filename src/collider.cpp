@@ -1,11 +1,13 @@
 #include "../include/collider.h"
 #include <cstdio>
 
-Collider::Collider(float x, float y, float w, float h, pivotPosition pivot) {
+Collider::Collider(float x, float y, float w, float h, Object* owner,
+                   pivotPosition pivot) {
     this->position = glfvec2(x, y);
     this->width = w;
     this->height = h;
     this->pivot = pivot;
+    this->owner = owner;
 }
 
 void Collider::draw() {
@@ -41,4 +43,9 @@ void Collider::draw() {
     }
     glEnd();
     glPopMatrix();
+}
+
+void Collider::idle() {
+    if (this->owner != nullptr)
+        this->position = this->owner->getPosition();
 }
