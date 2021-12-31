@@ -15,6 +15,8 @@ class Character : public Object {
     virtual void drawChest() = 0;
     virtual void drawArm() = 0;
 
+    bool canMoveX = true, canMoveY = true;
+
   public:
     float armAngle = 0.0f;
 

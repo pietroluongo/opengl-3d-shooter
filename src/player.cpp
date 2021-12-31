@@ -30,37 +30,46 @@ void Player::draw() {
 }
 
 void Player::idle() {
-    bool shouldFall = true;
+    canMoveY = true;
+    canMoveX = true;
     this->updateArmAngle();
-    this->handleMovementKeys();
     this->collider->idle();
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
-        if (this->collider->collidesWith(platform->getCollider())) {
-            shouldFall = false;
+        if (this->collider->collidesVerticallyWith(platform->getCollider())) {
+            canMoveY = false;
+            break;
+        }
+        if (this->collider->collidesHorizontallyWith(platform->getCollider())) {
+            canMoveX = false;
             break;
         }
     }
-    if (shouldFall) {
+    if (canMoveY) {
         this->moveY(10.f);
     }
+    this->handleMovementKeys();
 }
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
-        this->moveX(50);
+        if (canMoveX)
+            this->moveX(50);
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
-        this->moveX(-50);
+        if (canMoveX)
+            this->moveX(-50);
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        this->moveY(-50);
+        if (canMoveY)
+            this->moveY(-50);
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-        this->moveY(50);
+        if (canMoveY)
+            this->moveY(50);
     }
 }
 

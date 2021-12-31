@@ -16,6 +16,8 @@ class Collider {
     void draw();
     void idle();
     bool collidesWith(Collider* other);
+    bool collidesVerticallyWith(Collider* other);
+    bool collidesHorizontallyWith(Collider* other);
     glm::fvec4 getBoundingBox();
     glm::fvec2 getCenter();
 };

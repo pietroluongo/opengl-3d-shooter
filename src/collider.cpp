@@ -13,34 +13,17 @@ Collider::Collider(float x, float y, float w, float h, Object* owner,
 
 void Collider::draw() {
     glPushMatrix();
-    glTranslatef(this->position.x, this->position.y, 0);
+    glm::fvec2 thisCenter = this->getCenter();
+    glTranslatef(thisCenter.x, thisCenter.y, 0);
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_LINE_STRIP);
-    switch (this->pivot) {
-    case pivotPosition::CENTER:
-        glVertex2f(-this->width / 2, -this->height / 2);
-        glVertex2f(this->width / 2, -this->height / 2);
-        glVertex2f(this->width / 2, this->height / 2);
+    {
         glVertex2f(-this->width / 2, this->height / 2);
-        glVertex2f(-this->width / 2, -this->height / 2);
         glVertex2f(this->width / 2, this->height / 2);
-        break;
-    case pivotPosition::BOT_LEFT:
-        glVertex2f(0, -this->height);
-        glVertex2f(this->width, -this->height);
-        glVertex2f(this->width, 0);
-        glVertex2f(0, 0);
-        glVertex2f(0, -this->height);
-        glVertex2f(this->width, 0);
-        break;
-    case pivotPosition::TOP_LEFT:
-        glVertex2f(0, 0);
-        glVertex2f(0, this->height);
-        glVertex2f(this->width, this->height);
-        glVertex2f(this->width, 0);
-        glVertex2f(0, 0);
-        glVertex2f(this->width, this->height);
-        break;
+        glVertex2f(this->width / 2, -this->height / 2);
+        glVertex2f(-this->width / 2, -this->height / 2);
+        glVertex2f(-this->width / 2, this->height / 2);
+        glVertex2f(this->width / 2, -this->height / 2);
     }
     glEnd();
     glPopMatrix();
@@ -52,14 +35,33 @@ void Collider::idle() {
 }
 
 bool Collider::collidesWith(Collider* other) {
-    glm::fvec2 thisCenter = this->getCenter();
-    glm::fvec2 otherCenter = other->getCenter();
-    printf("Comparing %f, %f and %f, %f\n", thisCenter.x, thisCenter.y,
-           otherCenter.x, otherCenter.y);
-    float dist = abs((this->position.x + this->width / 2) -
-                     (other->position.x + other->width / 2));
-    if (dist < 0.001f)
-        return true;
+    glm::fvec4 thisBoundingBox = this->getBoundingBox();
+    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    return this->collidesVerticallyWith(other) ||
+           this->collidesHorizontallyWith(other);
+}
+
+bool Collider::collidesVerticallyWith(Collider* other) {
+    glm::fvec4 thisBoundingBox = this->getBoundingBox();
+    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    if (thisBoundingBox[0] < otherBoundingBox[1] &&
+        thisBoundingBox[1] > otherBoundingBox[0]) {
+        if (abs(thisBoundingBox[3] - otherBoundingBox[2]) < 0.0001) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Collider::collidesHorizontallyWith(Collider* other) {
+    glm::fvec4 thisBoundingBox = this->getBoundingBox();
+    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    if (thisBoundingBox[2] < otherBoundingBox[3] &&
+        thisBoundingBox[3] > otherBoundingBox[2]) {
+        if (abs(thisBoundingBox[1] - otherBoundingBox[0]) < 0.0001) {
+            return true;
+        }
+    }
     return false;
 }
 
