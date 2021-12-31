@@ -9,6 +9,8 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->setSize(size);
 }
 
+Enemy::~Enemy() {}
+
 void Enemy::drawChest() {
     glBegin(GL_QUADS);
     glVertex2f(-this->size / 4, -this->size / 2);
@@ -35,7 +37,7 @@ void Enemy::drawArm() {
 void Enemy::draw() {
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0.0f);
-    glColor3f(0.0f, 1.0f, 1.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
     this->drawChest();
     glColor3f(1.0f, 0.0f, 0.0f);
     this->drawArm();

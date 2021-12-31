@@ -11,6 +11,7 @@ class Enemy : public Character {
 
   public:
     Enemy(GLfloat x, GLfloat y, GLfloat size);
+    virtual ~Enemy();
     virtual void draw();
     virtual void idle();
     virtual void updateArmAngle();
