@@ -13,6 +13,9 @@ Game::~Game() {
         delete (this->cam);
     if (this->map != NULL)
         delete (this->map);
+    for (auto enemy : this->enemies) {
+        delete (enemy);
+    }
 }
 
 glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
