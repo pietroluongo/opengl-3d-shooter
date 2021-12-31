@@ -20,7 +20,6 @@ class GlobalCtx {
 
     bool shouldObjectsDrawCoordinateSystem = false;
 
-
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();
     bool isKeyPressed(int key);
@@ -29,7 +28,9 @@ class GlobalCtx {
     double getFramerate();
     Game* getGameRef();
     glivec2 getWindowSize();
-    glm::ivec2 getMousePos();
+    glm::ivec2 getScreenSpaceMousePos();
+    glm::fvec2 getWorldSpaceMousePos();
+    glm::fvec2 getNormalizedMousePos();
     void idle();
     void toggleDebugInfo();
     void toggleCameraInfo();

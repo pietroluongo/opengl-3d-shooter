@@ -18,8 +18,20 @@ Game* GlobalCtx::getGameRef() { return this->game; }
 
 void GlobalCtx::updateMousePos(glm::ivec2 pos) { this->mousePos = pos; }
 
-glm::ivec2 GlobalCtx::getMousePos() {
+glm::ivec2 GlobalCtx::getScreenSpaceMousePos() {
     return glm::ivec2(this->mousePos.x, this->mousePos.y);
+}
+
+glm::fvec2 GlobalCtx::getNormalizedMousePos() {
+    return glm::fvec2((this->mousePos.x * 2) / WINDOW_WIDTH - 1,
+                      (this->mousePos.y * 2) / WINDOW_HEIGHT - 1);
+}
+
+glm::fvec2 GlobalCtx::getWorldSpaceMousePos() {
+    glm::fvec2 cameraCenter = this->game->getMainCamera()->getPosition();
+    glm::fvec2 normalizedMousePos = this->getNormalizedMousePos();
+    return glm::fvec2(cameraCenter.x + normalizedMousePos.x * WINDOW_WIDTH,
+                      cameraCenter.y + normalizedMousePos.y * WINDOW_HEIGHT);
 }
 
 void GlobalCtx::toggleDebugInfo() {

@@ -29,7 +29,9 @@ void drawUI() {
 
 void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
-    glm::ivec2 mousePos = context->getMousePos();
+    glm::ivec2 mousePos = context->getScreenSpaceMousePos();
+    glm::fvec2 mousePosN = context->getNormalizedMousePos();
+    glm::fvec2 mousePosW = context->getWorldSpaceMousePos();
     glm::fvec4 cameraBounds =
         context->getGameRef()->getMainCamera()->getBounds();
     glm::fvec2 cameraPosition =
@@ -42,7 +44,11 @@ void imgui_display() {
         ImGui::Text("DeltaTime from GLUT: %.6f", context->getDeltaTime());
         ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
-
+        ImGui::Text("Mouse normalized: %f, %f", mousePosN.x, mousePosN.y);
+        ImGui::Text("Mouse world space: %f, %f", mousePosW.x, mousePosW.y);
+        ImGui::SliderFloat("Arm angle",
+                           &context->getGameRef()->getPlayer()->armAngle, 45.0f,
+                           135.0f);
         ImGui::End();
     }
     if (context->shouldDrawCameraInfo) {
@@ -51,9 +57,8 @@ void imgui_display() {
                     cameraBounds.y, cameraBounds.z, cameraBounds.w);
         ImGui::Text("Camera position: %.2f, %.2f", cameraPosition.x,
                     cameraPosition.y);
-        ImGui::SliderFloat("Zoom level", &context->getGameRef()
-                                                ->getMainCamera()
-                                                ->zoomLevel,
+        ImGui::SliderFloat("Zoom level",
+                           &context->getGameRef()->getMainCamera()->zoomLevel,
                            0.1f, 10.0f);
         ImGui::Checkbox(
             "Toggle Free Camera (control w/ IJKL)",
@@ -63,9 +68,10 @@ void imgui_display() {
             &context->getGameRef()->getMainCamera()->shouldFollowTarget);
         ImGui::End();
     }
-    if(context->shouldDrawPhysicsInfo){
+    if (context->shouldDrawPhysicsInfo) {
         ImGui::Begin("Physics [F3]", &context->shouldDrawPhysicsInfo);
-        ImGui::Checkbox("Toggle Coordinate Systems", &context->shouldObjectsDrawCoordinateSystem);
+        ImGui::Checkbox("Toggle Coordinate Systems",
+                        &context->shouldObjectsDrawCoordinateSystem);
         ImGui::End();
     }
 }

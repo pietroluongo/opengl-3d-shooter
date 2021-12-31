@@ -6,6 +6,8 @@
 class Player : public Character {
   private:
     void handleMovementKeys();
+    void drawChest();
+    void drawArm();
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);
@@ -13,6 +15,7 @@ class Player : public Character {
     void draw();
     void idle();
     void applyDamage(int damage) { Character::applyDamage(damage); };
+    void updateArmAngle();
 };
 
 #endif
