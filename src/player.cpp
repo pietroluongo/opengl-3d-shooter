@@ -26,6 +26,7 @@ void Player::draw() {
     }
     glPopMatrix();
 }
+
 void Player::idle() {
     this->updateArmAngle();
     this->handleMovementKeys();
@@ -81,6 +82,7 @@ float limitArmMovement(float angle) {
     } else if (angle < 45 && angle > 0) {
         return 45;
     }
+    return angle;
 }
 
 void Player::updateArmAngle() {

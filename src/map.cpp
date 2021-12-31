@@ -71,6 +71,11 @@ void Map::loadArena(char* fileName) {
                     currentNode->IntAttribute("cx"),
                     currentNode->IntAttribute("cy"),
                     currentNode->IntAttribute("r"));
+            } else if (svgIsTag(currentNode->Attribute("fill"), SVG_ENEMY)) {
+                context->getGameRef()->createEnemy(
+                    currentNode->IntAttribute("cx"),
+                    currentNode->IntAttribute("cy"),
+                    currentNode->IntAttribute("r"));
             }
         }
         currentNode = currentNode->NextSiblingElement();
