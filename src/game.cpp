@@ -1,17 +1,17 @@
 #include "../include/game.h"
 
 Game::Game() {
-    this->player = NULL;
+    this->player = nullptr;
     this->map = new Map();
     this->cam = new Camera();
 }
 
 Game::~Game() {
-    if (this->player != NULL)
+    if (this->player != nullptr)
         delete (this->player);
-    if (this->cam != NULL)
+    if (this->cam != nullptr)
         delete (this->cam);
-    if (this->map != NULL)
+    if (this->map != nullptr)
         delete (this->map);
     for (auto enemy : this->enemies) {
         delete (enemy);

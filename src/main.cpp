@@ -45,10 +45,10 @@ int main(int argc, char** argv) {
 
     context->getGameRef()->getMap()->loadArena(argv[1]);
 
-    setupGlut(argc, argv);
-    init();
+    // setupGlut(argc, argv);
+    // init();
 
-    glutMainLoop();
+    // glutMainLoop();
 
     delete (context);
     return 0;

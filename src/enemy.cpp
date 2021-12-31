@@ -9,7 +9,7 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->setSize(size);
 }
 
-Enemy::~Enemy() {}
+Enemy::~Enemy() { delete (this->collider); }
 
 void Enemy::drawChest() {
     glBegin(GL_QUADS);

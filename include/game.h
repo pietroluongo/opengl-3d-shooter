@@ -10,9 +10,9 @@
 #include <vector>
 
 class Game {
-    Player* player;
-    Camera* cam;
-    Map* map;
+    Player* player = nullptr;
+    Camera* cam = nullptr;
+    Map* map = nullptr;
     std::vector<Enemy*> enemies;
 
   public:

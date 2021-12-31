@@ -13,7 +13,7 @@ float limitArmMovement(float angle);
 
 Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {}
 
-Player::~Player() {}
+Player::~Player() { delete (this->collider); }
 
 void Player::draw() {
     glPushMatrix();

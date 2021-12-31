@@ -79,6 +79,7 @@ glm::fvec4 Collider::getBoundingBox() {
         return glm::fvec4(this->position.x, this->position.x + this->width,
                           this->position.y - this->height, this->position.y);
     case pivotPosition::TOP_LEFT:
+    default:
         return glm::fvec4(this->position.x, this->position.x + this->width,
                           this->position.y, this->position.y + this->height);
     }
@@ -92,6 +93,7 @@ glm::fvec2 Collider::getCenter() {
         return glm::fvec2(this->position.x + this->width / 2,
                           this->position.y - this->height / 2);
     case pivotPosition::TOP_LEFT:
+    default:
         return glm::fvec2(this->position.x + this->width / 2,
                           this->position.y + this->height / 2);
     }
