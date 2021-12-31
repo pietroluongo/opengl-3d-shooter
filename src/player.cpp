@@ -8,6 +8,8 @@ static float CHEST_PROPORTION = 0.5f;
 static float HEAD_PROPORTION = 0.1f;
 static float LEGS_PROPORTION = 0.4f;
 
+float limitArmMovement(float angle);
+
 Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {}
 
 Player::~Player() {}
@@ -69,21 +71,25 @@ void Player::drawArm() {
     glPopMatrix();
 }
 
+float limitArmMovement(float angle) {
+    if (angle > -45 && angle < 0) {
+        return -45;
+    } else if (angle < -135 && angle > -180) {
+        return -135;
+    } else if (angle < -180 && angle > -225) {
+        return -225;
+    } else if (angle < 45 && angle > 0) {
+        return 45;
+    }
+}
+
 void Player::updateArmAngle() {
     glm::fvec2 mousePos = context->getWorldSpaceMousePos();
     this->armAngle =
         atan2(mousePos.y - this->position.y, mousePos.x - this->position.x) *
             180 / M_PI -
         90;
-    if (this->armAngle > -45 && this->armAngle < 0) {
-        this->armAngle = -45;
-    } else if (this->armAngle < -135 && this->armAngle > -180) {
-        this->armAngle = -135;
-    } else if (this->armAngle < -180 && this->armAngle > -225) {
-        this->armAngle = -225;
-    } else if (this->armAngle < 45 && this->armAngle > 0) {
-        this->armAngle = 45;
-    }
+    this->armAngle = limitArmMovement(this->armAngle);
     glBegin(GL_LINES);
     glVertex2f(this->position.x, this->position.y);
     glVertex2f(mousePos.x, mousePos.y);
