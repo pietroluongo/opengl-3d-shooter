@@ -30,6 +30,7 @@ void Player::draw() {
 void Player::idle() {
     this->updateArmAngle();
     this->handleMovementKeys();
+    Platform** platforms = context->getGameRef()->getMap()->getPlatforms();
 }
 
 void Player::handleMovementKeys() {

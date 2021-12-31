@@ -82,3 +82,5 @@ void Map::loadArena(char* fileName) {
     }
     fclose(filePointer);
 }
+
+Platform** Map::getPlatforms() { return (Platform**)this->platforms.data(); }

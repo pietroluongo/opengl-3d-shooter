@@ -1,22 +1,16 @@
-#ifndef PLATFORM_H
-#define PLATFORM_H
-#include "collider.h"
+#ifndef COLLIDER_H
+#define COLLIDER_H
 #include "customTypes.h"
 
-class Platform {
+class Collider {
   private:
     glfvec2 position;
     float width, height;
-    glfvec3 color;
     pivotPosition pivot;
-    Collider* collider;
-
-    void drawAxis();
 
   public:
-    Platform(float x, float y, float w, float h,
+    Collider(float x, float y, float w, float h,
              pivotPosition pivot = pivotPosition::TOP_LEFT);
-    ~Platform();
     void draw();
 };
 

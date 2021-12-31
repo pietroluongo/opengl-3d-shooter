@@ -83,7 +83,8 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/camera.o \
 	$(BUILD_DIR)/object.o \
 	$(BUILD_DIR)/map.o \
-	$(BUILD_DIR)/enemy.o
+	$(BUILD_DIR)/enemy.o \
+	$(BUILD_DIR)/collider.o
 	
 $(BUILD_DIR)/globalctx.o: src/globalCtx.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -116,4 +117,7 @@ $(BUILD_DIR)/map.o: src/map.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/enemy.o: src/enemy.cpp | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/collider.o: src/collider.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

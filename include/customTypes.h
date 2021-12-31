@@ -4,6 +4,8 @@
 #include <GL/gl.h>
 #include <memory>
 
+enum pivotPosition { TOP_LEFT, CENTER, BOT_LEFT };
+
 using glivec2 = glm::vec<2, GLint, glm::defaultp>;
 using glivec3 = glm::vec<3, GLint, glm::defaultp>;
 

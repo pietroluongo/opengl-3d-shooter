@@ -1,7 +1,7 @@
 #include "../include/platform.h"
 #include "../include/constants.h"
 #include "../include/globalCtx.h"
-
+#include <cstdio>
 extern GlobalCtx* context;
 
 Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
@@ -9,7 +9,10 @@ Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
     this->width = w;
     this->height = h;
     this->pivot = pivot;
+    this->collider = new Collider(x, y, w, h, pivot);
 }
+
+Platform::~Platform() { delete this->collider; }
 
 void Platform::draw() {
     glPushMatrix();
@@ -42,6 +45,7 @@ void Platform::draw() {
     }
 
     glPopMatrix();
+    this->collider->draw();
 }
 
 void Platform::drawAxis() {
