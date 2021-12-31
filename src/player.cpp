@@ -1,5 +1,6 @@
 #include "../include/player.h"
 #include "../include/globalCtx.h"
+#include <cmath>
 
 extern GlobalCtx* context;
 
@@ -66,11 +67,12 @@ void Player::drawArm() {
 
 void Player::updateArmAngle() {
     glm::fvec2 mousePos = context->getWorldSpaceMousePos();
-    // glBegin(GL_LINES);
-    // {
-    //     glVertex2f(0.0f, 0.0f);
-    //     glVertex2f(correctedMousePos.x, correctedMousePos.y);
-    //     printf("%f %f\n", correctedMousePos.x, correctedMousePos.y);
-    // }
-    // glEnd();
+    this->armAngle =
+        atan2(mousePos.y - this->position.y, mousePos.x - this->position.x) *
+            180 / M_PI -
+        90;
+    glBegin(GL_LINES);
+    glVertex2f(this->position.x, this->position.y);
+    glVertex2f(mousePos.x, mousePos.y);
+    glEnd();
 }
