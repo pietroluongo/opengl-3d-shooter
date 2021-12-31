@@ -70,3 +70,5 @@ void Platform::drawAxis() {
     glVertex3f(0.0f, 0.0f, DEBUG_AXIS_SIZE);
     glEnd();
 }
+
+Collider* Platform::getCollider() { return this->collider; }

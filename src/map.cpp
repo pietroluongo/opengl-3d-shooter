@@ -83,4 +83,4 @@ void Map::loadArena(char* fileName) {
     fclose(filePointer);
 }
 
-Platform** Map::getPlatforms() { return (Platform**)this->platforms.data(); }
+std::vector<Platform*> Map::getPlatforms() { return this->platforms; }

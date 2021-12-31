@@ -34,6 +34,9 @@ all: trabalhocg
 dev: trabalhocg
 	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 
+collisionTest: trabalhocg
+	./trabalhocg /home/pietroluongo/ufes/collisionTest.svg
+
 leakTest: trabalhocg
 	valgrind ./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 

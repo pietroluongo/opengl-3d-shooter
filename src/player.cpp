@@ -1,6 +1,7 @@
 #include "../include/player.h"
 #include "../include/globalCtx.h"
 #include <cmath>
+#include <vector>
 
 extern GlobalCtx* context;
 
@@ -29,10 +30,21 @@ void Player::draw() {
 }
 
 void Player::idle() {
+    bool shouldFall = true;
     this->updateArmAngle();
     this->handleMovementKeys();
     this->collider->idle();
-    Platform** platforms = context->getGameRef()->getMap()->getPlatforms();
+    std::vector<Platform*> platforms =
+        context->getGameRef()->getMap()->getPlatforms();
+    for (auto platform : platforms) {
+        if (this->collider->collidesWith(platform->getCollider())) {
+            shouldFall = false;
+            break;
+        }
+    }
+    if (shouldFall) {
+        this->moveY(10.f);
+    }
 }
 
 void Player::handleMovementKeys() {

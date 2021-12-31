@@ -18,6 +18,7 @@ class Platform {
              pivotPosition pivot = pivotPosition::TOP_LEFT);
     ~Platform();
     void draw();
+    Collider* getCollider();
 };
 
 #endif
