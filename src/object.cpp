@@ -1,6 +1,6 @@
 #include "../include/object.h"
-#include "../include/globalCtx.h"
 #include "../include/constants.h"
+#include "../include/globalCtx.h"
 
 extern GlobalCtx* context;
 
@@ -34,13 +34,42 @@ void Object::drawAxis() {
     glColor3f(1.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(DEBUG_AXIS_SIZE, 0.0f, 0.0f);
-    
+
     glColor3f(0.0f, 1.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, DEBUG_AXIS_SIZE, 0.0f);
-    
+
     glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, DEBUG_AXIS_SIZE);
     glEnd();
 }
+
+void Object::accelerateX(double amount) {
+    this->speed.x += (amount * context->getDeltaTime());
+    if (this->speed.x > 0) {
+        this->speed -= this->speedFalloff.x * context->getDeltaTime();
+    } else if (this->speed.x < 0) {
+        this->speed += this->speedFalloff.x * context->getDeltaTime();
+    }
+    if (this->speed.x > this->maxSpeed.x) {
+        this->speed.x = this->maxSpeed.x;
+    } else if (this->speed.x < -this->maxSpeed.x) {
+        this->speed.x = -this->maxSpeed.x;
+    }
+};
+
+void Object::accelerateY(double amount) {
+    this->speed.y += (amount * context->getDeltaTime());
+    this->speed -= this->speedFalloff.y * context->getDeltaTime();
+    if (this->speed.y > 0) {
+        this->speed -= this->speedFalloff.y * context->getDeltaTime();
+    } else if (this->speed.y < 0) {
+        this->speed += this->speedFalloff.y * context->getDeltaTime();
+    }
+    if (this->speed.y > this->maxSpeed.y) {
+        this->speed.y = this->maxSpeed.y;
+    } else if (this->speed.y < -this->maxSpeed.y) {
+        this->speed.y = -this->maxSpeed.y;
+    }
+};

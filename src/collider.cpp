@@ -60,6 +60,7 @@ bool Collider::collidesHorizontallyWith(Collider* other) {
         thisBoundingBox[3] > otherBoundingBox[2]) {
         if (abs(thisBoundingBox[1] - otherBoundingBox[0]) < 0.0001) {
             return true;
+            printf("Collided!\n");
         }
     }
     return false;

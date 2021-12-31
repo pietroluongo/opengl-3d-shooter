@@ -38,38 +38,42 @@ void Player::idle() {
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
         if (this->collider->collidesVerticallyWith(platform->getCollider())) {
+            this->speed.y = 0;
             canMoveY = false;
             break;
         }
         if (this->collider->collidesHorizontallyWith(platform->getCollider())) {
+            this->speed.x = 0;
             canMoveX = false;
             break;
         }
     }
     if (canMoveY) {
-        this->moveY(10.f);
+        this->accelerateY(20.0f);
     }
+    this->position.x += this->speed.x * context->getDeltaTime();
+    this->position.y += this->speed.y * context->getDeltaTime();
     this->handleMovementKeys();
 }
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
-        if (canMoveX)
-            this->moveX(50);
+        // this->moveX(50);
+        this->accelerateX(50.0f);
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
-        if (canMoveX)
-            this->moveX(-50);
+        // this->moveX(-50);
+        this->accelerateX(-50.0f);
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        if (canMoveY)
-            this->moveY(-50);
+        this->moveY(-50);
+        this->accelerateY(-50);
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-        if (canMoveY)
-            this->moveY(50);
+        // this->moveY(50);
+        this->accelerateY(50);
     }
 }
 
