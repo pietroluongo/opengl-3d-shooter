@@ -8,14 +8,14 @@ class Object {
   protected:
     glfvec2 position = {0, 0};
     glfvec2 speed = {0, 0};
-    glfvec2 maxSpeed = {50, 50};
-    glfvec2 speedFalloff = {10, 10};
+    glfvec2 maxSpeed = {100, 100};
+    glfvec2 speedFalloff = {30, 30};
 
   public:
     Object();
     Object(GLfloat x, GLfloat y);
     virtual void draw() = 0;
-    virtual void idle() = 0;
+    virtual void idle();
     glfvec2 getPosition();
     virtual void moveX(double amount);
     virtual void moveY(double amount);

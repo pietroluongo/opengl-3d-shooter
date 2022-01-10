@@ -1,6 +1,6 @@
 #include "../include/collider.h"
-#include <cmath>
 #include <cstdio>
+#include <cstdlib>
 
 Collider::Collider(float x, float y, float w, float h, Object* owner,
                    pivotPosition pivot) {
@@ -44,24 +44,69 @@ bool Collider::collidesWith(Collider* other) {
 bool Collider::collidesVerticallyWith(Collider* other) {
     glm::fvec4 thisBoundingBox = this->getBoundingBox();
     glm::fvec4 otherBoundingBox = other->getBoundingBox();
-    if (thisBoundingBox[0] < otherBoundingBox[1] &&
-        thisBoundingBox[1] > otherBoundingBox[0]) {
-        if (abs(thisBoundingBox[3] - otherBoundingBox[2]) < 0.0001) {
+    if (thisBoundingBox[0] <= otherBoundingBox[1] &&
+        thisBoundingBox[1] >= otherBoundingBox[0]) {
+        if (thisBoundingBox[2] <= otherBoundingBox[2] &&
+            otherBoundingBox[2] <= thisBoundingBox[3])
             return true;
-        }
     }
+
     return false;
 }
 
 bool Collider::collidesHorizontallyWith(Collider* other) {
     glm::fvec4 thisBoundingBox = this->getBoundingBox();
     glm::fvec4 otherBoundingBox = other->getBoundingBox();
-    if (thisBoundingBox[2] < otherBoundingBox[3] &&
-        thisBoundingBox[3] > otherBoundingBox[2]) {
-        if (abs(thisBoundingBox[1] - otherBoundingBox[0]) < 0.0001) {
+    if (thisBoundingBox[2] <= otherBoundingBox[3] &&
+        thisBoundingBox[3] >= otherBoundingBox[2]) {
+
+        if (thisBoundingBox[0] <= otherBoundingBox[1] &&
+            thisBoundingBox[1] >= otherBoundingBox[0])
             return true;
-            printf("Collided!\n");
+    }
+
+    return false;
+}
+
+bool Collider::collidesLeft(Collider* other) {
+    glm::fvec4 thisBoundingBox = this->getBoundingBox();
+    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    if (thisBoundingBox[0] >= otherBoundingBox[0] &&
+        thisBoundingBox[0] <= otherBoundingBox[1]) {
+        if (thisBoundingBox[2] >= otherBoundingBox[2] &&
+                thisBoundingBox[2] <= otherBoundingBox[3] ||
+            thisBoundingBox[2] >= otherBoundingBox[2] &&
+                thisBoundingBox[2] <= otherBoundingBox[3]) {
+            return true;
         }
+    }
+
+    return false;
+}
+
+bool Collider::collidesRight(Collider* other) {
+    glm::fvec4 thisBoundingBox = this->getBoundingBox();
+    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    if (thisBoundingBox[1] >= otherBoundingBox[0] &&
+        thisBoundingBox[1] <= otherBoundingBox[1]) {
+        if (thisBoundingBox[3] >= otherBoundingBox[2] &&
+                thisBoundingBox[3] <= otherBoundingBox[3] ||
+            thisBoundingBox[2] >= otherBoundingBox[2] &&
+                thisBoundingBox[2] <= otherBoundingBox[3])
+            return true;
+    }
+
+    return false;
+}
+
+bool Collider::overlaps(Collider* other) {
+    glm::fvec4 thisBoundingBox = this->getBoundingBox();
+    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    if (thisBoundingBox[0] < otherBoundingBox[1] &&
+        thisBoundingBox[1] > otherBoundingBox[0] &&
+        thisBoundingBox[2] < otherBoundingBox[3] &&
+        thisBoundingBox[3] > otherBoundingBox[2]) {
+        return true;
     }
     return false;
 }

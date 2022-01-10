@@ -5,7 +5,7 @@
 extern GlobalCtx* context;
 
 Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
-    this->position = glivec2(x, y);
+    this->position = glfvec2(x, y);
     this->width = w;
     this->height = h;
     this->pivot = pivot;
@@ -17,7 +17,7 @@ Platform::~Platform() { delete this->collider; }
 void Platform::draw() {
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0);
-    glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(this->color.r, this->color.g, this->color.b);
     glBegin(GL_QUADS);
     switch (this->pivot) {
     case pivotPosition::CENTER:
@@ -72,3 +72,5 @@ void Platform::drawAxis() {
 }
 
 Collider* Platform::getCollider() { return this->collider; }
+
+void Platform::setColor(glfvec3 color) { this->color = color; }

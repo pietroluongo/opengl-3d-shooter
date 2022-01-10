@@ -5,7 +5,7 @@
 
 class Collider {
   private:
-    glfvec2 position;
+    glm::fvec2 position;
     float width, height;
     pivotPosition pivot;
     Object* owner = nullptr;
@@ -20,6 +20,9 @@ class Collider {
     bool collidesHorizontallyWith(Collider* other);
     glm::fvec4 getBoundingBox();
     glm::fvec2 getCenter();
+    bool overlaps(Collider* other);
+    bool collidesLeft(Collider* other);
+    bool collidesRight(Collider* other);
 };
 
 #endif

@@ -6,8 +6,8 @@
 class Platform {
   private:
     glfvec2 position;
+    glfvec3 color = {1.0f, 1.0f, 1.0f};
     float width, height;
-    glfvec3 color;
     pivotPosition pivot;
     Collider* collider;
 
@@ -19,6 +19,7 @@ class Platform {
     ~Platform();
     void draw();
     Collider* getCollider();
+    void setColor(glfvec3 color);
 };
 
 #endif

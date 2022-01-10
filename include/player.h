@@ -9,6 +9,8 @@ class Player : public Character {
     void handleMovementKeys();
     void drawChest();
     void drawArm();
+    bool isJumping = false;
+    bool isGrounded = false;
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);
@@ -18,6 +20,8 @@ class Player : public Character {
     void applyDamage(int damage) { Character::applyDamage(damage); };
     void updateArmAngle();
     bool checkCollision(Platform* platform);
+    Collider* getCollider();
+    void jump();
 };
 
 #endif

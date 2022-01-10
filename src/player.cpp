@@ -30,50 +30,56 @@ void Player::draw() {
 }
 
 void Player::idle() {
-    canMoveY = true;
-    canMoveX = true;
+    this->handleMovementKeys();
+    this->Object::idle();
     this->updateArmAngle();
     this->collider->idle();
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
+    this->isGrounded = false;
     for (auto platform : platforms) {
         if (this->collider->collidesVerticallyWith(platform->getCollider())) {
-            this->speed.y = 0;
-            canMoveY = false;
-            break;
-        }
-        if (this->collider->collidesHorizontallyWith(platform->getCollider())) {
-            this->speed.x = 0;
-            canMoveX = false;
-            break;
+            platform->setColor({1.0f, 0, 0});
+            if (this->speed.y > 0) {
+                this->speed.y = 0;
+            }
+
+            this->isJumping = false;
+            this->isGrounded = true;
+        } else if (this->collider->collidesLeft(platform->getCollider())) {
+            platform->setColor({1.0f, 0, 0});
+            this->speed.x = 1;
+
+        } else if (this->collider->collidesRight(platform->getCollider())) {
+            platform->setColor({1.0f, 0, 0});
+            this->speed.x = -1;
+        } else {
+            platform->setColor({1.0f, 1.0f, 1.0f});
         }
     }
-    if (canMoveY) {
-        this->accelerateY(20.0f);
+
+    if (!this->isGrounded) {
+        this->accelerateY(100);
     }
+
     this->position.x += this->speed.x * context->getDeltaTime();
     this->position.y += this->speed.y * context->getDeltaTime();
-    this->handleMovementKeys();
 }
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
-        // this->moveX(50);
-        this->accelerateX(50.0f);
+        this->accelerateX(500.0f);
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
-        // this->moveX(-50);
-        this->accelerateX(-50.0f);
+        this->accelerateX(-5000.0f);
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        this->moveY(-50);
-        this->accelerateY(-50);
+        this->jump();
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-        // this->moveY(50);
-        this->accelerateY(50);
+        this->accelerateY(500);
     }
 }
 
@@ -124,4 +130,14 @@ void Player::updateArmAngle() {
     glVertex2f(this->position.x, this->position.y);
     glVertex2f(mousePos.x, mousePos.y);
     glEnd();
+}
+
+Collider* Player::getCollider() { return this->collider; }
+
+void Player::jump() {
+    if (this->isJumping) {
+        return;
+    }
+    this->isJumping = true;
+    this->accelerateY(-10000);
 }
