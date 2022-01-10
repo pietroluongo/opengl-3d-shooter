@@ -26,6 +26,9 @@ void Game::draw() {
     for (auto enemy : this->enemies) {
         enemy->draw();
     }
+    for (auto projectile : this->projectiles) {
+        projectile->draw();
+    }
 }
 
 Player* Game::getPlayer() { return this->player; }
@@ -36,11 +39,16 @@ void Game::idle() {
     for (auto enemy : this->enemies) {
         enemy->idle();
     }
+
+    for (auto projectile : this->projectiles) {
+        projectile->idle();
+    }
 }
 
 void Game::createPlayer(double x, double y, double size) {
     this->player = new Player(x, y, size);
     this->cam->setFollowTarget(this->player);
+    this->createProjectile(x, y, 0.5);
 }
 
 void Game::createEnemy(double x, double y, double size) {
@@ -52,3 +60,7 @@ Camera* Game::getMainCamera() { return this->cam; }
 Map* Game::getMap() { return this->map; }
 
 std::vector<Enemy*> Game::getEnemies() { return this->enemies; }
+
+void Game::createProjectile(double x, double y, double size) {
+    this->projectiles.push_back(new Projectile(x, y, size));
+}

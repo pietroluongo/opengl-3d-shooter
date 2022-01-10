@@ -6,6 +6,7 @@
 #include "../include/map.h"
 #include "../include/platform.h"
 #include "../include/player.h"
+#include "../include/projectile.h"
 
 #include <vector>
 
@@ -14,6 +15,7 @@ class Game {
     Camera* cam = nullptr;
     Map* map = nullptr;
     std::vector<Enemy*> enemies;
+    std::vector<Projectile*> projectiles;
 
   public:
     Game();
@@ -24,6 +26,7 @@ class Game {
     void idle();
     void createPlayer(double x, double y, double size);
     void createEnemy(double x, double y, double size);
+    void createProjectile(double x, double y, double size);
     Camera* getMainCamera();
     Map* getMap();
     std::vector<Enemy*> getEnemies();

@@ -10,12 +10,12 @@ class Character : public Object {
     float armHeight = 0.5f * size;
     float armWidth = 0.2f * size;
     int health = 100;
-    Collider* collider;
 
     virtual void drawChest() = 0;
     virtual void drawArm() = 0;
 
     bool canMoveX = true, canMoveY = true;
+    Collider* collider;
 
   public:
     float armAngle = 0.0f;
