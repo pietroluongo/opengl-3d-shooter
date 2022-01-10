@@ -20,7 +20,6 @@ class Player : public Character {
     void applyDamage(int damage) { Character::applyDamage(damage); };
     void updateArmAngle();
     bool checkCollision(Platform* platform);
-    Collider* getCollider();
     void jump();
 };
 

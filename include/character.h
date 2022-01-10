@@ -34,6 +34,7 @@ class Character : public Object {
         this->armWidth = 0.1f * size;
         this->armHeight = 0.5f * size;
     }
+    Collider* getCollider() { return this->collider; }
 };
 
 #endif

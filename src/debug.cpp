@@ -29,7 +29,8 @@ void drawUI() {
 
 void imgui_display() {
     glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
-    glfvec2 colliderPos = context->getGameRef()->getPlayer()->getCollider()->getCenter();
+    glfvec2 colliderPos =
+        context->getGameRef()->getPlayer()->getCollider()->getCenter();
     glm::ivec2 mousePos = context->getScreenSpaceMousePos();
     glm::fvec2 mousePosN = context->getNormalizedMousePos();
     glm::fvec2 mousePosW = context->getWorldSpaceMousePos();
@@ -44,7 +45,8 @@ void imgui_display() {
                     ImGui::GetIO().Framerate);
         ImGui::Text("DeltaTime from GLUT: %.6f", context->getDeltaTime());
         ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
-        ImGui::Text("Player collider pos: %.2f, %.2f", colliderPos.x, colliderPos.y);
+        ImGui::Text("Player collider pos: %.2f, %.2f", colliderPos.x,
+                    colliderPos.y);
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
         ImGui::Text("Mouse normalized: %f, %f", mousePosN.x, mousePosN.y);
         ImGui::Text("Mouse world space: %f, %f", mousePosW.x, mousePosW.y);
@@ -74,6 +76,10 @@ void imgui_display() {
         ImGui::Begin("Physics [F3]", &context->shouldDrawPhysicsInfo);
         ImGui::Checkbox("Toggle Coordinate Systems",
                         &context->shouldObjectsDrawCoordinateSystem);
+        ImGui::Checkbox("Toggle object colliders",
+                        &context->shouldObjectsDrawColliders);
+        ImGui::Checkbox("Should platform draw collision",
+                        &context->shouldPlatformsShowCollisions);
         ImGui::End();
     }
 }

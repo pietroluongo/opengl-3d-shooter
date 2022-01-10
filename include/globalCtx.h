@@ -19,6 +19,8 @@ class GlobalCtx {
     bool shouldDrawPhysicsInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
+    bool shouldObjectsDrawColliders = false;
+    bool shouldPlatformsShowCollisions = false;
 
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();

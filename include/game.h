@@ -26,6 +26,7 @@ class Game {
     void createEnemy(double x, double y, double size);
     Camera* getMainCamera();
     Map* getMap();
+    std::vector<Enemy*> getEnemies();
 };
 
 #endif

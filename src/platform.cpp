@@ -45,7 +45,9 @@ void Platform::draw() {
     }
 
     glPopMatrix();
-    this->collider->draw();
+
+    if (context->shouldObjectsDrawColliders)
+        this->collider->draw();
 }
 
 void Platform::drawAxis() {

@@ -50,3 +50,5 @@ void Game::createEnemy(double x, double y, double size) {
 Camera* Game::getMainCamera() { return this->cam; }
 
 Map* Game::getMap() { return this->map; }
+
+std::vector<Enemy*> Game::getEnemies() { return this->enemies; }

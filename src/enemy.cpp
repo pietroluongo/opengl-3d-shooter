@@ -45,7 +45,8 @@ void Enemy::draw() {
         this->drawAxis();
     }
     glPopMatrix();
-    this->collider->draw();
+    if (context->shouldObjectsDrawColliders)
+        this->collider->draw();
 }
 
 void Enemy::idle() { this->updateArmAngle(); }

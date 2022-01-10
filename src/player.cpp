@@ -26,7 +26,8 @@ void Player::draw() {
         this->drawAxis();
     }
     glPopMatrix();
-    this->collider->draw();
+    if (context->shouldObjectsDrawColliders)
+        this->collider->draw();
 }
 
 void Player::idle() {
@@ -39,22 +40,33 @@ void Player::idle() {
     this->isGrounded = false;
     for (auto platform : platforms) {
         if (this->collider->collidesVerticallyWith(platform->getCollider())) {
-            platform->setColor({1.0f, 0, 0});
+            if (context->shouldPlatformsShowCollisions)
+                platform->setColor({1.0f, 0, 0});
             if (this->speed.y > 0) {
                 this->speed.y = 0;
             }
-
-            this->isJumping = false;
             this->isGrounded = true;
         } else if (this->collider->collidesLeft(platform->getCollider())) {
-            platform->setColor({1.0f, 0, 0});
+            if (context->shouldPlatformsShowCollisions)
+                platform->setColor({1.0f, 0, 0});
             this->speed.x = 1;
 
         } else if (this->collider->collidesRight(platform->getCollider())) {
-            platform->setColor({1.0f, 0, 0});
+            if (context->shouldPlatformsShowCollisions)
+                platform->setColor({1.0f, 0, 0});
             this->speed.x = -1;
         } else {
             platform->setColor({1.0f, 1.0f, 1.0f});
+        }
+    }
+
+    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+    for (auto enemy : enemies) {
+        if (this->collider->collidesVerticallyWith(enemy->getCollider())) {
+            this->isGrounded = true;
+            if (this->speed.y > 0) {
+                this->speed.y = 0;
+            }
         }
     }
 
@@ -64,14 +76,16 @@ void Player::idle() {
 
     this->position.x += this->speed.x * context->getDeltaTime();
     this->position.y += this->speed.y * context->getDeltaTime();
+    if (this->isGrounded)
+        this->isJumping = false;
 }
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
-        this->accelerateX(500.0f);
+        this->accelerateX(250.0f);
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
-        this->accelerateX(-5000.0f);
+        this->accelerateX(-250.0f);
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
@@ -79,7 +93,6 @@ void Player::handleMovementKeys() {
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-        this->accelerateY(500);
     }
 }
 
@@ -131,8 +144,6 @@ void Player::updateArmAngle() {
     glVertex2f(mousePos.x, mousePos.y);
     glEnd();
 }
-
-Collider* Player::getCollider() { return this->collider; }
 
 void Player::jump() {
     if (this->isJumping) {
