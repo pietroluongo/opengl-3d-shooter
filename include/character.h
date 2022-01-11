@@ -16,6 +16,7 @@ class Character : public Object {
 
     bool canMoveX = true, canMoveY = true;
     Collider* collider;
+    bool isGrounded = false;
 
   public:
     float armAngle = 0.0f;

@@ -7,6 +7,7 @@ extern GlobalCtx* context;
 Object::Object(GLfloat x, GLfloat y) { this->position = {x, y}; }
 
 Object::Object() {}
+Object::~Object() {}
 
 void Object::moveX(double amount) {
     this->position.x += (amount * context->getDeltaTime());

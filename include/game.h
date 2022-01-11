@@ -26,10 +26,11 @@ class Game {
     void idle();
     void createPlayer(double x, double y, double size);
     void createEnemy(double x, double y, double size);
-    void createProjectile(double x, double y, double size);
+    void createProjectile(float x, float y, float size, float angle);
     Camera* getMainCamera();
     Map* getMap();
     std::vector<Enemy*> getEnemies();
+    void deleteProjectile(Projectile* projectile);
 };
 
 #endif

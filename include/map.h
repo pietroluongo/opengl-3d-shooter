@@ -7,6 +7,7 @@
 class Map {
   private:
     std::vector<Platform*> platforms;
+    glm::fvec4 worldBounds = {0, 0, 0, 0};
 
   public:
     Map();
@@ -15,6 +16,7 @@ class Map {
     void draw();
     void loadArena(char* fileName);
     std::vector<Platform*> getPlatforms();
+    glm::fvec4 getWorldBounds();
 };
 
 #endif

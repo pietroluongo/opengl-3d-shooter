@@ -8,6 +8,7 @@ class Enemy : public Character {
     void handleMovement();
     void drawChest();
     void drawArm();
+    int moveDirection = 1;
 
   public:
     Enemy(GLfloat x, GLfloat y, GLfloat size);

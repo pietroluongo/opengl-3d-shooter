@@ -10,7 +10,6 @@ class Player : public Character {
     void drawChest();
     void drawArm();
     bool isJumping = false;
-    bool isGrounded = false;
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);
@@ -21,6 +20,7 @@ class Player : public Character {
     void updateArmAngle();
     bool checkCollision(Platform* platform);
     void jump();
+    void shoot();
 };
 
 #endif

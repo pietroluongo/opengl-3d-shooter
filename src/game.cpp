@@ -1,4 +1,5 @@
 #include "../include/game.h"
+#include <algorithm>
 
 Game::Game() {
     this->player = nullptr;
@@ -7,6 +8,7 @@ Game::Game() {
 }
 
 Game::~Game() {
+    printf("deleting game\n");
     if (this->player != nullptr)
         delete (this->player);
     if (this->cam != nullptr)
@@ -15,6 +17,10 @@ Game::~Game() {
         delete (this->map);
     for (auto enemy : this->enemies) {
         delete (enemy);
+    }
+    for (auto projectile : this->projectiles) {
+        if (projectile != nullptr)
+            delete (projectile);
     }
 }
 
@@ -27,7 +33,8 @@ void Game::draw() {
         enemy->draw();
     }
     for (auto projectile : this->projectiles) {
-        projectile->draw();
+        if (projectile)
+            projectile->draw();
     }
 }
 
@@ -39,16 +46,15 @@ void Game::idle() {
     for (auto enemy : this->enemies) {
         enemy->idle();
     }
-
     for (auto projectile : this->projectiles) {
-        projectile->idle();
+        if (projectile != nullptr)
+            projectile->idle();
     }
 }
 
 void Game::createPlayer(double x, double y, double size) {
     this->player = new Player(x, y, size);
     this->cam->setFollowTarget(this->player);
-    this->createProjectile(x, y, 0.5);
 }
 
 void Game::createEnemy(double x, double y, double size) {
@@ -61,6 +67,13 @@ Map* Game::getMap() { return this->map; }
 
 std::vector<Enemy*> Game::getEnemies() { return this->enemies; }
 
-void Game::createProjectile(double x, double y, double size) {
-    this->projectiles.push_back(new Projectile(x, y, size));
+void Game::createProjectile(float x, float y, float size, float angle) {
+    this->projectiles.push_back(new Projectile(x, y, size, angle));
+}
+
+void Game::deleteProjectile(Projectile* projectile) {
+    this->projectiles.erase(std::remove(this->projectiles.begin(),
+                                        this->projectiles.end(), projectile),
+                            this->projectiles.end());
+    delete (projectile);
 }

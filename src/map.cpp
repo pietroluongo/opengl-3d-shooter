@@ -64,6 +64,7 @@ void Map::loadArena(char* fileName) {
                 this->addPlatform(p1);
                 this->addPlatform(p2);
                 this->addPlatform(p3);
+                this->worldBounds = {x, x + h, y, y + h};
             }
         } else if (svgIsCircle(currentNode->Name())) {
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYER)) {
@@ -84,3 +85,5 @@ void Map::loadArena(char* fileName) {
 }
 
 std::vector<Platform*> Map::getPlatforms() { return this->platforms; }
+
+glm::fvec4 Map::getWorldBounds() { return this->worldBounds; }

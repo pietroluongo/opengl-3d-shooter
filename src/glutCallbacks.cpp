@@ -41,6 +41,9 @@ void specialUp(int key, int x, int y) {
 
 void keyUp(unsigned char key, int x, int y) {
     context->updateKeyStatus(key, KEY_UP_STATUS);
+    if (key == ' ') {
+        context->getGameRef()->getPlayer()->shoot();
+    }
     glutPostRedisplay();
 }
 

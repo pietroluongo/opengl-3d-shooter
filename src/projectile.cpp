@@ -1,10 +1,17 @@
 #include "../include/projectile.h"
+#include "../include/globalCtx.h"
 
-Projectile::Projectile(float x, float y, float size) : Object(x, y) {
+extern GlobalCtx* context;
+
+Projectile::Projectile(float x, float y, float size, float angle)
+    : Object(x, y) {
     this->collider =
         new Collider(x, y, size, size, this, pivotPosition::CENTER);
     this->size = size;
+    this->angle = angle;
 }
+
+Projectile::~Projectile() { delete (this->collider); }
 
 void Projectile::draw() {
     glPushMatrix();
@@ -18,7 +25,18 @@ void Projectile::draw() {
     glPopMatrix();
 }
 
-void Projectile::idle() { this->collider->idle(); }
+void Projectile::idle() {
+    this->collider->idle();
+    this->position.x += cos(this->angle) * 10 * context->getDeltaTime();
+    this->position.y += sin(this->angle) * 10 * context->getDeltaTime();
+    glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
+    if (this->position.x < worldBounds[0] ||
+        this->position.x > worldBounds[1] ||
+        this->position.y < worldBounds[2] ||
+        this->position.y > worldBounds[3]) {
+        context->getGameRef()->deleteProjectile(this);
+    }
+}
 
 void Projectile::moveX(double) {}
 void Projectile::moveY(double) {}
@@ -30,3 +48,5 @@ void Projectile::setPosition(glfvec2 position) {
 void Projectile::setPosition(GLfloat x, GLfloat y) {
     this->Object::setPosition(x, y);
 }
+void Projectile::accelerateX(double amount){};
+void Projectile::accelerateY(double amount){};

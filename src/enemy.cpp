@@ -49,7 +49,31 @@ void Enemy::draw() {
         this->collider->draw();
 }
 
-void Enemy::idle() { this->updateArmAngle(); }
+void Enemy::idle() {
+    this->Object::idle();
+    this->updateArmAngle();
+    this->collider->idle();
+    this->isGrounded = false;
+
+    std::vector<Platform*> platforms =
+        context->getGameRef()->getMap()->getPlatforms();
+    for (auto platform : platforms) {
+        if (this->collider->collidesVerticallyWith(platform->getCollider())) {
+            if (this->speed.y > 0) {
+                this->speed.y = 0;
+            }
+            this->isGrounded = true;
+        } else if (this->collider->collidesLeft(platform->getCollider())) {
+            this->speed.x = 1;
+
+        } else if (this->collider->collidesRight(platform->getCollider())) {
+            this->speed.x = -1;
+        }
+    }
+    // if (!this->isGrounded) {
+    this->accelerateY(100);
+    // }
+}
 
 void Enemy::updateArmAngle() {
     glm::fvec2 playerPos = context->getGameRef()->getPlayer()->getPosition();

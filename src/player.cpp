@@ -94,6 +94,10 @@ void Player::handleMovementKeys() {
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
     }
+
+    if (context->isKeyPressed(' ')) {
+        // this->shoot();
+    }
 }
 
 void Player::drawChest() {
@@ -139,10 +143,6 @@ void Player::updateArmAngle() {
             180 / M_PI -
         90;
     this->armAngle = limitArmMovement(this->armAngle);
-    glBegin(GL_LINES);
-    glVertex2f(this->position.x, this->position.y);
-    glVertex2f(mousePos.x, mousePos.y);
-    glEnd();
 }
 
 void Player::jump() {
@@ -151,4 +151,12 @@ void Player::jump() {
     }
     this->isJumping = true;
     this->accelerateY(-10000);
+}
+
+void Player::shoot() {
+    context->getGameRef()->createProjectile(
+        this->position.x +
+            (this->armHeight * sin(-this->armAngle * M_PI / 180)),
+        this->position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)),
+        0.5, (90 + this->armAngle) * M_PI / 180);
 }

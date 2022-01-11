@@ -14,6 +14,7 @@ class Object {
   public:
     Object();
     Object(GLfloat x, GLfloat y);
+    virtual ~Object();
     virtual void draw() = 0;
     virtual void idle();
     glfvec2 getPosition();
