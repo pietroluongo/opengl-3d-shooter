@@ -53,6 +53,14 @@ void Enemy::draw() {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
+    sprintf(context->textBuffer, "[%.2f, %.2f]", this->speed.x, this->speed.y);
+    tmpString = context->textBuffer;
+
+    glRasterPos2f(this->position.x - 1, this->position.y - 2);
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
 
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0.0f);
@@ -69,29 +77,47 @@ void Enemy::draw() {
 }
 
 void Enemy::idle() {
-    this->Object::idle();
-    this->updateArmAngle();
+    // this->Object::idle();
+    // this->updateArmAngle();
     this->collider->idle();
     this->isGrounded = false;
+    // this->isGrounded = false;
 
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
+        if (this->collider->collidesLeft(platform->getCollider())) {
+            // this->speed.x = 1;
+            this->moveDirection = 1;
+        }
+        if (this->collider->collidesRight(platform->getCollider())) {
+            this->moveDirection = -1;
+        }
         if (this->collider->collidesVerticallyWith(platform->getCollider())) {
-            if (this->speed.y > 0) {
-                this->speed.y = 0;
-            }
             this->isGrounded = true;
-        } else if (this->collider->collidesLeft(platform->getCollider())) {
-            this->speed.x = 1;
-
-        } else if (this->collider->collidesRight(platform->getCollider())) {
-            this->speed.x = -1;
+            this->wasGrounded = true;
         }
     }
+
+    if (!this->isGrounded) {
+        if (this->wasGrounded) {
+            this->moveDirection *= -1;
+            this->position.x += this->moveDirection;
+            return;
+        }
+        this->position.y += 0.01;
+    }
+
     // if (!this->isGrounded) {
-    this->accelerateY(100);
+    //     this->accelerateY(100);
     // }
+    // this->accelerateX(250.0f);
+    // glm::fvec2 delta = {this->speed.x * context->getDeltaTime(),
+    //                     this->speed.y * context->getDeltaTime()};
+
+    // this->position += delta;
+    glm::fvec2 delta = {10 * context->getDeltaTime() * moveDirection, 0};
+    this->position += delta;
 }
 
 void Enemy::updateArmAngle() {

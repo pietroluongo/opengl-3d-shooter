@@ -52,11 +52,6 @@ void Map::loadArena(char* fileName) {
             }
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYABLE_AREA)) {
                 int x, y, w, h;
-                printf("x = %d, y = %d, w = %d, h = %d\n",
-                       currentNode->IntAttribute("x"),
-                       currentNode->IntAttribute("y"),
-                       currentNode->IntAttribute("width"),
-                       currentNode->IntAttribute("height"));
                 x = currentNode->IntAttribute("x");
                 y = currentNode->IntAttribute("y");
                 w = currentNode->IntAttribute("width");

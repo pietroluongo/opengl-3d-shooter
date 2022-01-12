@@ -20,6 +20,7 @@ class GlobalCtx {
     bool shouldDrawCameraInfo = true;
     bool shouldDrawPhysicsInfo = true;
     bool shouldDrawPlayerInfo = true;
+    bool shouldDrawEnemyInfo = true;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;
@@ -42,6 +43,7 @@ class GlobalCtx {
     void idle();
     void toggleDebugInfo();
     void toggleCameraInfo();
+    void toggleEnemyInfo();
     void togglePhysicsInfo();
     void togglePlayerInfo();
     void updateKeyStatus(int key, int status);

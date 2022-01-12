@@ -1,4 +1,7 @@
 #include <GL/gl.h>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 #include "../include/debug.h"
 #include "../include/game.h"
@@ -40,6 +43,9 @@ void imgui_display() {
         context->getGameRef()->getMainCamera()->getPosition();
     glm::bvec4 playerCollisionData =
         context->getGameRef()->getPlayer()->getCollisionArr();
+
+    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
@@ -82,6 +88,23 @@ void imgui_display() {
                         &context->shouldObjectsDrawColliders);
         ImGui::Checkbox("Should platform draw collision",
                         &context->shouldPlatformsShowCollisions);
+        ImGui::End();
+    }
+    if (context->shouldDrawEnemyInfo) {
+        ImGui::Begin("Enemy [F4]", &context->shouldDrawEnemyInfo);
+        int i = 0;
+        std::ostringstream os;
+        for (auto enemy : enemies) {
+            os.str("");
+            os.clear();
+            os << "Enemy " << i++;
+            if (ImGui::CollapsingHeader(os.str().c_str())) {
+                ImGui::Text("Pos: [%.2f, %.2f]", enemy->getPosition().x,
+                            enemy->getPosition().y);
+                ImGui::Text("Vel: [%.2f, %.2f]", enemy->getCurrentSpeed().x,
+                            enemy->getCurrentSpeed().y);
+            }
+        }
         ImGui::End();
     }
     if (context->shouldDrawPlayerInfo) {

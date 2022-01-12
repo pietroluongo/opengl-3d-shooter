@@ -36,9 +36,10 @@ void Player::idle() {
     this->Object::idle();
     this->updateArmAngle();
     this->collider->idle();
+    this->isGrounded = false;
+
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
-    this->isGrounded = false;
     for (auto platform : platforms) {
         if (this->collider->collidesLeft(platform->getCollider())) {
             if (context->shouldPlatformsShowCollisions)

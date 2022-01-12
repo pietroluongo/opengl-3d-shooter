@@ -34,6 +34,9 @@ void specialDown(int key, int x, int y) {
     if (key == GLUT_KEY_F12) {
         context->togglePlayerInfo();
     }
+    if (key == GLUT_KEY_F4) {
+        context->toggleEnemyInfo();
+    }
     glutPostRedisplay();
 }
 

@@ -9,6 +9,7 @@ class Enemy : public Character {
     void drawChest();
     void drawArm();
     int moveDirection = 1;
+    bool wasGrounded = false;
 
   public:
     Enemy(GLfloat x, GLfloat y, GLfloat size);

@@ -49,6 +49,10 @@ void GlobalCtx::togglePlayerInfo() {
     this->shouldDrawPlayerInfo = !this->shouldDrawPlayerInfo;
 }
 
+void GlobalCtx::toggleEnemyInfo() {
+    this->shouldDrawEnemyInfo = !this->shouldDrawEnemyInfo;
+}
+
 void GlobalCtx::updateTiming(GLdouble framerate, GLdouble deltaTime) {
     this->framerate = framerate;
     this->deltaTime = deltaTime;
