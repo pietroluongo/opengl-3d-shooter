@@ -23,6 +23,7 @@ class Collider {
     bool overlaps(Collider* other);
     bool collidesLeft(Collider* other);
     bool collidesRight(Collider* other);
+    bool collidesTop(Collider* other);
 };
 
 #endif

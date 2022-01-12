@@ -46,6 +46,12 @@ void Player::idle() {
             this->speed.x = 1;
             this->collisionDirections[0] = true;
         }
+        if (this->collider->collidesTop(platform->getCollider())) {
+            if (context->shouldPlatformsShowCollisions)
+                platform->setColor({1.0f, 0, 0});
+            this->speed.y = 1;
+            this->collisionDirections[2] = true;
+        }
         if (this->collider->collidesRight(platform->getCollider())) {
             if (context->shouldPlatformsShowCollisions)
                 platform->setColor({1.0f, 0, 0});
@@ -77,8 +83,10 @@ void Player::idle() {
         this->accelerateY(100);
     }
 
-    this->position.x += this->speed.x * context->getDeltaTime();
-    this->position.y += this->speed.y * context->getDeltaTime();
+    glm::fvec2 delta = {this->speed.x * context->getDeltaTime(),
+                        this->speed.y * context->getDeltaTime()};
+
+    this->position += delta;
     if (this->isGrounded)
         this->isJumping = false;
     this->updateAnimState();

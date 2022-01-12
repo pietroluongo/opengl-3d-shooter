@@ -96,6 +96,11 @@ bool Collider::collidesRight(Collider* other) {
             return true;
         }
     }
+    // if (a[1] > b[0] && a[1] < b[1]) {
+    //     if (a[3] > b[2] && a[3] < b[3]) {
+    //         return true;
+    //     }
+    // }
     // if (thisBoundingBox[1] > otherBoundingBox[0] &&
     //     thisBoundingBox[1] < otherBoundingBox[1]) {
     //     if (thisBoundingBox[3] > otherBoundingBox[2] &&
@@ -154,4 +159,15 @@ glm::fvec2 Collider::getCenter() {
         return glm::fvec2(this->position.x + this->width / 2,
                           this->position.y + this->height / 2);
     }
+}
+
+bool Collider::collidesTop(Collider* other) {
+    glm::fvec4 a = this->getBoundingBox();
+    glm::fvec4 b = other->getBoundingBox();
+    if (a[0] > b[0] && a[0] < b[1] || a[1] > b[0] && a[1] < b[1]) {
+        if (a[2] < b[3] && a[2] > b[2]) {
+            return true;
+        }
+    }
+    return false;
 }

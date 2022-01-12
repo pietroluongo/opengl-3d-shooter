@@ -96,25 +96,24 @@ void imgui_display() {
                     "         %d",
                     playerCollisionData.z, playerCollisionData.x,
                     playerCollisionData.y, playerCollisionData.w);
-        ImGui::Text(
-            "Player Bounds:\n\t             %.2f\n\t      %.2f     %.2f\n\t"
-            "             %.2f",
-            context->getGameRef()
-                ->getPlayer()
-                ->getCollider()
-                ->getBoundingBox()[2],
-            context->getGameRef()
-                ->getPlayer()
-                ->getCollider()
-                ->getBoundingBox()[0],
-            context->getGameRef()
-                ->getPlayer()
-                ->getCollider()
-                ->getBoundingBox()[1],
-            context->getGameRef()
-                ->getPlayer()
-                ->getCollider()
-                ->getBoundingBox()[3]);
+        ImGui::Text("Player Bounds:\n\t%12.2f\n\t%.2f\t%.2f\n\t"
+                    "%12.2f",
+                    context->getGameRef()
+                        ->getPlayer()
+                        ->getCollider()
+                        ->getBoundingBox()[2],
+                    context->getGameRef()
+                        ->getPlayer()
+                        ->getCollider()
+                        ->getBoundingBox()[0],
+                    context->getGameRef()
+                        ->getPlayer()
+                        ->getCollider()
+                        ->getBoundingBox()[1],
+                    context->getGameRef()
+                        ->getPlayer()
+                        ->getCollider()
+                        ->getBoundingBox()[3]);
         ImGui::End();
     }
 }
