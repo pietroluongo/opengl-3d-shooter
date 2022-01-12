@@ -5,6 +5,7 @@
 #include "object.h"
 
 class Projectile : private Object {
+
   private:
     float size;
     float angle;
@@ -21,6 +22,8 @@ class Projectile : private Object {
     virtual void setPosition(GLfloat x, GLfloat y);
     virtual void accelerateX(double amount);
     virtual void accelerateY(double amount);
+    void checkCollisions();
+    const char* debug();
 };
 
 #endif

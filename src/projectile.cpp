@@ -11,7 +11,10 @@ Projectile::Projectile(float x, float y, float size, float angle)
     this->angle = angle;
 }
 
-Projectile::~Projectile() { (this->collider); }
+Projectile::~Projectile() {
+    printf("projectile destructor called\n");
+    delete (this->collider);
+}
 
 void Projectile::draw() {
     glPushMatrix();
@@ -27,6 +30,7 @@ void Projectile::draw() {
 
 void Projectile::idle() {
     this->collider->idle();
+    this->checkCollisions();
     this->position.x += cos(this->angle) * 10 * context->getDeltaTime();
     this->position.y += sin(this->angle) * 10 * context->getDeltaTime();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
@@ -50,3 +54,22 @@ void Projectile::setPosition(GLfloat x, GLfloat y) {
 }
 void Projectile::accelerateX(double amount){};
 void Projectile::accelerateY(double amount){};
+
+void Projectile::checkCollisions() {
+    std::vector<Platform*> platforms =
+        context->getGameRef()->getMap()->getPlatforms();
+    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+    for (auto platform : platforms) {
+        if (this->collider->overlaps(platform->getCollider())) {
+            context->getGameRef()->deleteProjectile(this);
+        }
+    }
+    for (auto enemy : enemies) {
+        if (this->collider->overlaps(enemy->getCollider())) {
+            context->getGameRef()->deleteEnemy(enemy);
+            context->getGameRef()->deleteProjectile(this);
+        }
+    }
+}
+
+const char* Projectile::debug() { return "ok i'm alive\n"; }

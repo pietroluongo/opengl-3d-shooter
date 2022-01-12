@@ -37,7 +37,7 @@ void Enemy::drawArm() {
 void Enemy::draw() {
     char* tmpString;
     glColor3f(1.0f, 1.0f, 1.0f);
-    sprintf(context->textBuffer, "Inimigo", this->position.x, this->position.y);
+    sprintf(context->textBuffer, "Inimigo");
     tmpString = context->textBuffer;
     glRasterPos2f(this->position.x - 1, this->position.y - 4);
     while (*tmpString) {

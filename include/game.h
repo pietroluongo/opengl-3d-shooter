@@ -31,6 +31,7 @@ class Game {
     Map* getMap();
     std::vector<Enemy*> getEnemies();
     void deleteProjectile(Projectile* projectile);
+    void deleteEnemy(Enemy* enemy);
 };
 
 #endif

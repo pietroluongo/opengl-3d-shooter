@@ -72,8 +72,19 @@ void Game::createProjectile(float x, float y, float size, float angle) {
 }
 
 void Game::deleteProjectile(Projectile* projectile) {
-    this->projectiles.erase(std::remove(this->projectiles.begin(),
-                                        this->projectiles.end(), projectile),
-                            this->projectiles.end());
-    delete (projectile);
+    printf("Deleting...\n");
+    for (auto it = this->projectiles.begin(); it != this->projectiles.end();) {
+        if (*it == projectile) {
+            it = this->projectiles.erase(it);
+            // delete (*it);
+        } else {
+            it++;
+        }
+    }
+}
+
+void Game::deleteEnemy(Enemy* enemy) {
+    auto it = std::find(this->enemies.begin(), this->enemies.end(), enemy);
+    this->enemies.erase(it);
+    delete (enemy);
 }
