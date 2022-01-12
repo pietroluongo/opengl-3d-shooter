@@ -50,6 +50,11 @@ void imgui_display() {
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
         ImGui::Text("Mouse normalized: %f, %f", mousePosN.x, mousePosN.y);
         ImGui::Text("Mouse world space: %f, %f", mousePosW.x, mousePosW.y);
+        ImGui::Text("World bounds: %f, %f, %f, %f",
+                    context->getGameRef()->getMap()->getWorldBounds()[0],
+                    context->getGameRef()->getMap()->getWorldBounds()[1],
+                    context->getGameRef()->getMap()->getWorldBounds()[2],
+                    context->getGameRef()->getMap()->getWorldBounds()[3]);
         ImGui::End();
     }
     if (context->shouldDrawCameraInfo) {

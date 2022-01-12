@@ -35,6 +35,25 @@ void Enemy::drawArm() {
 }
 
 void Enemy::draw() {
+    char* tmpString;
+    glColor3f(1.0f, 1.0f, 1.0f);
+    sprintf(context->textBuffer, "Inimigo", this->position.x, this->position.y);
+    tmpString = context->textBuffer;
+    glRasterPos2f(this->position.x - 1, this->position.y - 4);
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
+    sprintf(context->textBuffer, "[%.2f, %.2f]", this->position.x,
+            this->position.y);
+    tmpString = context->textBuffer;
+
+    glRasterPos2f(this->position.x - 1, this->position.y - 3);
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
+
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0.0f);
     glColor3f(1.0f, 0.0f, 0.0f);

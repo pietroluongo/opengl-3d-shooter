@@ -4,6 +4,8 @@
 #include "../libs/glm/glm.hpp"
 #include "customTypes.h"
 #include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 
 class GlobalCtx {
   private:
@@ -22,6 +24,9 @@ class GlobalCtx {
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;
     bool shouldPlatformsShowCollisions = false;
+
+    void* font = GLUT_BITMAP_9_BY_15;
+    char textBuffer[1024];
 
     GlobalCtx(GLint w, GLint h);
     ~GlobalCtx();

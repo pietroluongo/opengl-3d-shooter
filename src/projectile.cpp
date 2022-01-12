@@ -11,7 +11,7 @@ Projectile::Projectile(float x, float y, float size, float angle)
     this->angle = angle;
 }
 
-Projectile::~Projectile() { delete (this->collider); }
+Projectile::~Projectile() { (this->collider); }
 
 void Projectile::draw() {
     glPushMatrix();

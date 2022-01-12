@@ -52,6 +52,11 @@ void Map::loadArena(char* fileName) {
             }
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYABLE_AREA)) {
                 int x, y, w, h;
+                printf("x = %d, y = %d, w = %d, h = %d\n",
+                       currentNode->IntAttribute("x"),
+                       currentNode->IntAttribute("y"),
+                       currentNode->IntAttribute("width"),
+                       currentNode->IntAttribute("height"));
                 x = currentNode->IntAttribute("x");
                 y = currentNode->IntAttribute("y");
                 w = currentNode->IntAttribute("width");
@@ -64,7 +69,7 @@ void Map::loadArena(char* fileName) {
                 this->addPlatform(p1);
                 this->addPlatform(p2);
                 this->addPlatform(p3);
-                this->worldBounds = {x, x + h, y, y + h};
+                this->worldBounds = {x, x + w, y, y + h};
             }
         } else if (svgIsCircle(currentNode->Name())) {
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYER)) {
