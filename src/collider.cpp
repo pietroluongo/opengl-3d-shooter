@@ -35,8 +35,6 @@ void Collider::idle() {
 }
 
 bool Collider::collidesWith(Collider* other) {
-    glm::fvec4 thisBoundingBox = this->getBoundingBox();
-    glm::fvec4 otherBoundingBox = other->getBoundingBox();
     return this->collidesVerticallyWith(other) ||
            this->collidesHorizontallyWith(other);
 }

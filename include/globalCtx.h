@@ -14,9 +14,10 @@ class GlobalCtx {
     GLdouble framerate = 0, deltaTime = 0;
 
   public:
-    bool shouldDrawDebugInfo = false;
-    bool shouldDrawCameraInfo = false;
-    bool shouldDrawPhysicsInfo = false;
+    bool shouldDrawDebugInfo = true;
+    bool shouldDrawCameraInfo = true;
+    bool shouldDrawPhysicsInfo = true;
+    bool shouldDrawPlayerInfo = true;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;
@@ -37,6 +38,7 @@ class GlobalCtx {
     void toggleDebugInfo();
     void toggleCameraInfo();
     void togglePhysicsInfo();
+    void togglePlayerInfo();
     void updateKeyStatus(int key, int status);
     void updateKeyStatus(unsigned char key, int status);
     void updateMousePos(glm::ivec2 pos);

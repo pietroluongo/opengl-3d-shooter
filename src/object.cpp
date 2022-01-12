@@ -77,3 +77,5 @@ void Object::idle() {
         this->speed.y += this->speedFalloff.y * context->getDeltaTime();
     }
 }
+
+glfvec2 Object::getCurrentSpeed() { return this->speed; }

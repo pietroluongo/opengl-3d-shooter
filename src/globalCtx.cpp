@@ -45,6 +45,10 @@ void GlobalCtx::togglePhysicsInfo() {
     this->shouldDrawPhysicsInfo = !this->shouldDrawPhysicsInfo;
 }
 
+void GlobalCtx::togglePlayerInfo() {
+    this->shouldDrawPlayerInfo = !this->shouldDrawPlayerInfo;
+}
+
 void GlobalCtx::updateTiming(GLdouble framerate, GLdouble deltaTime) {
     this->framerate = framerate;
     this->deltaTime = deltaTime;

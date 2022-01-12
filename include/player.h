@@ -21,6 +21,7 @@ class Player : public Character {
     bool checkCollision(Platform* platform);
     void jump();
     void shoot();
+    void updateAnimState();
 };
 
 #endif

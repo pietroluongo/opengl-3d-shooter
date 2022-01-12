@@ -25,6 +25,7 @@ class Object {
     virtual void accelerateX(double amount);
     virtual void accelerateY(double amount);
     void drawAxis();
+    glfvec2 getCurrentSpeed();
 };
 
 #endif

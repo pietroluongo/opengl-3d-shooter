@@ -44,15 +44,10 @@ void imgui_display() {
                     1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
         ImGui::Text("DeltaTime from GLUT: %.6f", context->getDeltaTime());
-        ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
-        ImGui::Text("Player collider pos: %.2f, %.2f", colliderPos.x,
-                    colliderPos.y);
+
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
         ImGui::Text("Mouse normalized: %f, %f", mousePosN.x, mousePosN.y);
         ImGui::Text("Mouse world space: %f, %f", mousePosW.x, mousePosW.y);
-        ImGui::SliderFloat("Arm angle",
-                           &context->getGameRef()->getPlayer()->armAngle, 45.0f,
-                           135.0f);
         ImGui::End();
     }
     if (context->shouldDrawCameraInfo) {
@@ -80,6 +75,21 @@ void imgui_display() {
                         &context->shouldObjectsDrawColliders);
         ImGui::Checkbox("Should platform draw collision",
                         &context->shouldPlatformsShowCollisions);
+        ImGui::End();
+    }
+    if (context->shouldDrawPlayerInfo) {
+        ImGui::Begin("Player [F12]", &context->shouldDrawPlayerInfo);
+        ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
+        ImGui::Text("Player collider pos: %.2f, %.2f", colliderPos.x,
+                    colliderPos.y);
+        ImGui::SliderFloat("Arm angle",
+                           &context->getGameRef()->getPlayer()->armAngle, 45.0f,
+                           135.0f);
+        ImGui::Text("Player speed: %.2f, %.2f",
+                    context->getGameRef()->getPlayer()->getCurrentSpeed().x,
+                    context->getGameRef()->getPlayer()->getCurrentSpeed().y);
+        ImGui::Text("Player AnimState: %s",
+                    context->getGameRef()->getPlayer()->getCurrentAnimState());
         ImGui::End();
     }
 }

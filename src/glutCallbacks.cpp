@@ -31,6 +31,9 @@ void specialDown(int key, int x, int y) {
     if (key == GLUT_KEY_F3) {
         context->togglePhysicsInfo();
     }
+    if (key == GLUT_KEY_F12) {
+        context->togglePlayerInfo();
+    }
     glutPostRedisplay();
 }
 

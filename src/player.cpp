@@ -5,9 +5,9 @@
 
 extern GlobalCtx* context;
 
-static float CHEST_PROPORTION = 0.5f;
-static float HEAD_PROPORTION = 0.1f;
-static float LEGS_PROPORTION = 0.4f;
+// static float CHEST_PROPORTION = 0.5f;
+// static float HEAD_PROPORTION = 0.1f;
+// static float LEGS_PROPORTION = 0.4f;
 
 float limitArmMovement(float angle);
 
@@ -78,6 +78,7 @@ void Player::idle() {
     this->position.y += this->speed.y * context->getDeltaTime();
     if (this->isGrounded)
         this->isJumping = false;
+    this->updateAnimState();
 }
 
 void Player::handleMovementKeys() {
@@ -159,4 +160,14 @@ void Player::shoot() {
             (this->armHeight * sin(-this->armAngle * M_PI / 180)),
         this->position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)),
         0.5, (90 + this->armAngle) * M_PI / 180);
+}
+
+void Player::updateAnimState() {
+    if (std::abs(this->speed.y) >= 10) {
+        this->currentState = AnimState::JUMPING;
+    } else if (std::abs(this->speed.x >= 10)) {
+        this->currentState = AnimState::WALKING;
+    } else {
+        this->currentState = AnimState::IDLE;
+    }
 }

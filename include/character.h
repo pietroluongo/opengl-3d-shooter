@@ -4,12 +4,15 @@
 #include "collider.h"
 #include "object.h"
 
+enum AnimState { IDLE, WALKING, JUMPING, DEAD };
+
 class Character : public Object {
   protected:
     float size = 1.0f;
     float armHeight = 0.5f * size;
     float armWidth = 0.2f * size;
     int health = 100;
+    AnimState currentState = AnimState::IDLE;
 
     virtual void drawChest() = 0;
     virtual void drawArm() = 0;
@@ -36,6 +39,19 @@ class Character : public Object {
         this->armHeight = 0.5f * size;
     }
     Collider* getCollider() { return this->collider; }
+    const char* getCurrentAnimState() {
+        switch (this->currentState) {
+        case AnimState::IDLE:
+            return "IDLE";
+        case AnimState::WALKING:
+            return "WALKING";
+        case AnimState::JUMPING:
+            return "JUMP";
+        case AnimState::DEAD:
+            return "DEAD";
+        }
+        return "ERROR";
+    };
 };
 
 #endif
