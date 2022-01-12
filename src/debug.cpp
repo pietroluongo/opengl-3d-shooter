@@ -46,6 +46,12 @@ void imgui_display() {
 
     std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
 
+    // float* playerLegRotation[4] = {
+    //     context->getGameRef()->getPlayer()->getLegRotation()[0],
+    //     context->getGameRef()->getPlayer()->getLegRotation()[1],
+    //     context->getGameRef()->getPlayer()->getLegRotation()[2],
+    //     context->getGameRef()->getPlayer()->getLegRotation()[3]};
+
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
@@ -142,6 +148,12 @@ void imgui_display() {
                         ->getPlayer()
                         ->getCollider()
                         ->getBoundingBox()[3]);
+        ImGui::SliderFloat("Player Size",
+                           context->getGameRef()->getPlayer()->tmp_getSize(),
+                           0.0f, 100.0f);
+        ImGui::SliderFloat4(
+            "Player leg rotation",
+            context->getGameRef()->getPlayer()->getLegRotation(), -90, 90);
         ImGui::End();
     }
 }

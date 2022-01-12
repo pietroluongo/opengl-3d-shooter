@@ -16,14 +16,14 @@ class GlobalCtx {
     GLdouble framerate = 0, deltaTime = 0;
 
   public:
-    bool shouldDrawDebugInfo = true;
-    bool shouldDrawCameraInfo = true;
-    bool shouldDrawPhysicsInfo = true;
-    bool shouldDrawPlayerInfo = true;
-    bool shouldDrawEnemyInfo = true;
+    bool shouldDrawDebugInfo = false;
+    bool shouldDrawCameraInfo = false;
+    bool shouldDrawPhysicsInfo = false;
+    bool shouldDrawPlayerInfo = false;
+    bool shouldDrawEnemyInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
-    bool shouldObjectsDrawColliders = false;
+    bool shouldObjectsDrawColliders = true;
     bool shouldPlatformsShowCollisions = false;
 
     void* font = GLUT_BITMAP_9_BY_15;

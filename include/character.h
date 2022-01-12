@@ -9,8 +9,9 @@ enum AnimState { IDLE, WALKING, JUMPING, DEAD };
 class Character : public Object {
   protected:
     float size = 1.0f;
-    float armHeight = 0.5f * size;
-    float armWidth = 0.2f * size;
+    float armHeight = 0.4f * size;
+    float armPosition = 0.5f * size;
+    float armWidth = 0.05f * size;
     int health = 100;
     AnimState currentState = AnimState::IDLE;
 

@@ -76,7 +76,6 @@ void Game::deleteProjectile(Projectile* projectile) {
     for (auto it = this->projectiles.begin(); it != this->projectiles.end();) {
         if (*it == projectile) {
             it = this->projectiles.erase(it);
-            // delete (*it);
         } else {
             it++;
         }
