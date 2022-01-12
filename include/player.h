@@ -10,6 +10,7 @@ class Player : public Character {
     void drawChest();
     void drawArm();
     bool isJumping = false;
+    glm::bvec4 collisionDirections = {false, false, false, false};
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);
@@ -22,6 +23,7 @@ class Player : public Character {
     void jump();
     void shoot();
     void updateAnimState();
+    glm::bvec4 getCollisionArr() { return this->collisionDirections; };
 };
 
 #endif

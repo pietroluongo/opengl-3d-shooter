@@ -8,8 +8,8 @@ class Object {
   protected:
     glfvec2 position = {0, 0};
     glfvec2 speed = {0, 0};
-    glfvec2 maxSpeed = {100, 100};
-    glfvec2 speedFalloff = {30, 30};
+    glfvec2 maxSpeed = {75, 100};
+    glfvec2 speedFalloff = {50, 50};
 
   public:
     Object();

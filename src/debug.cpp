@@ -38,6 +38,8 @@ void imgui_display() {
         context->getGameRef()->getMainCamera()->getBounds();
     glm::fvec2 cameraPosition =
         context->getGameRef()->getMainCamera()->getPosition();
+    glm::bvec4 playerCollisionData =
+        context->getGameRef()->getPlayer()->getCollisionArr();
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
@@ -90,6 +92,29 @@ void imgui_display() {
                     context->getGameRef()->getPlayer()->getCurrentSpeed().y);
         ImGui::Text("Player AnimState: %s",
                     context->getGameRef()->getPlayer()->getCurrentAnimState());
+        ImGui::Text("Collision direction:\n\t         %d\n\t      %d     %d\n\t"
+                    "         %d",
+                    playerCollisionData.z, playerCollisionData.x,
+                    playerCollisionData.y, playerCollisionData.w);
+        ImGui::Text(
+            "Player Bounds:\n\t             %.2f\n\t      %.2f     %.2f\n\t"
+            "             %.2f",
+            context->getGameRef()
+                ->getPlayer()
+                ->getCollider()
+                ->getBoundingBox()[2],
+            context->getGameRef()
+                ->getPlayer()
+                ->getCollider()
+                ->getBoundingBox()[0],
+            context->getGameRef()
+                ->getPlayer()
+                ->getCollider()
+                ->getBoundingBox()[1],
+            context->getGameRef()
+                ->getPlayer()
+                ->getCollider()
+                ->getBoundingBox()[3]);
         ImGui::End();
     }
 }

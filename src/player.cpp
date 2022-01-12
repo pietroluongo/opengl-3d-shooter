@@ -31,6 +31,7 @@ void Player::draw() {
 }
 
 void Player::idle() {
+    this->collisionDirections = {false, false, false, false};
     this->handleMovementKeys();
     this->Object::idle();
     this->updateArmAngle();
@@ -39,6 +40,18 @@ void Player::idle() {
         context->getGameRef()->getMap()->getPlatforms();
     this->isGrounded = false;
     for (auto platform : platforms) {
+        if (this->collider->collidesLeft(platform->getCollider())) {
+            if (context->shouldPlatformsShowCollisions)
+                platform->setColor({1.0f, 0, 0});
+            this->speed.x = 1;
+            this->collisionDirections[0] = true;
+        }
+        if (this->collider->collidesRight(platform->getCollider())) {
+            if (context->shouldPlatformsShowCollisions)
+                platform->setColor({1.0f, 0, 0});
+            this->speed.x = -1;
+            this->collisionDirections[1] = true;
+        }
         if (this->collider->collidesVerticallyWith(platform->getCollider())) {
             if (context->shouldPlatformsShowCollisions)
                 platform->setColor({1.0f, 0, 0});
@@ -46,17 +59,7 @@ void Player::idle() {
                 this->speed.y = 0;
             }
             this->isGrounded = true;
-        } else if (this->collider->collidesLeft(platform->getCollider())) {
-            if (context->shouldPlatformsShowCollisions)
-                platform->setColor({1.0f, 0, 0});
-            this->speed.x = 1;
-
-        } else if (this->collider->collidesRight(platform->getCollider())) {
-            if (context->shouldPlatformsShowCollisions)
-                platform->setColor({1.0f, 0, 0});
-            this->speed.x = -1;
-        } else {
-            platform->setColor({1.0f, 1.0f, 1.0f});
+            this->collisionDirections[3] = true;
         }
     }
 

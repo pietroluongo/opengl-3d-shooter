@@ -69,30 +69,41 @@ bool Collider::collidesHorizontallyWith(Collider* other) {
 bool Collider::collidesLeft(Collider* other) {
     glm::fvec4 thisBoundingBox = this->getBoundingBox();
     glm::fvec4 otherBoundingBox = other->getBoundingBox();
-    if (thisBoundingBox[0] >= otherBoundingBox[0] &&
-        thisBoundingBox[0] <= otherBoundingBox[1]) {
-        if (thisBoundingBox[2] >= otherBoundingBox[2] &&
-                thisBoundingBox[2] <= otherBoundingBox[3] ||
-            thisBoundingBox[2] >= otherBoundingBox[2] &&
-                thisBoundingBox[2] <= otherBoundingBox[3]) {
+    if (thisBoundingBox[2] >= otherBoundingBox[2] &&
+        thisBoundingBox[2] <= otherBoundingBox[3]) {
+        if (thisBoundingBox[0] > otherBoundingBox[0] &&
+            thisBoundingBox[0] < otherBoundingBox[1]) {
+
             return true;
         }
-    }
 
+        // if (a[3] > b[2] && a[3] < b[3]) {
+        //     if (a[0] > b[0] && a[0] < b[1]) {
+        //         return true;
+        //     }
+        // }
+    }
     return false;
 }
 
 bool Collider::collidesRight(Collider* other) {
     glm::fvec4 thisBoundingBox = this->getBoundingBox();
     glm::fvec4 otherBoundingBox = other->getBoundingBox();
-    if (thisBoundingBox[1] >= otherBoundingBox[0] &&
-        thisBoundingBox[1] <= otherBoundingBox[1]) {
-        if (thisBoundingBox[3] >= otherBoundingBox[2] &&
-                thisBoundingBox[3] <= otherBoundingBox[3] ||
-            thisBoundingBox[2] >= otherBoundingBox[2] &&
-                thisBoundingBox[2] <= otherBoundingBox[3])
+    if (thisBoundingBox[1] > otherBoundingBox[0] &&
+        thisBoundingBox[1] < otherBoundingBox[1]) {
+        if (thisBoundingBox[2] > otherBoundingBox[2] &&
+            thisBoundingBox[2] < otherBoundingBox[3]) {
             return true;
+        }
     }
+    // if (thisBoundingBox[1] > otherBoundingBox[0] &&
+    //     thisBoundingBox[1] < otherBoundingBox[1]) {
+    //     if (thisBoundingBox[3] > otherBoundingBox[2] &&
+    //             thisBoundingBox[3] < otherBoundingBox[3] ||
+    //         thisBoundingBox[2] > otherBoundingBox[2] &&
+    //             thisBoundingBox[2] < otherBoundingBox[3])
+    //         return true;
+    // }
 
     return false;
 }
