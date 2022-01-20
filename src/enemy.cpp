@@ -15,27 +15,27 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
 Enemy::~Enemy() { delete (this->collider); }
 
 void Enemy::draw() {
+    glfvec2 position = this->getPosition();
     char* tmpString;
     glColor3f(1.0f, 1.0f, 1.0f);
     sprintf(context->textBuffer, "Inimigo");
     tmpString = context->textBuffer;
-    glRasterPos2f(this->position.x - 1, this->position.y - 4);
+    glRasterPos2f(position.x - 1, position.y - 4);
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
-    sprintf(context->textBuffer, "[%.2f, %.2f]", this->position.x,
-            this->position.y);
+    sprintf(context->textBuffer, "[%.2f, %.2f]", position.x, position.y);
     tmpString = context->textBuffer;
 
-    glRasterPos2f(this->position.x - 1, this->position.y - 3);
+    glRasterPos2f(position.x - 1, position.y - 3);
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
 
     glPushMatrix();
-    glTranslatef(this->position.x, this->position.y, 0.0f);
+    glTranslatef(position.x, position.y, 0.0f);
 
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
@@ -57,23 +57,19 @@ void Enemy::idle() {
     this->collider->idle();
     this->updateArmAngle();
 
-    if (!this->isGrounded) {
-        if (this->wasGrounded) {
-            this->moveDirection *= -1;
-            this->position.x += this->moveDirection;
-            return;
-        }
-        this->position.y += 0.01;
-    }
-
-    // glm::fvec2 delta = {10 * context->getDeltaTime() * moveDirection, 0};
-    // this->position += delta;
+    // if (!this->isGrounded) {
+    //     if (this->wasGrounded) {
+    //         this->moveDirection *= -1;
+    //         this->moveX(this->moveDirection);
+    //         return;
+    //     }
+    // }
 }
 
 void Enemy::updateArmAngle() {
+    glfvec2 position = this->getPosition();
     glm::fvec2 playerPos = context->getGameRef()->getPlayer()->getPosition();
     this->armAngle =
-        atan2(playerPos.y - this->position.y, playerPos.x - this->position.x) *
-            180 / M_PI -
+        atan2(playerPos.y - position.y, playerPos.x - position.x) * 180 / M_PI -
         90;
 }

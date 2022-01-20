@@ -55,23 +55,36 @@ void Object::drawAxis() {
 void Object::idle() {
     this->collisionDirections = {false, false, false, false};
     this->isGrounded = false;
-    bool hasCollided = false;
     this->collider->idle();
+
     for (auto otherCollider : this->colliders) {
         if (this->collider->overlaps(otherCollider)) {
-            hasCollided = true;
-            break;
+            this->collisionDirections =
+                this->collider->getOverlapDirection(otherCollider);
+            if (this->collisionDirections[0] && this->positionDelta.x < 0) {
+                this->positionDelta.x = 0;
+            }
+            if (this->collisionDirections[1] && this->positionDelta.x > 0) {
+                this->positionDelta.x = 0;
+            }
+            if (this->collisionDirections[3] && this->positionDelta.y > 0) {
+                this->positionDelta.y = 0;
+            }
+            if (this->collisionDirections[2] && this->positionDelta.y < 0) {
+                this->positionDelta.y = 0;
+            }
+
+            if (this->collisionDirections[3]) {
+                this->isGrounded = true;
+            }
         }
     }
 
     if (!this->isGrounded) {
-        this->moveY(1);
+        this->moveY(5);
     }
 
-    if (!hasCollided) {
-        this->position += this->positionDelta;
-    }
-
+    this->position += this->positionDelta;
     this->positionDelta = {0, 0};
 }
 

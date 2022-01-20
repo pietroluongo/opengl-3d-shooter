@@ -123,8 +123,8 @@ void imgui_display() {
                     context->getGameRef()->getPlayer()->getCurrentAnimState());
         ImGui::Text("Collision direction:\n\t         %d\n\t      %d     %d\n\t"
                     "         %d",
-                    playerCollisionData.z, playerCollisionData.x,
-                    playerCollisionData.y, playerCollisionData.w);
+                    playerCollisionData[2], playerCollisionData[0],
+                    playerCollisionData[1], playerCollisionData[3]);
         ImGui::Text("Player Bounds:\n\t%12.2f\n\t%.2f\t%.2f\n\t"
                     "%12.2f",
                     context->getGameRef()

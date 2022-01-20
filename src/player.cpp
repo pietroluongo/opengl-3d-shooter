@@ -16,8 +16,9 @@ Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
 Player::~Player() { delete (this->collider); }
 
 void Player::draw() {
+    glfvec2 position = this->getPosition();
     glPushMatrix();
-    glTranslatef(this->position.x, this->position.y, 0.0f);
+    glTranslatef(position.x, position.y, 0.0f);
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -54,10 +55,12 @@ void Player::handleMovementKeys() {
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        this->jump();
+        // this->jump();
+        this->moveY(-20);
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
+        this->moveY(20);
     }
 
     if (context->isKeyPressed(' ')) {
@@ -79,9 +82,9 @@ float limitArmMovement(float angle) {
 
 void Player::updateArmAngle() {
     glm::fvec2 mousePos = context->getWorldSpaceMousePos();
+    glfvec2 position = this->getPosition();
     this->armAngle =
-        atan2(mousePos.y - this->position.y, mousePos.x - this->position.x) *
-            180 / M_PI -
+        atan2(mousePos.y - position.y, mousePos.x - position.x) * 180 / M_PI -
         90;
     this->armAngle = limitArmMovement(this->armAngle);
 }
@@ -94,11 +97,11 @@ void Player::jump() {
 }
 
 void Player::shoot() {
+    glfvec2 position = this->getPosition();
     context->getGameRef()->createProjectile(
-        this->position.x +
-            (this->armHeight * sin(-this->armAngle * M_PI / 180)),
-        this->position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)),
-        0.5, (90 + this->armAngle) * M_PI / 180);
+        position.x + (this->armHeight * sin(-this->armAngle * M_PI / 180)),
+        position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)), 0.5,
+        (90 + this->armAngle) * M_PI / 180);
 }
 
 void Player::updateAnimState() { this->currentState = AnimState::IDLE; }

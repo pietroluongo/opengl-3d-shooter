@@ -18,6 +18,7 @@ class Collider {
     glm::fvec4 getBoundingBox();
     glm::fvec2 getCenter();
     bool overlaps(Collider* other);
+    glm::bvec4 getOverlapDirection(Collider* other);
 };
 
 #endif

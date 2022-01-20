@@ -7,14 +7,16 @@
 
 class Collider;
 class Object {
-  protected:
+  private:
     glfvec2 position = {0, 0};
     glfvec2 positionDelta = {0, 0};
+    glm::bvec4 collisionDirections = {false, false, false, false};
+    std::vector<Collider*> colliders = {};
+
+  protected:
     float size = 1.0f;
     Collider* collider;
     bool isGrounded = false;
-    glm::bvec4 collisionDirections = {false, false, false, false};
-    std::vector<Collider*> colliders = {};
 
   public:
     Object();
