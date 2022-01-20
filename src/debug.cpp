@@ -107,8 +107,6 @@ void imgui_display() {
             if (ImGui::CollapsingHeader(os.str().c_str())) {
                 ImGui::Text("Pos: [%.2f, %.2f]", enemy->getPosition().x,
                             enemy->getPosition().y);
-                ImGui::Text("Vel: [%.2f, %.2f]", enemy->getCurrentSpeed().x,
-                            enemy->getCurrentSpeed().y);
             }
         }
         ImGui::End();
@@ -121,9 +119,6 @@ void imgui_display() {
         ImGui::SliderFloat("Arm angle",
                            &context->getGameRef()->getPlayer()->armAngle, 45.0f,
                            135.0f);
-        ImGui::Text("Player speed: %.2f, %.2f",
-                    context->getGameRef()->getPlayer()->getCurrentSpeed().x,
-                    context->getGameRef()->getPlayer()->getCurrentSpeed().y);
         ImGui::Text("Player AnimState: %s",
                     context->getGameRef()->getPlayer()->getCurrentAnimState());
         ImGui::Text("Collision direction:\n\t         %d\n\t      %d     %d\n\t"

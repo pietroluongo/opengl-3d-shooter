@@ -5,10 +5,6 @@
 
 extern GlobalCtx* context;
 
-static float CHEST_PROPORTION = 0.5f;
-static float HEAD_PROPORTION = 0.1f;
-static float LEGS_PROPORTION = 0.4f;
-
 // TODO: move this to class header!
 glm::fvec4 frames[4] = {
     {20, 35, 10, 20}, {21, 35, 4, 15}, {-12, 35, -20, 15}, {-12, 35, -42, 15}};
@@ -55,53 +51,16 @@ void Player::idle() {
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
-        if (this->collider->collidesLeft(platform->getCollider())) {
-            if (context->shouldPlatformsShowCollisions)
-                platform->setColor({1.0f, 0, 0});
-            this->speed.x = 1;
-            this->collisionDirections[0] = true;
-        }
-        if (this->collider->collidesTop(platform->getCollider())) {
-            if (context->shouldPlatformsShowCollisions)
-                platform->setColor({1.0f, 0, 0});
-            this->speed.y = 1;
-            this->collisionDirections[2] = true;
-        }
-        if (this->collider->collidesRight(platform->getCollider())) {
-            if (context->shouldPlatformsShowCollisions)
-                platform->setColor({1.0f, 0, 0});
-            this->speed.x = -1;
-            this->collisionDirections[1] = true;
-        }
-        if (this->collider->collidesVerticallyWith(platform->getCollider())) {
-            if (context->shouldPlatformsShowCollisions)
-                platform->setColor({1.0f, 0, 0});
-            if (this->speed.y > 0) {
-                this->speed.y = 0;
-            }
-            this->isGrounded = true;
-            this->collisionDirections[3] = true;
-        }
     }
 
     std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
     for (auto enemy : enemies) {
-        if (this->collider->collidesVerticallyWith(enemy->getCollider())) {
-            this->isGrounded = true;
-            if (this->speed.y > 0) {
-                this->speed.y = 0;
-            }
-        }
     }
 
     if (!this->isGrounded) {
-        this->accelerateY(100);
+        this->moveY(1);
     }
 
-    glm::fvec2 delta = {this->speed.x * context->getDeltaTime(),
-                        this->speed.y * context->getDeltaTime()};
-
-    this->position += delta;
     if (this->isGrounded)
         this->isJumping = false;
     this->updateAnimState();
@@ -109,10 +68,10 @@ void Player::idle() {
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
-        this->accelerateX(250.0f);
+        this->moveX(10);
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
-        this->accelerateX(-250.0f);
+        this->moveX(-10);
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
@@ -123,7 +82,6 @@ void Player::handleMovementKeys() {
     }
 
     if (context->isKeyPressed(' ')) {
-        // this->shoot();
     }
 }
 
@@ -183,7 +141,6 @@ void Player::jump() {
         return;
     }
     this->isJumping = true;
-    this->accelerateY(-10000);
 }
 
 void Player::shoot() {
@@ -194,15 +151,7 @@ void Player::shoot() {
         0.5, (90 + this->armAngle) * M_PI / 180);
 }
 
-void Player::updateAnimState() {
-    if (std::abs(this->speed.y) >= 10) {
-        this->currentState = AnimState::JUMPING;
-    } else if (std::abs(this->speed.x >= 10)) {
-        this->currentState = AnimState::WALKING;
-    } else {
-        this->currentState = AnimState::IDLE;
-    }
-}
+void Player::updateAnimState() { this->currentState = AnimState::IDLE; }
 
 void Player::drawHead() {
     glTranslatef(0, -this->size * 0.4f, 0);
@@ -254,10 +203,6 @@ void Player::drawLegs() {
             glVertex2f(legSizeX, 0);
             glVertex2f(legSizeX, legSizeY);
             glVertex2f(-legSizeX, legSizeY);
-            // glVertex2f(-this->size * 0.05f, 0);
-            // glVertex2f(-this->size * 0.05f, this->size * 0.1f);
-            // glVertex2f(this->size * 0.05f, this->size * 0.1f);
-            // glVertex2f(-this->size * 0.05f, 0);
         }
         glEnd();
         glTranslatef(0, legSizeY, 0);

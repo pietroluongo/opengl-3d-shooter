@@ -15,15 +15,9 @@ class Collider {
              pivotPosition pivot = pivotPosition::TOP_LEFT);
     void draw();
     void idle();
-    bool collidesWith(Collider* other);
-    bool collidesVerticallyWith(Collider* other);
-    bool collidesHorizontallyWith(Collider* other);
     glm::fvec4 getBoundingBox();
     glm::fvec2 getCenter();
     bool overlaps(Collider* other);
-    bool collidesLeft(Collider* other);
-    bool collidesRight(Collider* other);
-    bool collidesTop(Collider* other);
 };
 
 #endif

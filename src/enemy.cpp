@@ -53,14 +53,6 @@ void Enemy::draw() {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
-    sprintf(context->textBuffer, "[%.2f, %.2f]", this->speed.x, this->speed.y);
-    tmpString = context->textBuffer;
-
-    glRasterPos2f(this->position.x - 1, this->position.y - 2);
-    while (*tmpString) {
-        glutBitmapCharacter(context->font, *tmpString);
-        tmpString++;
-    }
 
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0.0f);
@@ -86,17 +78,6 @@ void Enemy::idle() {
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
-        if (this->collider->collidesLeft(platform->getCollider())) {
-            // this->speed.x = 1;
-            this->moveDirection = 1;
-        }
-        if (this->collider->collidesRight(platform->getCollider())) {
-            this->moveDirection = -1;
-        }
-        if (this->collider->collidesVerticallyWith(platform->getCollider())) {
-            this->isGrounded = true;
-            this->wasGrounded = true;
-        }
     }
 
     if (!this->isGrounded) {
@@ -108,14 +89,6 @@ void Enemy::idle() {
         this->position.y += 0.01;
     }
 
-    // if (!this->isGrounded) {
-    //     this->accelerateY(100);
-    // }
-    // this->accelerateX(250.0f);
-    // glm::fvec2 delta = {this->speed.x * context->getDeltaTime(),
-    //                     this->speed.y * context->getDeltaTime()};
-
-    // this->position += delta;
     glm::fvec2 delta = {10 * context->getDeltaTime() * moveDirection, 0};
     this->position += delta;
 }

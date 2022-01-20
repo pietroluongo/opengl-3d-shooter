@@ -21,11 +21,6 @@ class Player : public Character {
      * [3] - Right knee
      */
     glm::fvec4 legRotation = {25, 35, 20, 15};
-    // glm::fvec4 frames[4] = {{20, 35, 10, 20},
-    //                         {21, 35, 4, 15},
-    //                         {-12, 35, -20, 15},
-    //                         {-12, 35, -42, 15}};
-    // int lastAnimFrame = 0;
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);

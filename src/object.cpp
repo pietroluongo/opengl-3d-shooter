@@ -46,36 +46,4 @@ void Object::drawAxis() {
     glEnd();
 }
 
-void Object::accelerateX(double amount) {
-    this->speed.x += (amount * context->getDeltaTime());
-    if (this->speed.x > this->maxSpeed.x) {
-        this->speed.x = this->maxSpeed.x;
-    } else if (this->speed.x < -this->maxSpeed.x) {
-        this->speed.x = -this->maxSpeed.x;
-    }
-};
-
-void Object::accelerateY(double amount) {
-    this->speed.y += (amount * context->getDeltaTime());
-
-    if (this->speed.y > this->maxSpeed.y) {
-        this->speed.y = this->maxSpeed.y;
-    } else if (this->speed.y < -this->maxSpeed.y) {
-        this->speed.y = -this->maxSpeed.y;
-    }
-};
-
-void Object::idle() {
-    if (this->speed.x > 0) {
-        this->speed.x -= this->speedFalloff.x * context->getDeltaTime();
-    } else if (this->speed.x < 0) {
-        this->speed.x += this->speedFalloff.x * context->getDeltaTime();
-    }
-    if (this->speed.y > 0) {
-        this->speed.y -= this->speedFalloff.y * context->getDeltaTime();
-    } else if (this->speed.y < 0) {
-        this->speed.y += this->speedFalloff.y * context->getDeltaTime();
-    }
-}
-
-glfvec2 Object::getCurrentSpeed() { return this->speed; }
+void Object::idle() {}
