@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := dev
+.DEFAULT_GOAL := devmake
 
 GIT_HASH = `git rev-parse HEAD`
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
@@ -33,6 +33,8 @@ all: trabalhocg
 
 dev: trabalhocg
 	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
+
+devmake: remake dev
 
 collisionTest: trabalhocg
 	./trabalhocg /home/pietroluongo/ufes/collisionTest.svg

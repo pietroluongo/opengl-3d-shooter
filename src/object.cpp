@@ -4,7 +4,12 @@
 
 extern GlobalCtx* context;
 
-Object::Object(GLfloat x, GLfloat y) { this->position = {x, y}; }
+Object::Object(GLfloat x, GLfloat y, GLfloat size) {
+    this->position = {x, y};
+    this->size = size;
+    this->collider =
+        new Collider(x, y, size, size, this, pivotPosition::CENTER);
+}
 
 Object::Object() {}
 Object::~Object() {}
@@ -46,4 +51,10 @@ void Object::drawAxis() {
     glEnd();
 }
 
-void Object::idle() {}
+void Object::idle() {
+    if (!this->isGrounded) {
+        this->moveY(1);
+    }
+}
+
+Collider* Object::getCollider() { return this->collider; }

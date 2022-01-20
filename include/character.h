@@ -8,7 +8,6 @@ enum AnimState { IDLE, WALKING, JUMPING, DEAD };
 
 class Character : public Object {
   protected:
-    float size = 1.0f;
     float armHeight = 0.4f * size;
     float armPosition = 0.5f * size;
     float armWidth = 0.05f * size;
@@ -18,18 +17,14 @@ class Character : public Object {
     virtual void drawChest() = 0;
     virtual void drawArm() = 0;
 
-    bool canMoveX = true, canMoveY = true;
-    Collider* collider;
-    bool isGrounded = false;
-
   public:
+    // Public for debug reasons
     float armAngle = 0.0f;
 
-    Character(GLfloat x, GLfloat y, GLfloat size) : Object(x, y) {
-        this->setSize(size);
-        this->collider =
-            new Collider(x, y, size, size, this, pivotPosition::CENTER);
-    };
+    Character(GLfloat x, GLfloat y, GLfloat size)
+        : Object(x, y, size){
+
+          };
     virtual void draw() = 0;
     virtual void idle() = 0;
     virtual void applyDamage(int damage) { health -= damage; }
@@ -39,7 +34,6 @@ class Character : public Object {
         this->armWidth = 0.1f * size;
         this->armHeight = 0.5f * size;
     }
-    Collider* getCollider() { return this->collider; }
     const char* getCurrentAnimState() {
         switch (this->currentState) {
         case AnimState::IDLE:

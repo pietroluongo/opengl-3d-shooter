@@ -4,10 +4,7 @@
 extern GlobalCtx* context;
 
 Projectile::Projectile(float x, float y, float size, float angle)
-    : Object(x, y) {
-    this->collider =
-        new Collider(x, y, size, size, this, pivotPosition::CENTER);
-    this->size = size;
+    : Object(x, y, size) {
     this->angle = angle;
 }
 
@@ -42,9 +39,6 @@ void Projectile::idle() {
     }
 }
 
-void Projectile::moveX(double) {}
-void Projectile::moveY(double) {}
-
 void Projectile::setPosition(glfvec2 position) {
     this->Object::setPosition(position);
 }
@@ -52,8 +46,6 @@ void Projectile::setPosition(glfvec2 position) {
 void Projectile::setPosition(GLfloat x, GLfloat y) {
     this->Object::setPosition(x, y);
 }
-void Projectile::accelerateX(double amount){};
-void Projectile::accelerateY(double amount){};
 
 void Projectile::checkCollisions() {
     std::vector<Platform*> platforms =

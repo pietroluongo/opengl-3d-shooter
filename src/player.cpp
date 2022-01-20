@@ -48,21 +48,9 @@ void Player::idle() {
     this->collider->idle();
     this->isGrounded = false;
 
-    std::vector<Platform*> platforms =
-        context->getGameRef()->getMap()->getPlatforms();
-    for (auto platform : platforms) {
-    }
-
-    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
-    for (auto enemy : enemies) {
-    }
-
-    if (!this->isGrounded) {
-        this->moveY(1);
-    }
-
     if (this->isGrounded)
         this->isJumping = false;
+
     this->updateAnimState();
 }
 

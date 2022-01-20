@@ -12,7 +12,6 @@ class Player : public Character {
     void drawLegs();
     void drawHead();
     bool isJumping = false;
-    glm::bvec4 collisionDirections = {false, false, false, false};
     /**
      * @brief Controls the player's leg rotation
      * [0] - Left leg
@@ -33,7 +32,6 @@ class Player : public Character {
     void jump();
     void shoot();
     void updateAnimState();
-    glm::bvec4 getCollisionArr() { return this->collisionDirections; };
     float* tmp_getSize() { return &this->size; };
     float* getLegRotation() { return &this->legRotation[0]; };
     int nextAnimFrame();

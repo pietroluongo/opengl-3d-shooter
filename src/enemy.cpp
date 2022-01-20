@@ -69,16 +69,8 @@ void Enemy::draw() {
 }
 
 void Enemy::idle() {
-    // this->Object::idle();
-    // this->updateArmAngle();
     this->collider->idle();
-    this->isGrounded = false;
-    // this->isGrounded = false;
-
-    std::vector<Platform*> platforms =
-        context->getGameRef()->getMap()->getPlatforms();
-    for (auto platform : platforms) {
-    }
+    this->updateArmAngle();
 
     if (!this->isGrounded) {
         if (this->wasGrounded) {
@@ -89,8 +81,8 @@ void Enemy::idle() {
         this->position.y += 0.01;
     }
 
-    glm::fvec2 delta = {10 * context->getDeltaTime() * moveDirection, 0};
-    this->position += delta;
+    // glm::fvec2 delta = {10 * context->getDeltaTime() * moveDirection, 0};
+    // this->position += delta;
 }
 
 void Enemy::updateArmAngle() {
