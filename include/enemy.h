@@ -6,8 +6,6 @@
 class Enemy : public Character {
   private:
     void handleMovement();
-    void drawChest();
-    void drawArm();
     int moveDirection = 1;
     bool wasGrounded = false;
 

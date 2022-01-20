@@ -87,3 +87,17 @@ void Game::deleteEnemy(Enemy* enemy) {
     this->enemies.erase(it);
     delete (enemy);
 }
+
+std::vector<Collider*> Game::getAllObjectColliders() {
+    std::vector<Collider*> colliders;
+
+    for (auto enemy : this->getEnemies()) {
+        colliders.push_back(enemy->getCollider());
+    }
+
+    for (auto platform : this->getMap()->getPlatforms()) {
+        colliders.push_back(platform->getCollider());
+    }
+
+    return colliders;
+}

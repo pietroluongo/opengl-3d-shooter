@@ -14,26 +14,37 @@ class Character : public Object {
     int health = 100;
     AnimState currentState = AnimState::IDLE;
 
-    virtual void drawChest() = 0;
-    virtual void drawArm() = 0;
+    void drawArm();
+    void drawLegs();
+    void drawHead();
+    void drawChest();
+    bool isJumping = false;
+
+    /**
+     * @brief Controls the player's leg rotation
+     * [0] - Left leg
+     * [1] - Left knee
+     * [2] - Right leg
+     * [3] - Right knee
+     */
+    glm::fvec4 legRotation = {25, 35, 20, 15};
 
   public:
     // Public for debug reasons
     float armAngle = 0.0f;
 
-    Character(GLfloat x, GLfloat y, GLfloat size)
-        : Object(x, y, size){
-
-          };
+    Character(GLfloat x, GLfloat y, GLfloat size) : Object(x, y, size){};
     virtual void draw() = 0;
     virtual void idle() = 0;
     virtual void applyDamage(int damage) { health -= damage; }
     virtual void updateArmAngle() = 0;
+
     void setSize(float size) {
         this->size = size;
         this->armWidth = 0.1f * size;
         this->armHeight = 0.5f * size;
     }
+
     const char* getCurrentAnimState() {
         switch (this->currentState) {
         case AnimState::IDLE:
@@ -47,6 +58,8 @@ class Character : public Object {
         }
         return "ERROR";
     };
+    float* getLegRotation() { return &this->legRotation[0]; };
+    int nextAnimFrame();
 };
 
 #endif

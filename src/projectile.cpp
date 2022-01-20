@@ -26,17 +26,17 @@ void Projectile::draw() {
 }
 
 void Projectile::idle() {
-    this->collider->idle();
     this->checkCollisions();
     this->position.x += cos(this->angle) * 10 * context->getDeltaTime();
     this->position.y += sin(this->angle) * 10 * context->getDeltaTime();
-    glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
-    if (this->position.x < worldBounds[0] ||
-        this->position.x > worldBounds[1] ||
-        this->position.y < worldBounds[2] ||
-        this->position.y > worldBounds[3]) {
-        context->getGameRef()->deleteProjectile(this);
-    }
+    // glm::fvec4 worldBounds =
+    // context->getGameRef()->getMap()->getWorldBounds(); if (this->position.x <
+    // worldBounds[0] ||
+    //     this->position.x > worldBounds[1] ||
+    //     this->position.y < worldBounds[2] ||
+    //     this->position.y > worldBounds[3]) {
+    //     context->getGameRef()->deleteProjectile(this);
+    // }
 }
 
 void Projectile::setPosition(glfvec2 position) {

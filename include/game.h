@@ -14,8 +14,9 @@ class Game {
     Player* player = nullptr;
     Camera* cam = nullptr;
     Map* map = nullptr;
-    std::vector<Enemy*> enemies;
-    std::vector<Projectile*> projectiles;
+    std::vector<Enemy*> enemies = {};
+    std::vector<Projectile*> projectiles = {};
+    std::vector<Collider*> colliders = {};
 
   public:
     Game();
@@ -32,6 +33,7 @@ class Game {
     std::vector<Enemy*> getEnemies();
     void deleteProjectile(Projectile* projectile);
     void deleteEnemy(Enemy* enemy);
+    std::vector<Collider*> getAllObjectColliders();
 };
 
 #endif

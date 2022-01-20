@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := devmake
+.DEFAULT_GOAL := dev
 
 GIT_HASH = `git rev-parse HEAD`
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
@@ -34,7 +34,7 @@ all: trabalhocg
 dev: trabalhocg
 	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 
-devmake: remake dev
+slow: remake dev
 
 collisionTest: trabalhocg
 	./trabalhocg /home/pietroluongo/ufes/collisionTest.svg
@@ -90,7 +90,8 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/map.o \
 	$(BUILD_DIR)/enemy.o \
 	$(BUILD_DIR)/collider.o \
-	$(BUILD_DIR)/projectile.o
+	$(BUILD_DIR)/projectile.o \
+	$(BUILD_DIR)/character.o
 	
 $(BUILD_DIR)/globalctx.o: src/globalCtx.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
@@ -129,4 +130,7 @@ $(BUILD_DIR)/collider.o: src/collider.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 	
 $(BUILD_DIR)/projectile.o: src/projectile.cpp | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/character.o: src/character.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

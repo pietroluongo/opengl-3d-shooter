@@ -9,17 +9,18 @@ Object::Object(GLfloat x, GLfloat y, GLfloat size) {
     this->size = size;
     this->collider =
         new Collider(x, y, size, size, this, pivotPosition::CENTER);
+    this->colliders = context->getGameRef()->getAllObjectColliders();
 }
 
 Object::Object() {}
 Object::~Object() {}
 
 void Object::moveX(double amount) {
-    this->position.x += (amount * context->getDeltaTime());
+    this->positionDelta.x += (amount * context->getDeltaTime());
 };
 
 void Object::moveY(double amount) {
-    this->position.y += (amount * context->getDeltaTime());
+    this->positionDelta.y += (amount * context->getDeltaTime());
 };
 
 void Object::setPosition(glfvec2 position) { this->position = position; }
@@ -52,9 +53,26 @@ void Object::drawAxis() {
 }
 
 void Object::idle() {
+    this->collisionDirections = {false, false, false, false};
+    this->isGrounded = false;
+    bool hasCollided = false;
+    this->collider->idle();
+    for (auto otherCollider : this->colliders) {
+        if (this->collider->overlaps(otherCollider)) {
+            hasCollided = true;
+            break;
+        }
+    }
+
     if (!this->isGrounded) {
         this->moveY(1);
     }
+
+    if (!hasCollided) {
+        this->position += this->positionDelta;
+    }
+
+    this->positionDelta = {0, 0};
 }
 
 Collider* Object::getCollider() { return this->collider; }

@@ -3,15 +3,18 @@
 
 #include "customTypes.h"
 #include <GL/gl.h>
+#include <vector>
 
 class Collider;
 class Object {
   protected:
     glfvec2 position = {0, 0};
+    glfvec2 positionDelta = {0, 0};
     float size = 1.0f;
     Collider* collider;
     bool isGrounded = false;
     glm::bvec4 collisionDirections = {false, false, false, false};
+    std::vector<Collider*> colliders = {};
 
   public:
     Object();

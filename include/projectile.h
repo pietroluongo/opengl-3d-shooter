@@ -7,9 +7,7 @@
 class Projectile : private Object {
 
   private:
-    float size;
     float angle;
-    Collider* collider;
 
   public:
     Projectile(float x, float y, float size, float angle);
