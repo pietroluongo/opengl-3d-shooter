@@ -154,6 +154,8 @@ void imgui_display() {
         ImGui::SliderFloat4(
             "Player leg rotation",
             context->getGameRef()->getPlayer()->getLegRotation(), -90, 90);
+        ImGui::Text("Player heading: %s",
+                    context->getGameRef()->getPlayer()->getHeading());
         ImGui::End();
     }
 }

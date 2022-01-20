@@ -49,14 +49,16 @@ void Player::idle() {
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
         this->moveX(20);
+        this->currentState = AnimState::WALKING;
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
         this->moveX(-20);
+        this->currentState = AnimState::WALKING;
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        // this->jump();
-        this->moveY(-20);
+        this->jump();
+        // this->moveY(-20);
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
@@ -87,10 +89,17 @@ void Player::updateArmAngle() {
         atan2(mousePos.y - position.y, mousePos.x - position.x) * 180 / M_PI -
         90;
     this->armAngle = limitArmMovement(this->armAngle);
+    if ((this->armAngle >= 45 && this->armAngle <= 90) ||
+        this->armAngle <= -225) {
+        this->setHeading(LEFT);
+    } else {
+        this->setHeading(RIGHT);
+    }
 }
 
 void Player::jump() {
     if (this->isJumping) {
+        this->jumpTime += context->getDeltaTime();
         return;
     }
     this->isJumping = true;
@@ -104,4 +113,9 @@ void Player::shoot() {
         (90 + this->armAngle) * M_PI / 180);
 }
 
-void Player::updateAnimState() { this->currentState = AnimState::IDLE; }
+void Player::updateAnimState() {
+    this->currentState = AnimState::IDLE;
+    // if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
+    //     this->currentState = AnimState::WALKING;
+    // }
+}

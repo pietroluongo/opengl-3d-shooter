@@ -7,6 +7,7 @@
 class Player : public Character {
   private:
     void handleMovementKeys();
+    double jumpTime = 0;
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);

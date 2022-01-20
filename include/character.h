@@ -6,12 +6,15 @@
 
 enum AnimState { IDLE, WALKING, JUMPING, DEAD };
 
+enum Heading { LEFT, RIGHT };
+
 class Character : public Object {
   protected:
     float armHeight = 0.4f * size;
     float armPosition = 0.5f * size;
     float armWidth = 0.05f * size;
     int health = 100;
+    Heading currentHeading = RIGHT;
     AnimState currentState = AnimState::IDLE;
 
     void drawArm();
@@ -60,6 +63,17 @@ class Character : public Object {
     };
     float* getLegRotation() { return &this->legRotation[0]; };
     int nextAnimFrame();
+    void setHeading(Heading heading) { this->currentHeading = heading; };
+    const char* getHeading() {
+        switch (this->currentHeading) {
+        case LEFT:
+            return "LEFT";
+        case RIGHT:
+            return "RIGHT";
+        default:
+            return "ERROR";
+        }
+    }
 };
 
 #endif
