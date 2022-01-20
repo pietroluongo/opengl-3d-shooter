@@ -56,6 +56,7 @@ void GlobalCtx::toggleEnemyInfo() {
 void GlobalCtx::updateTiming(GLdouble framerate, GLdouble deltaTime) {
     this->framerate = framerate;
     this->deltaTime = deltaTime;
+    this->totalTime += deltaTime;
 }
 
 double GlobalCtx::getFramerate() { return this->framerate; }
@@ -79,3 +80,5 @@ bool GlobalCtx::isKeyPressed(unsigned char key) {
 double GlobalCtx::getDeltaTime() { return this->deltaTime; }
 
 void GlobalCtx::idle() { this->game->idle(); }
+
+double GlobalCtx::getTotalPlaytime() { return this->totalTime; }

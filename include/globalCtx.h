@@ -14,6 +14,7 @@ class GlobalCtx {
     glm::vec2 mousePos;
     int keyStatus[256] = {0};
     GLdouble framerate = 0, deltaTime = 0;
+    GLdouble totalTime = 0;
 
   public:
     bool shouldDrawDebugInfo = false;
@@ -40,6 +41,7 @@ class GlobalCtx {
     glm::ivec2 getScreenSpaceMousePos();
     glm::fvec2 getWorldSpaceMousePos();
     glm::fvec2 getNormalizedMousePos();
+    double getTotalPlaytime();
     void idle();
     void toggleDebugInfo();
     void toggleCameraInfo();

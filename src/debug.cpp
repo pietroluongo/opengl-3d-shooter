@@ -46,6 +46,10 @@ void imgui_display() {
 
     std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
 
+    int minutes = (int)context->getTotalPlaytime() / 60;
+    int seconds = (int)context->getTotalPlaytime() % 60;
+    int millis = (int)(context->getTotalPlaytime() * 1000) % 1000;
+
     // float* playerLegRotation[4] = {
     //     context->getGameRef()->getPlayer()->getLegRotation()[0],
     //     context->getGameRef()->getPlayer()->getLegRotation()[1],
@@ -58,6 +62,7 @@ void imgui_display() {
                     1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
         ImGui::Text("DeltaTime from GLUT: %.6f", context->getDeltaTime());
+        ImGui::Text("Total playtime: %02d:%02d:%03d", minutes, seconds, millis);
 
         ImGui::Text("Mouse coords: %d, %d", mousePos.x, mousePos.y);
         ImGui::Text("Mouse normalized: %f, %f", mousePosN.x, mousePosN.y);
