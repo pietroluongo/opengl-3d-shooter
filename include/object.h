@@ -12,11 +12,13 @@ class Object {
     glfvec2 positionDelta = {0, 0};
     glm::bvec4 collisionDirections = {false, false, false, false};
     std::vector<Collider*> colliders = {};
+    double currentTime = 0;
 
   protected:
     float size = 1.0f;
     Collider* collider;
     bool isGrounded = false;
+    double lastGroundedTime = 0;
 
   public:
     Object();
@@ -32,6 +34,7 @@ class Object {
     void drawAxis();
     Collider* getCollider();
     glm::bvec4 getCollisionArr() { return this->collisionDirections; };
+    void teleport(float x, float y);
 };
 
 #endif

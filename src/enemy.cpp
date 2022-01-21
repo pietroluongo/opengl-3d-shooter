@@ -54,16 +54,26 @@ void Enemy::draw() {
 }
 
 void Enemy::idle() {
-    this->collider->idle();
+    this->Object::idle();
     this->updateArmAngle();
+    if (this->getCollisionArr()[3]) {
+        this->wasGrounded = true;
+    }
+    if (this->getCollisionArr()[0]) {
+        this->moveDirection = 1;
+    } else if (this->getCollisionArr()[1]) {
+        this->moveDirection = -1;
+    }
 
-    // if (!this->isGrounded) {
-    //     if (this->wasGrounded) {
-    //         this->moveDirection *= -1;
-    //         this->moveX(this->moveDirection);
-    //         return;
-    //     }
-    // }
+    if (!this->isGrounded) {
+        if (this->wasGrounded) {
+            this->wasGrounded = false;
+            this->moveDirection *= -1;
+            this->teleport(this->getPosition().x + (moveDirection),
+                           this->getPosition().y - 1);
+        }
+    }
+    this->moveX(this->moveDirection * 10);
 }
 
 void Enemy::updateArmAngle() {

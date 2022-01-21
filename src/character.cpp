@@ -107,10 +107,13 @@ int Character::nextAnimFrame() {
     if (this->currentState == AnimState::IDLE) {
         for (int i = 0; i < 4; i++) {
             this->legRotation[i] = frames[0][i];
+            if (this->currentHeading == Heading::LEFT) {
+                this->legRotation[i] *= -1;
+            }
         }
         return 0;
     }
-    if (curAnimCounter < 10)
+    if (curAnimCounter < 100)
         return currentAnimFrame;
     curAnimCounter = 0;
     currentAnimFrame++;
@@ -119,6 +122,9 @@ int Character::nextAnimFrame() {
     }
     for (int i = 0; i < 4; i++) {
         this->legRotation[i] = frames[currentAnimFrame][i];
+        if (this->currentHeading == Heading::LEFT) {
+            this->legRotation[i] *= -1;
+        }
     }
     return currentAnimFrame;
 };

@@ -22,6 +22,7 @@ class Character : public Object {
     void drawHead();
     void drawChest();
     bool isJumping = false;
+    bool isFalling = false;
 
     /**
      * @brief Controls the player's leg rotation

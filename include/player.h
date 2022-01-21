@@ -8,6 +8,7 @@ class Player : public Character {
   private:
     void handleMovementKeys();
     double jumpTime = 0;
+    bool isRequestingJump = false;
 
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);
@@ -17,10 +18,11 @@ class Player : public Character {
     void applyDamage(int damage) { Character::applyDamage(damage); };
     void updateArmAngle();
     bool checkCollision(Platform* platform);
-    void jump();
+    void handleJump();
     void shoot();
     void updateAnimState();
     float* tmp_getSize() { return &this->size; };
+    double getJumpTime() { return this->jumpTime; };
 };
 
 #endif

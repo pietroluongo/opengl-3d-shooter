@@ -53,6 +53,7 @@ void Object::drawAxis() {
 }
 
 void Object::idle() {
+    this->currentTime += context->getDeltaTime();
     this->collisionDirections = {false, false, false, false};
     this->isGrounded = false;
     this->collider->idle();
@@ -76,12 +77,18 @@ void Object::idle() {
 
             if (this->collisionDirections[3]) {
                 this->isGrounded = true;
+                this->lastGroundedTime = this->currentTime;
             }
         }
     }
 
     if (!this->isGrounded) {
-        this->moveY(5);
+        if (currentTime - lastGroundedTime < 2) {
+            this->moveY(15 * (this->currentTime - this->lastGroundedTime));
+        } else {
+            this->moveY(15 *
+                        ((this->currentTime - this->lastGroundedTime) - 2));
+        }
     }
 
     this->position += this->positionDelta;
@@ -89,3 +96,8 @@ void Object::idle() {
 }
 
 Collider* Object::getCollider() { return this->collider; }
+
+void Object::teleport(float x, float y) {
+    this->position = {x, y};
+    this->collider->idle();
+}

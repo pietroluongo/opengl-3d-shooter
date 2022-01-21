@@ -156,6 +156,8 @@ void imgui_display() {
             context->getGameRef()->getPlayer()->getLegRotation(), -90, 90);
         ImGui::Text("Player heading: %s",
                     context->getGameRef()->getPlayer()->getHeading());
+        ImGui::Text("Player jump time: %.2f",
+                    context->getGameRef()->getPlayer()->getJumpTime());
         ImGui::End();
     }
 }

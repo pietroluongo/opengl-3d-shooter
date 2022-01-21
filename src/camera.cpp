@@ -22,6 +22,7 @@ void Camera::idle() {
     if (this->shouldFollowTarget) {
         this->setCenter(this->followTarget->getPosition());
     }
+    this->shouldFollowTarget = !this->freeCamEnabled;
     this->updateBounds();
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION);

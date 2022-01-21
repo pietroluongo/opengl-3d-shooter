@@ -31,19 +31,20 @@ void Player::draw() {
         this->drawAxis();
     }
     glPopMatrix();
+
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
 }
 
 void Player::idle() {
-    this->handleMovementKeys();
-    this->Object::idle();
-    this->updateArmAngle();
-
-    if (this->isGrounded)
-        this->isJumping = false;
-
+    if (this->getCollisionArr()[3]) {
+        this->isGrounded = true;
+    }
     this->updateAnimState();
+    this->Object::idle();
+    this->handleMovementKeys();
+    this->handleJump();
+    this->updateArmAngle();
 }
 
 void Player::handleMovementKeys() {
@@ -57,8 +58,9 @@ void Player::handleMovementKeys() {
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
-        this->jump();
-        // this->moveY(-20);
+        this->isRequestingJump = true;
+    } else {
+        this->isRequestingJump = false;
     }
 
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
@@ -97,12 +99,13 @@ void Player::updateArmAngle() {
     }
 }
 
-void Player::jump() {
-    if (this->isJumping) {
-        this->jumpTime += context->getDeltaTime();
-        return;
+void Player::handleJump() {
+    if (this->isGrounded)
+        jumpTime = 0;
+    if (this->isRequestingJump && this->jumpTime < 2) {
+        this->moveY(-20);
     }
-    this->isJumping = true;
+    this->jumpTime += context->getDeltaTime();
 }
 
 void Player::shoot() {
