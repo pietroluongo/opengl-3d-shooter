@@ -38,24 +38,25 @@ void Player::draw() {
 }
 
 void Player::idle() {
+    this->isRequestingMove = false;
     if (this->getCollisionArr()[3]) {
         this->isGrounded = true;
     }
-    this->updateAnimState();
     this->Object::idle();
     this->handleMovementKeys();
+    this->updateAnimState();
     this->handleJump();
     this->updateArmAngle();
 }
 
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
+        this->isRequestingMove = true;
         this->moveX(20);
-        this->currentAnimState = AnimState::WALKING;
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
+        this->isRequestingMove = true;
         this->moveX(-20);
-        this->currentAnimState = AnimState::WALKING;
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
@@ -134,10 +135,18 @@ void Player::shoot() {
 }
 
 void Player::updateAnimState() {
-    this->currentAnimState = AnimState::IDLE;
-    // if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
-    //     this->currentState = AnimState::WALKING;
-    // }
+    printf("\nIs Requesting Move? %d", this->isRequestingMove);
+    printf("\nIs grounded?        %d", this->isGrounded);
+    if (this->isGrounded) {
+        if (this->isRequestingMove) {
+            this->currentAnimState = AnimState::WALKING;
+        } else {
+
+            this->currentAnimState = AnimState::IDLE;
+        }
+    } else {
+        this->currentAnimState = AnimState::JUMPING;
+    }
 }
 
 void Player::kill() { context->getGameRef()->setState(GameState::OVER); }

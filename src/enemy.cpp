@@ -14,7 +14,7 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->teleportToGround();
     this->getCollider()->resize(size * 0.2, size);
     this->targetShootTimer = rand() % 1000 / 100;
-    this->currentState = AnimState::WALKING;
+    this->currentAnimState = AnimState::WALKING;
 }
 
 Enemy::~Enemy() { delete (this->collider); }

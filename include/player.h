@@ -9,10 +9,12 @@ class Player : public Character {
     void handleMovementKeys();
     double jumpTime = 0;
 
-  public:
     bool isRequestingJump = false;
     bool wasRequestingJump = false;
     bool shouldIncreaseHeight = false;
+    bool isRequestingMove = false;
+
+  public:
     Player(GLfloat x, GLfloat y, GLfloat size);
     virtual ~Player();
     void draw();
