@@ -21,32 +21,6 @@ Enemy::~Enemy() { delete (this->collider); }
 
 void Enemy::draw() {
     glfvec2 position = this->getPosition();
-    char* tmpString;
-    glColor3f(1.0f, 1.0f, 1.0f);
-    sprintf(context->textBuffer, "Inimigo");
-    tmpString = context->textBuffer;
-    glRasterPos2f(position.x - 1, position.y - 6);
-    while (*tmpString) {
-        glutBitmapCharacter(context->font, *tmpString);
-        tmpString++;
-    }
-    sprintf(context->textBuffer, "[%.2f, %.2f]", position.x, position.y);
-    tmpString = context->textBuffer;
-
-    glRasterPos2f(position.x - 1, position.y - 5);
-    while (*tmpString) {
-        glutBitmapCharacter(context->font, *tmpString);
-        tmpString++;
-    }
-    sprintf(context->textBuffer, "Shoot: %.2f",
-            this->targetShootTimer - this->enemyShootTimer);
-    tmpString = context->textBuffer;
-
-    glRasterPos2f(position.x - 1, position.y - 4);
-    while (*tmpString) {
-        glutBitmapCharacter(context->font, *tmpString);
-        tmpString++;
-    }
 
     glPushMatrix();
     glTranslatef(position.x, position.y, 0.0f);
@@ -65,6 +39,35 @@ void Enemy::draw() {
     glPopMatrix();
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
+    if (context->shouldEnemiesDrawInfo) {
+
+        char* tmpString;
+        glColor3f(1.0f, 1.0f, 1.0f);
+        sprintf(context->textBuffer, "Inimigo");
+        tmpString = context->textBuffer;
+        glRasterPos2f(position.x - 1, position.y - 6);
+        while (*tmpString) {
+            glutBitmapCharacter(context->font, *tmpString);
+            tmpString++;
+        }
+        sprintf(context->textBuffer, "[%.2f, %.2f]", position.x, position.y);
+        tmpString = context->textBuffer;
+
+        glRasterPos2f(position.x - 1, position.y - 5);
+        while (*tmpString) {
+            glutBitmapCharacter(context->font, *tmpString);
+            tmpString++;
+        }
+        sprintf(context->textBuffer, "Shoot: %.2f",
+                this->targetShootTimer - this->enemyShootTimer);
+        tmpString = context->textBuffer;
+
+        glRasterPos2f(position.x - 1, position.y - 4);
+        while (*tmpString) {
+            glutBitmapCharacter(context->font, *tmpString);
+            tmpString++;
+        }
+    }
 }
 
 void Enemy::idle() {

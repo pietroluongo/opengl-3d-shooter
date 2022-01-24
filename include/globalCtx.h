@@ -25,8 +25,9 @@ class GlobalCtx {
     bool shouldDrawEnemyInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
-    bool shouldObjectsDrawColliders = true;
+    bool shouldObjectsDrawColliders = false;
     bool shouldPlatformsShowCollisions = false;
+    bool shouldEnemiesDrawInfo = false;
 
     void* font = GLUT_BITMAP_9_BY_15;
     char textBuffer[1024];

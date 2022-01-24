@@ -135,8 +135,6 @@ void Player::shoot() {
 }
 
 void Player::updateAnimState() {
-    printf("\nIs Requesting Move? %d", this->isRequestingMove);
-    printf("\nIs grounded?        %d", this->isGrounded);
     if (this->isGrounded) {
         if (this->isRequestingMove) {
             this->currentAnimState = AnimState::WALKING;

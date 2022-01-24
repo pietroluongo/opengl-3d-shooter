@@ -50,12 +50,6 @@ void imgui_display() {
     int seconds = (int)context->getTotalPlaytime() % 60;
     int millis = (int)(context->getTotalPlaytime() * 1000) % 1000;
 
-    // float* playerLegRotation[4] = {
-    //     context->getGameRef()->getPlayer()->getLegRotation()[0],
-    //     context->getGameRef()->getPlayer()->getLegRotation()[1],
-    //     context->getGameRef()->getPlayer()->getLegRotation()[2],
-    //     context->getGameRef()->getPlayer()->getLegRotation()[3]};
-
     if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
@@ -103,6 +97,8 @@ void imgui_display() {
     }
     if (context->shouldDrawEnemyInfo) {
         ImGui::Begin("Enemy [F4]", &context->shouldDrawEnemyInfo);
+        ImGui::Checkbox("Toggle Enemy Debug Info",
+                        &context->shouldEnemiesDrawInfo);
         int i = 0;
         std::ostringstream os;
         for (auto enemy : enemies) {
