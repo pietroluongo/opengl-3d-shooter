@@ -106,12 +106,18 @@ void imgui_display() {
         int i = 0;
         std::ostringstream os;
         for (auto enemy : enemies) {
+            glm::bvec4 enemyCollisionData = enemy->getCollisionArr();
             os.str("");
             os.clear();
             os << "Enemy " << i++;
             if (ImGui::CollapsingHeader(os.str().c_str())) {
                 ImGui::Text("Pos: [%.2f, %.2f]", enemy->getPosition().x,
                             enemy->getPosition().y);
+                ImGui::Text(
+                    "Collision direction:\n\t         %d\n\t      %d     %d\n\t"
+                    "         %d",
+                    enemyCollisionData[2], enemyCollisionData[0],
+                    enemyCollisionData[1], enemyCollisionData[3]);
             }
         }
         ImGui::End();

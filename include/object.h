@@ -13,6 +13,7 @@ class Object {
     glm::bvec4 collisionDirections = {false, false, false, false};
     std::vector<Collider*> colliders = {};
     double currentTime = 0;
+    bool isAffectedByGravity = true;
 
   protected:
     float size = 1.0f;
@@ -35,6 +36,8 @@ class Object {
     Collider* getCollider();
     glm::bvec4 getCollisionArr() { return this->collisionDirections; };
     void teleport(float x, float y);
+    void teleportToGround();
+    void setIsAffectedByGravity(bool isAffectedByGravity);
 };
 
 #endif

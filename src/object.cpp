@@ -82,7 +82,7 @@ void Object::idle() {
         }
     }
 
-    if (!this->isGrounded) {
+    if (!this->isGrounded && this->isAffectedByGravity) {
         if (currentTime - lastGroundedTime < 2) {
             this->moveY(15 * (this->currentTime - this->lastGroundedTime));
         } else {
@@ -100,4 +100,24 @@ Collider* Object::getCollider() { return this->collider; }
 void Object::teleport(float x, float y) {
     this->position = {x, y};
     this->collider->idle();
+}
+
+void Object::teleportToGround() {
+    while (1) {
+        glfvec2 oldPosition = this->position;
+        this->position.y += 1;
+        this->collider->idle();
+        for (auto otherCollider : this->colliders) {
+            if (this->collider->overlaps(otherCollider)) {
+                this->position = oldPosition;
+                this->position.y += .01;
+                this->collider->idle();
+                return;
+            }
+        }
+    }
+}
+
+void Object::setIsAffectedByGravity(bool isAffected) {
+    this->isAffectedByGravity = isAffected;
 }

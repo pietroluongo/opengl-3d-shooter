@@ -10,6 +10,8 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->armPosition = 0.2 * size;
     this->armWidth = 0.04 * size;
     this->armHeight = 0.4 * size;
+    this->teleportToGround();
+    this->getCollider()->resize(size * 0.2, size);
 }
 
 Enemy::~Enemy() { delete (this->collider); }
@@ -69,8 +71,8 @@ void Enemy::idle() {
         if (this->wasGrounded) {
             this->wasGrounded = false;
             this->moveDirection *= -1;
-            this->teleport(this->getPosition().x + (moveDirection),
-                           this->getPosition().y - 1);
+            // this->teleport(this->getPosition().x + (moveDirection),
+            //                this->getPosition().y);
         }
     }
     this->moveX(this->moveDirection * 10);

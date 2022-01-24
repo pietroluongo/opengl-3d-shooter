@@ -86,8 +86,19 @@ glm::bvec4 Collider::getOverlapDirection(Collider* other) {
     glm::fvec4 thisBoundingBox = this->getBoundingBox();
     glm::fvec4 otherBoundingBox = other->getBoundingBox();
     glm::bvec4 overlapDirection = {false, false, false, false};
-    if (thisBoundingBox[3] > otherBoundingBox[2] &&
-        thisBoundingBox[2] < otherBoundingBox[3]) {
+    // if (thisBoundingBox[3] > otherBoundingBox[2] &&
+    //     thisBoundingBox[2] < otherBoundingBox[3]) {
+    //     if (thisBoundingBox[0] < otherBoundingBox[1] &&
+    //         thisBoundingBox[1] > otherBoundingBox[1]) {
+    //         overlapDirection[0] = true;
+    //     } else if (thisBoundingBox[1] > otherBoundingBox[0] &&
+    //                thisBoundingBox[0] < otherBoundingBox[0]) {
+    //         overlapDirection[1] = true;
+    //     }
+    // }
+
+    if (thisBoundingBox[2] > otherBoundingBox[2] &&
+        thisBoundingBox[3] < otherBoundingBox[3]) {
         if (thisBoundingBox[0] < otherBoundingBox[1] &&
             thisBoundingBox[1] > otherBoundingBox[1]) {
             overlapDirection[0] = true;
@@ -96,6 +107,7 @@ glm::bvec4 Collider::getOverlapDirection(Collider* other) {
             overlapDirection[1] = true;
         }
     }
+
     if (thisBoundingBox[1] > otherBoundingBox[0] &&
         thisBoundingBox[0] < otherBoundingBox[1]) {
         if (thisBoundingBox[2] < otherBoundingBox[3] &&
@@ -119,4 +131,9 @@ glm::bvec4 Collider::getOverlapDirection(Collider* other) {
     // else if (thisBoundingBox[3] > otherBoundingBox[3])
     //     overlapDirection[2] = true;
     return overlapDirection;
+}
+
+void Collider::resize(float width, float height) {
+    this->width = width;
+    this->height = height;
 }
