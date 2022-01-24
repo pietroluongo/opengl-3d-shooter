@@ -3,19 +3,11 @@
 
 extern GlobalCtx* context;
 
-// glm::fvec4 frames[4] = {
-// {25, 20, 10, 30}, {10, 25, 4, 15}, {-10, 10, -20, 30}, {-10, 5, -25, 20}};
-glm::fvec4 walkingFrames[2] = {{25, 20, 10, 30}, {-10, 5, -25, 20}};
-glm::fvec4 jumpingFrames[2] = {{30, 50, 0, 50}, {20, 60, 10, 100}};
-// glm::fvec4 jumpingFrames[2] = {{0, 0, 10, 10}, {-5, 15, -20, 10}};
-
-glm::fvec4 legRotation = {25, 20, 10, 30};
-
 void Character::drawChest() {
     glPushMatrix();
     float chestXSize = this->size * 0.05f;
-    float chestYSize = this->size * 0.2f;
-    glTranslatef(0.0f, -0.4f, 0.0f);
+    float chestYSize = this->size * 0.3f;
+    glTranslatef(0.0f, -0.05 * this->size, 0.0f);
     glBegin(GL_QUADS);
     glVertex2f(-chestXSize, -chestYSize);
     glVertex2f(chestXSize, -chestYSize);
@@ -29,7 +21,7 @@ void Character::drawArm() {
     // float gunSizeBig = 0.2 * this->size;
     // float gunSizeSmall = gunSizeBig / 4;
     glPushMatrix();
-    glTranslatef(0.0f, this->armPosition, 0.0f);
+    glTranslatef(0.0f, armPosition, 0.0f);
     glRotatef(this->armAngle, 0.0f, 0.0f, 1.0f);
     glBegin(GL_QUADS);
     {
@@ -59,7 +51,7 @@ void Character::drawArm() {
 }
 
 void Character::drawHead() {
-    glTranslatef(0, -this->size * 0.4f, 0);
+    glTranslatef(0, -this->size * 0.3f, 0);
     glBegin(GL_POLYGON);
     {
         for (int i = 0; i < 360; i += 10) {
@@ -186,4 +178,10 @@ void Character::setLegsPosition(glm::fvec4 position) {
             legRotation[i] *= -1;
         }
     }
+}
+
+void Character::handleResize() {
+    armHeight = 0.5f * size;
+    armPosition = 0.25f * size;
+    armWidth = 0.05f * size;
 }

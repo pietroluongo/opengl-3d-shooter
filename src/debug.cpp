@@ -150,9 +150,12 @@ void imgui_display() {
                         ->getPlayer()
                         ->getCollider()
                         ->getBoundingBox()[3]);
-        ImGui::SliderFloat("Player Size",
-                           context->getGameRef()->getPlayer()->tmp_getSize(),
-                           0.0f, 100.0f);
+        if (ImGui::SliderFloat(
+                "Player Size",
+                context->getGameRef()->getPlayer()->tmp_getSize(), 0.0f,
+                100.0f)) {
+            context->getGameRef()->getPlayer()->handleResize();
+        }
         ImGui::SliderFloat4(
             "Player leg rotation",
             context->getGameRef()->getPlayer()->getLegRotation(), -90, 90);

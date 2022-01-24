@@ -10,9 +10,9 @@ enum Heading { LEFT, RIGHT };
 
 class Character : public Object {
   protected:
-    float armHeight = 0.4f * size;
-    float armPosition = 0.5f * size;
-    float armWidth = 0.05f * size;
+    float armHeight;
+    float armPosition;
+    float armWidth;
     int health = 100;
     Heading currentHeading = RIGHT;
     AnimState currentAnimState = AnimState::IDLE;
@@ -22,11 +22,13 @@ class Character : public Object {
     void drawLegs();
     void drawHead();
     void drawChest();
+
     bool isJumping = false;
     bool isFalling = false;
 
-    // glm::fvec4 frames[4] = {
-    //     {20, 0, 10, 0}, {21, 0, 4, 0}, {-12, 0, -20, 0}, {-12, 0, -30, 0}};
+    glm::fvec4 walkingFrames[2] = {{25, 20, 10, 30}, {-10, 5, -25, 20}};
+    glm::fvec4 jumpingFrames[2] = {{30, 50, 0, 50}, {20, 60, 10, 100}};
+
     int currentAnimFrame = 0;
     int curAnimCounter = 0;
 
@@ -37,7 +39,7 @@ class Character : public Object {
      * [2] - Right leg
      * [3] - Right knee
      */
-    glm::fvec4 legRotation = {25, 0, 25, 0};
+    glm::fvec4 legRotation = {25, 20, 10, 30};
 
   public:
     // Public for debug reasons
@@ -52,9 +54,10 @@ class Character : public Object {
 
     void setSize(float size) {
         this->size = size;
-        this->armWidth = 0.1f * size;
-        this->armHeight = 0.5f * size;
+        handleResize();
     }
+
+    void handleResize();
 
     const char* getCurrentAnimState() {
         switch (this->currentAnimState) {
@@ -84,6 +87,7 @@ class Character : public Object {
     }
 
     void setLegsPosition(glm::fvec4 position);
+    float* tmp_getSize() { return &this->size; };
 };
 
 #endif
