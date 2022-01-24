@@ -30,7 +30,7 @@ class GlobalCtx {
     void* font = GLUT_BITMAP_9_BY_15;
     char textBuffer[1024];
 
-    GlobalCtx(GLint w, GLint h);
+    GlobalCtx(GLint w, GLint h, char* arenaFile);
     ~GlobalCtx();
     bool isKeyPressed(int key);
     bool isKeyPressed(unsigned char key);

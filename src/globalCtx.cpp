@@ -1,10 +1,14 @@
 #include "../include/globalCtx.h"
 #include "../include/constants.h"
 
-GlobalCtx::GlobalCtx(GLint w, GLint h) {
+extern GlobalCtx* context;
+
+GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
+    context = this;
     this->windowHeight = h;
     this->windowWidth = w;
     this->game = new Game();
+    game->getMap()->loadArena(arenaFile);
 }
 
 GlobalCtx::~GlobalCtx() { delete (this->game); }

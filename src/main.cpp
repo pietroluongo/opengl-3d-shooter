@@ -41,9 +41,7 @@ int main(int argc, char** argv) {
             \n\n";
     printf(header, GIT_HASH, COMPILE_TIME);
 
-    context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    context->getGameRef()->getMap()->loadArena(argv[1]);
+    context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT, argv[1]);
 
     setupGlut(argc, argv);
     init();
