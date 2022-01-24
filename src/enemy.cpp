@@ -71,8 +71,8 @@ void Enemy::idle() {
         if (this->wasGrounded) {
             this->wasGrounded = false;
             this->moveDirection *= -1;
-            // this->teleport(this->getPosition().x + (moveDirection),
-            //                this->getPosition().y);
+            this->teleport(this->getPosition().x + (moveDirection),
+                           this->getPosition().y);
         }
     }
     this->moveX(this->moveDirection * 10);
