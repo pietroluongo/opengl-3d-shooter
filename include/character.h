@@ -15,7 +15,8 @@ class Character : public Object {
     float armWidth = 0.05f * size;
     int health = 100;
     Heading currentHeading = RIGHT;
-    AnimState currentState = AnimState::IDLE;
+    AnimState currentAnimState = AnimState::IDLE;
+    const double animDelta = 0.1;
 
     void drawArm();
     void drawLegs();
@@ -24,10 +25,8 @@ class Character : public Object {
     bool isJumping = false;
     bool isFalling = false;
 
-    glm::fvec4 frames[4] = {{20, 35, 10, 20},
-                            {21, 35, 4, 15},
-                            {-12, 35, -20, 15},
-                            {-12, 35, -42, 15}};
+    // glm::fvec4 frames[4] = {
+    //     {20, 0, 10, 0}, {21, 0, 4, 0}, {-12, 0, -20, 0}, {-12, 0, -30, 0}};
     int currentAnimFrame = 0;
     int curAnimCounter = 0;
 
@@ -38,11 +37,12 @@ class Character : public Object {
      * [2] - Right leg
      * [3] - Right knee
      */
-    glm::fvec4 legRotation = {25, 35, 20, 15};
+    glm::fvec4 legRotation = {25, 0, 25, 0};
 
   public:
     // Public for debug reasons
     float armAngle = 0.0f;
+    double animTimer = 0;
 
     Character(GLfloat x, GLfloat y, GLfloat size) : Object(x, y, size){};
     virtual void draw() = 0;
@@ -57,7 +57,7 @@ class Character : public Object {
     }
 
     const char* getCurrentAnimState() {
-        switch (this->currentState) {
+        switch (this->currentAnimState) {
         case AnimState::IDLE:
             return "IDLE";
         case AnimState::WALKING:
@@ -70,7 +70,7 @@ class Character : public Object {
         return "ERROR";
     };
     float* getLegRotation() { return &this->legRotation[0]; };
-    int nextAnimFrame();
+    void nextAnimFrame();
     void setHeading(Heading heading) { this->currentHeading = heading; };
     const char* getHeading() {
         switch (this->currentHeading) {
@@ -82,6 +82,8 @@ class Character : public Object {
             return "ERROR";
         }
     }
+
+    void setLegsPosition(glm::fvec4 position);
 };
 
 #endif

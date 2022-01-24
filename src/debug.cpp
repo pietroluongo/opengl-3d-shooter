@@ -166,16 +166,8 @@ void imgui_display() {
                     context->getGameRef()->getPlayer()->getJumpTime());
         ImGui::Text("Player fall timer: %.2f",
                     context->getGameRef()->getPlayer()->getFallTimer());
-        ImGui::End();
-    }
-    {
-        ImGui::Begin("Debug");
-        ImGui::Text("isRequestingJump: %d",
-                    context->getGameRef()->getPlayer()->isRequestingJump);
-        ImGui::Text("wasRequestingJump: %d",
-                    context->getGameRef()->getPlayer()->wasRequestingJump);
-        ImGui::Text("shouldIncreaseHeight: %d",
-                    context->getGameRef()->getPlayer()->shouldIncreaseHeight);
+        ImGui::Text("Player anim timer: %.2f",
+                    context->getGameRef()->getPlayer()->animTimer);
         ImGui::End();
     }
 }

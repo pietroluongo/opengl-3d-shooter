@@ -1,4 +1,13 @@
 #include "../include/character.h"
+#include "../include/globalCtx.h"
+
+extern GlobalCtx* context;
+
+// glm::fvec4 frames[4] = {
+// {25, 20, 10, 30}, {10, 25, 4, 15}, {-10, 10, -20, 30}, {-10, 5, -25, 20}};
+glm::fvec4 frames[2] = {{25, 20, 10, 30}, {-10, 5, -25, 20}};
+
+glm::fvec4 legRotation = {25, 20, 10, 30};
 
 void Character::drawChest() {
     glPushMatrix();
@@ -96,29 +105,52 @@ void Character::drawLegs() {
     glPopMatrix();
 }
 
-int Character::nextAnimFrame() {
+void Character::nextAnimFrame() {
+    const float deltaTimeBetweenFrames = .5f;
+    this->animTimer += context->getDeltaTime();
     curAnimCounter++;
-    if (this->currentState == AnimState::IDLE) {
-        for (int i = 0; i < 4; i++) {
-            this->legRotation[i] = frames[0][i];
-            if (this->currentHeading == Heading::LEFT) {
-                this->legRotation[i] *= -1;
-            }
+    this->setLegsPosition(frames[0]);
+
+    if (this->currentAnimState == AnimState::IDLE) {
+        setLegsPosition(frames[0]);
+        return;
+    }
+
+    // if (curAnimCounter < 250)
+    //     return currentAnimFrame;
+    // if (animTimer < deltaTimeBetweenFrames)
+    //     return currentAnimFrame;
+
+    // animTimer = 0;
+    // if (currentAnimFrame > 3) {
+    //     currentAnimFrame = 0;
+    // }
+    if (animTimer >= deltaTimeBetweenFrames) {
+        animTimer = 0;
+        currentAnimFrame++;
+        if (currentAnimFrame > 1) {
+            currentAnimFrame = 0;
         }
-        return 0;
     }
-    if (curAnimCounter < 10)
-        return currentAnimFrame;
-    curAnimCounter = 0;
-    currentAnimFrame++;
-    if (currentAnimFrame > 3) {
-        currentAnimFrame = 0;
-    }
+    int nextFrame = currentAnimFrame == 1 ? 0 : 1;
+    glm::fvec4 interpolated;
     for (int i = 0; i < 4; i++) {
-        this->legRotation[i] = frames[currentAnimFrame][i];
+        interpolated[i] =
+            glm::mix(frames[currentAnimFrame][i], frames[nextFrame][i],
+                     animTimer / deltaTimeBetweenFrames);
+    }
+    setLegsPosition(interpolated);
+    return;
+};
+
+void Character::setLegsPosition(glm::fvec4 position) {
+    printf("moving legs to %f %f %f %f\n", position[0], position[1],
+           position[2], position[3]);
+    legRotation = position;
+    for (int i = 0; i < 4; i++) {
+        legRotation[i] = position[i];
         if (this->currentHeading == Heading::LEFT) {
-            this->legRotation[i] *= -1;
+            legRotation[i] *= -1;
         }
     }
-    return currentAnimFrame;
-};
+}

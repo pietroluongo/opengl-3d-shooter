@@ -51,11 +51,11 @@ void Player::idle() {
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
         this->moveX(20);
-        this->currentState = AnimState::WALKING;
+        this->currentAnimState = AnimState::WALKING;
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
         this->moveX(-20);
-        this->currentState = AnimState::WALKING;
+        this->currentAnimState = AnimState::WALKING;
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
@@ -134,7 +134,7 @@ void Player::shoot() {
 }
 
 void Player::updateAnimState() {
-    this->currentState = AnimState::IDLE;
+    this->currentAnimState = AnimState::IDLE;
     // if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
     //     this->currentState = AnimState::WALKING;
     // }
