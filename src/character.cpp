@@ -1,11 +1,5 @@
 #include "../include/character.h"
 
-// TODO: move this to class header!
-glm::fvec4 frames[4] = {
-    {20, 35, 10, 20}, {21, 35, 4, 15}, {-12, 35, -20, 15}, {-12, 35, -42, 15}};
-int currentAnimFrame = 0;
-int curAnimCounter = 0;
-
 void Character::drawChest() {
     glPushMatrix();
     float chestXSize = this->size * 0.05f;
@@ -113,7 +107,7 @@ int Character::nextAnimFrame() {
         }
         return 0;
     }
-    if (curAnimCounter < 100)
+    if (curAnimCounter < 10)
         return currentAnimFrame;
     curAnimCounter = 0;
     currentAnimFrame++;

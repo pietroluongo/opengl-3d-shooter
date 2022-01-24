@@ -8,6 +8,8 @@ class Enemy : public Character {
     void handleMovement();
     int moveDirection = 1;
     bool wasGrounded = false;
+    double enemyShootTimer = 0;
+    int targetShootTimer = 0;
 
   public:
     Enemy(GLfloat x, GLfloat y, GLfloat size);
@@ -15,6 +17,7 @@ class Enemy : public Character {
     virtual void draw();
     virtual void idle();
     virtual void updateArmAngle();
+    virtual void shoot();
 };
 
 #endif

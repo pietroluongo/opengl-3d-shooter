@@ -2,6 +2,7 @@
 #include "../include/globalCtx.h"
 #include <GL/gl.h>
 #include <cmath>
+#include <cstdlib>
 
 extern GlobalCtx* context;
 
@@ -12,6 +13,8 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->armHeight = 0.4 * size;
     this->teleportToGround();
     this->getCollider()->resize(size * 0.2, size);
+    this->targetShootTimer = rand() % 1000 / 100;
+    this->currentState = AnimState::WALKING;
 }
 
 Enemy::~Enemy() { delete (this->collider); }
@@ -22,7 +25,7 @@ void Enemy::draw() {
     glColor3f(1.0f, 1.0f, 1.0f);
     sprintf(context->textBuffer, "Inimigo");
     tmpString = context->textBuffer;
-    glRasterPos2f(position.x - 1, position.y - 4);
+    glRasterPos2f(position.x - 1, position.y - 6);
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
@@ -30,7 +33,16 @@ void Enemy::draw() {
     sprintf(context->textBuffer, "[%.2f, %.2f]", position.x, position.y);
     tmpString = context->textBuffer;
 
-    glRasterPos2f(position.x - 1, position.y - 3);
+    glRasterPos2f(position.x - 1, position.y - 5);
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
+    sprintf(context->textBuffer, "Shoot: %.2f",
+            this->targetShootTimer - this->enemyShootTimer);
+    tmpString = context->textBuffer;
+
+    glRasterPos2f(position.x - 1, position.y - 4);
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
@@ -56,6 +68,12 @@ void Enemy::draw() {
 }
 
 void Enemy::idle() {
+    this->enemyShootTimer += context->getDeltaTime();
+    if (this->enemyShootTimer >= this->targetShootTimer) {
+        this->enemyShootTimer = 0;
+        this->targetShootTimer = rand() % 1000 / 100;
+        this->shoot();
+    }
     this->Object::idle();
     this->updateArmAngle();
     if (this->getCollisionArr()[3]) {
@@ -63,8 +81,10 @@ void Enemy::idle() {
     }
     if (this->getCollisionArr()[0]) {
         this->moveDirection = 1;
+        this->setHeading(Heading::RIGHT);
     } else if (this->getCollisionArr()[1]) {
         this->moveDirection = -1;
+        this->setHeading(Heading::LEFT);
     }
 
     if (!this->isGrounded) {
@@ -84,4 +104,12 @@ void Enemy::updateArmAngle() {
     this->armAngle =
         atan2(playerPos.y - position.y, playerPos.x - position.x) * 180 / M_PI -
         90;
+}
+
+void Enemy::shoot() {
+    glfvec2 position = this->getPosition();
+    context->getGameRef()->createProjectile(
+        position.x + (this->armHeight * sin(-this->armAngle * M_PI / 180)),
+        position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)), 0.5,
+        (90 + this->armAngle) * M_PI / 180);
 }

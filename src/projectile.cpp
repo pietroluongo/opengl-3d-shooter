@@ -16,7 +16,7 @@ void Projectile::draw() {
     glPushMatrix();
     glTranslatef(position.x, position.y, 0);
     glColor3f(1.0f, 0.0f, 0.0f);
-    glBegin(GL_QUADS);
+    glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         glVertex2f(cos(i) * this->size, sin(i) * this->size);
     }
@@ -26,8 +26,8 @@ void Projectile::draw() {
 
 void Projectile::idle() {
     this->checkCollisions();
-    this->moveX(cos(this->angle) * 10);
-    this->moveY(sin(this->angle) * 10);
+    this->moveX(cos(this->angle) * 20);
+    this->moveY(sin(this->angle) * 20);
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();

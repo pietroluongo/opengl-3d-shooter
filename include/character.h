@@ -24,6 +24,13 @@ class Character : public Object {
     bool isJumping = false;
     bool isFalling = false;
 
+    glm::fvec4 frames[4] = {{20, 35, 10, 20},
+                            {21, 35, 4, 15},
+                            {-12, 35, -20, 15},
+                            {-12, 35, -42, 15}};
+    int currentAnimFrame = 0;
+    int curAnimCounter = 0;
+
     /**
      * @brief Controls the player's leg rotation
      * [0] - Left leg
