@@ -22,6 +22,7 @@ class Character : public Object {
     void drawLegs();
     void drawHead();
     void drawChest();
+    void drawGun();
 
     bool isJumping = false;
     bool isFalling = false;

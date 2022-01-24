@@ -60,8 +60,8 @@ void Object::idle() {
 
     for (auto otherCollider : this->colliders) {
         if (this->collider->overlaps(otherCollider)) {
-            this->collisionDirections =
-                this->collider->getOverlapDirection(otherCollider);
+            this->collisionDirections = this->collider->getOverlapDirection(
+                otherCollider, collisionDirections);
             if (this->collisionDirections[0] && this->positionDelta.x < 0) {
                 this->positionDelta.x = 0;
             }
