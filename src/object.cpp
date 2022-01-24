@@ -77,18 +77,23 @@ void Object::idle() {
 
             if (this->collisionDirections[3]) {
                 this->isGrounded = true;
-                this->lastGroundedTime = this->currentTime;
             }
         }
     }
 
+    if (this->isGrounded) {
+        this->fallTimer = 0;
+    }
+
     if (!this->isGrounded && this->isAffectedByGravity) {
-        if (currentTime - lastGroundedTime < 2) {
-            this->moveY(15 * (this->currentTime - this->lastGroundedTime));
-        } else {
-            this->moveY(15 *
-                        ((this->currentTime - this->lastGroundedTime) - 2));
-        }
+        // if (currentTime - lastGroundedTime < 2) {
+        //     this->moveY(15 * (this->currentTime - this->lastGroundedTime));
+        // } else {
+        //     this->moveY(15 *
+        //                 ((this->currentTime - this->lastGroundedTime) - 2));
+        // }
+        this->moveY(15 * fallTimer);
+        this->fallTimer += context->getDeltaTime();
     }
 
     this->position += this->positionDelta;

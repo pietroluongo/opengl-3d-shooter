@@ -19,7 +19,7 @@ class Object {
     float size = 1.0f;
     Collider* collider;
     bool isGrounded = false;
-    double lastGroundedTime = 0;
+    double fallTimer = 0;
 
   public:
     Object();
@@ -38,6 +38,7 @@ class Object {
     void teleport(float x, float y);
     void teleportToGround();
     void setIsAffectedByGravity(bool isAffectedByGravity);
+    double getFallTimer() { return this->fallTimer; };
 };
 
 #endif

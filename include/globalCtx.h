@@ -21,7 +21,7 @@ class GlobalCtx {
     bool shouldDrawCameraInfo = false;
     bool shouldDrawPhysicsInfo = false;
     bool shouldDrawPlayerInfo = false;
-    bool shouldDrawEnemyInfo = true;
+    bool shouldDrawEnemyInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = true;

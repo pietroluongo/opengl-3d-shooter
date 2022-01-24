@@ -1,6 +1,7 @@
 #include "../include/player.h"
 #include "../include/globalCtx.h"
 #include <cmath>
+#include <string>
 #include <vector>
 
 extern GlobalCtx* context;
@@ -100,10 +101,26 @@ void Player::updateArmAngle() {
 }
 
 void Player::handleJump() {
-    if (this->isGrounded)
+    if (this->isRequestingJump) {
+        this->wasRequestingJump = true;
+    }
+    if (this->isGrounded) {
         jumpTime = 0;
-    if (this->isRequestingJump && this->jumpTime < 2) {
-        this->moveY(-20);
+        this->wasRequestingJump = false;
+        shouldIncreaseHeight = true;
+        this->setIsAffectedByGravity(false);
+    }
+    if (this->jumpTime >= 2) {
+        this->setIsAffectedByGravity(true);
+    }
+    if (!this->isGrounded && !this->isRequestingJump) {
+        this->setIsAffectedByGravity(true);
+    }
+    if (this->wasRequestingJump && !this->isRequestingJump) {
+        shouldIncreaseHeight = false;
+    }
+    if (this->isRequestingJump && this->jumpTime < 2 && shouldIncreaseHeight) {
+        this->moveY(-10);
     }
     this->jumpTime += context->getDeltaTime();
 }

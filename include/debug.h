@@ -5,6 +5,8 @@
 #include "../libs/imgui/imgui.h"
 #include "../libs/imgui/imgui_impl_glut.h"
 #include "../libs/imgui/imgui_impl_opengl2.h"
+#include <string>
+#include <vector>
 
 extern GlobalCtx* context;
 
