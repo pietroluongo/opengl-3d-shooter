@@ -107,6 +107,12 @@ void Enemy::updateArmAngle() {
     this->armAngle =
         atan2(playerPos.y - position.y, playerPos.x - position.x) * 180 / M_PI -
         90;
+    if ((this->armAngle >= 45 && this->armAngle <= 90) ||
+        this->armAngle <= -225) {
+        this->setHeading(LEFT);
+    } else {
+        this->setHeading(RIGHT);
+    }
 }
 
 void Enemy::shoot() {

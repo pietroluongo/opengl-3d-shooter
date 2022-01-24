@@ -12,6 +12,7 @@ Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->armPosition = 0.2 * size;
     this->armWidth = 0.04 * size;
     this->armHeight = 0.4 * size;
+    this->collider->resize(size * 0.2, size);
 }
 
 Player::~Player() { delete (this->collider); }
