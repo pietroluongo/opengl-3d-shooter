@@ -6,12 +6,10 @@ extern GlobalCtx* context;
 Projectile::Projectile(float x, float y, float size, float angle)
     : Object(x, y, size) {
     this->angle = angle;
+    this->setIsAffectedByGravity(false);
 }
 
-Projectile::~Projectile() {
-    printf("projectile destructor called\n");
-    delete (this->collider);
-}
+Projectile::~Projectile() { delete (this->collider); }
 
 void Projectile::draw() {
     glfvec2 position = this->getPosition();
@@ -30,14 +28,15 @@ void Projectile::idle() {
     this->checkCollisions();
     this->moveX(cos(this->angle) * 10);
     this->moveY(sin(this->angle) * 10);
-    // glm::fvec4 worldBounds =
-    // context->getGameRef()->getMap()->getWorldBounds(); if (this->position.x <
-    // worldBounds[0] ||
-    //     this->position.x > worldBounds[1] ||
-    //     this->position.y < worldBounds[2] ||
-    //     this->position.y > worldBounds[3]) {
-    //     context->getGameRef()->deleteProjectile(this);
-    // }
+    this->collider->idle();
+    this->Object::idle();
+    glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
+    if (this->getPosition().x < worldBounds[0] ||
+        this->getPosition().x > worldBounds[1] ||
+        this->getPosition().y < worldBounds[2] ||
+        this->getPosition().y > worldBounds[3]) {
+        context->getGameRef()->deleteProjectile(this);
+    }
 }
 
 void Projectile::setPosition(glfvec2 position) {
