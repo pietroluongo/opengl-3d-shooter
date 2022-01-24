@@ -39,6 +39,7 @@ class Object {
     void teleportToGround();
     void setIsAffectedByGravity(bool isAffectedByGravity);
     double getFallTimer() { return this->fallTimer; };
+    void reacquireColliders();
 };
 
 #endif

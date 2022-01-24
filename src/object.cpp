@@ -9,7 +9,7 @@ Object::Object(GLfloat x, GLfloat y, GLfloat size) {
     this->size = size;
     this->collider =
         new Collider(x, y, size, size, this, pivotPosition::CENTER);
-    this->colliders = context->getGameRef()->getAllObjectColliders();
+    this->reacquireColliders();
 }
 
 Object::Object() {}
@@ -125,4 +125,8 @@ void Object::teleportToGround() {
 
 void Object::setIsAffectedByGravity(bool isAffected) {
     this->isAffectedByGravity = isAffected;
+}
+
+void Object::reacquireColliders() {
+    this->colliders = context->getGameRef()->getAllObjectColliders();
 }

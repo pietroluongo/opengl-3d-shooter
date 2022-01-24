@@ -11,6 +11,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     this->windowWidth = w;
     this->game = new Game();
     game->getMap()->loadArena(arenaFile);
+    game->getPlayer()->reacquireColliders();
 }
 
 GlobalCtx::~GlobalCtx() { delete (this->game); }
