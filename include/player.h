@@ -25,6 +25,7 @@ class Player : public Character {
     void updateAnimState();
     float* tmp_getSize() { return &this->size; };
     double getJumpTime() { return this->jumpTime; };
+    void kill();
 };
 
 #endif

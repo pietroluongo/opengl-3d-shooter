@@ -90,6 +90,8 @@ void GlobalCtx::idle() { this->game->idle(); }
 double GlobalCtx::getTotalPlaytime() { return this->totalTime; }
 
 void GlobalCtx::resetGame() {
+    if (!this->game->canRestart())
+        return;
     delete (this->game);
     this->game = new Game();
     game->getMap()->loadArena(arenaFile);

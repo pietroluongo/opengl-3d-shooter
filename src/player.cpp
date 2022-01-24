@@ -139,3 +139,5 @@ void Player::updateAnimState() {
     //     this->currentState = AnimState::WALKING;
     // }
 }
+
+void Player::kill() { context->getGameRef()->setState(GameState::OVER); }

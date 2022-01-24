@@ -50,6 +50,12 @@ void keyUp(unsigned char key, int x, int y) {
     if (key == 'r') {
         context->resetGame();
     }
+    if (key == 'p') {
+        context->getGameRef()->togglePause();
+    }
+    if (key == 'k') {
+        context->getGameRef()->getPlayer()->kill();
+    }
     if (key == ' ') {
         context->getGameRef()->getPlayer()->shoot();
     }
@@ -59,9 +65,14 @@ void keyUp(unsigned char key, int x, int y) {
 void setupGlut(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
     debug::imgui_init();
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     glutDisplayFunc(display);
     glutPassiveMotionFunc(passiveMotion);

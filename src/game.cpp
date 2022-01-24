@@ -1,5 +1,8 @@
 #include "../include/game.h"
+#include "../include/globalCtx.h"
 #include <algorithm>
+
+extern GlobalCtx* context;
 
 Game::Game() {
     this->player = nullptr;
@@ -36,20 +39,25 @@ void Game::draw() {
         if (projectile)
             projectile->draw();
     }
+    if (this->state == GameState::OVER) {
+        this->drawGameOverScreen();
+    }
 }
 
 Player* Game::getPlayer() { return this->player; }
 
 void Game::idle() {
-    this->player->idle();
+    if (this->state == GameState::PLAYING) {
+        this->player->idle();
+        for (auto enemy : this->enemies) {
+            enemy->idle();
+        }
+        for (auto projectile : this->projectiles) {
+            if (projectile != nullptr)
+                projectile->idle();
+        }
+    }
     this->cam->idle();
-    for (auto enemy : this->enemies) {
-        enemy->idle();
-    }
-    for (auto projectile : this->projectiles) {
-        if (projectile != nullptr)
-            projectile->idle();
-    }
 }
 
 void Game::createPlayer(double x, double y, double size) {
@@ -100,4 +108,50 @@ std::vector<Collider*> Game::getAllObjectColliders() {
     }
 
     return colliders;
+}
+
+void Game::setState(GameState state) { this->state = state; }
+
+void Game::togglePause() {
+    if (this->state == GameState::PLAYING) {
+        this->state = GameState::PAUSED;
+    } else if (this->state == GameState::PAUSED) {
+        this->state = GameState::PLAYING;
+    }
+}
+
+bool Game::canRestart() { return this->state == GameState::OVER; }
+
+void Game::drawGameOverScreen() {
+    glPushMatrix();
+    glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
+    glTranslatef(this->cam->getPosition().x, this->cam->getPosition().y, 0);
+    glBegin(GL_QUADS);
+    glVertex2f(-250.0f, -250.0f);
+    glVertex2f(250.0f, -250.0f);
+    glVertex2f(250.0f, 250.0f);
+    glVertex2f(-250.0f, 250.0f);
+    glEnd();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    glPopMatrix();
+    char* tmpString;
+    glColor3f(1.0f, 1.0f, 1.0f);
+    sprintf(context->textBuffer, "Game over!");
+    tmpString = context->textBuffer;
+    glRasterPos2f(this->cam->getPosition().x - 2, this->cam->getPosition().y);
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
+
+    glRasterPos2f(this->cam->getPosition().x - 4,
+                  this->cam->getPosition().y + 2);
+    sprintf(context->textBuffer, "Press R to restart");
+    tmpString = context->textBuffer;
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
 }
