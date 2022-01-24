@@ -26,6 +26,8 @@ void Character::drawChest() {
 }
 
 void Character::drawArm() {
+    // float gunSizeBig = 0.2 * this->size;
+    // float gunSizeSmall = gunSizeBig / 4;
     glPushMatrix();
     glTranslatef(0.0f, this->armPosition, 0.0f);
     glRotatef(this->armAngle, 0.0f, 0.0f, 1.0f);
@@ -36,6 +38,22 @@ void Character::drawArm() {
         glVertex2f(this->armWidth, this->armHeight);
         glVertex2f(-this->armWidth, this->armHeight);
     }
+    glEnd();
+    // glColor3f(0.2f, .2f, .2f);
+    // glTranslatef(0.0f, this->armHeight, 0.0f);
+    // glRotatef(-90.0f, 0.0f, 0.0f, 1.0f);
+    // glBegin(GL_POLYGON);
+    // {
+    //     glVertex2f(gunSizeSmall, -gunSizeBig);
+    //     glVertex2f(-gunSizeSmall, -gunSizeBig);
+    //     glVertex2f(-gunSizeSmall, gunSizeSmall);
+    //     glVertex2f(gunSizeSmall, gunSizeSmall);
+
+    //     // glVertex2f(-gunSizeSmall, 0);
+    //     // glVertex2f(-2 * gunSizeBig, 0);
+    //     // glVertex2f(-2 * gunSizeBig, 2 * gunSizeSmall);
+    //     // glVertex2f(-gunSizeSmall, 2 * gunSizeSmall);
+    // }
     glEnd();
     glPopMatrix();
 }
@@ -70,6 +88,14 @@ void Character::drawLegs() {
         }
         glEnd();
         glTranslatef(0, legSizeY, 0);
+        glBegin(GL_POLYGON);
+        {
+            for (int i = 0; i < 360; i += 10) {
+                glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
+                           0.05 * this->size * sin(i * M_PI / 180));
+            }
+        }
+        glEnd();
         glRotatef(legRotation[1], 0, 0, 1);
         glBegin(GL_POLYGON);
         {
@@ -93,6 +119,14 @@ void Character::drawLegs() {
         }
         glEnd();
         glTranslatef(0, legSizeY, 0);
+        glBegin(GL_POLYGON);
+        {
+            for (int i = 0; i < 360; i += 10) {
+                glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
+                           0.05 * this->size * sin(i * M_PI / 180));
+            }
+        }
+        glEnd();
         glRotatef(legRotation[3], 0, 0, 1);
         glBegin(GL_POLYGON);
         {
