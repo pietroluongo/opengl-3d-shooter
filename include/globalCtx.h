@@ -15,6 +15,7 @@ class GlobalCtx {
     int keyStatus[256] = {0};
     GLdouble framerate = 0, deltaTime = 0;
     GLdouble totalTime = 0;
+    char arenaFile[99] = {};
 
   public:
     bool shouldDrawDebugInfo = false;
@@ -52,6 +53,7 @@ class GlobalCtx {
     void updateKeyStatus(unsigned char key, int status);
     void updateMousePos(glm::ivec2 pos);
     void updateTiming(GLdouble framerate, GLdouble deltaTime);
+    void resetGame();
 };
 
 #endif

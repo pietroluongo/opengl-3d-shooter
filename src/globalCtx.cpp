@@ -1,10 +1,12 @@
 #include "../include/globalCtx.h"
 #include "../include/constants.h"
+#include <cstring>
 
 extern GlobalCtx* context;
 
 GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     context = this;
+    strcpy(this->arenaFile, arenaFile);
     this->windowHeight = h;
     this->windowWidth = w;
     this->game = new Game();
@@ -86,3 +88,11 @@ double GlobalCtx::getDeltaTime() { return this->deltaTime; }
 void GlobalCtx::idle() { this->game->idle(); }
 
 double GlobalCtx::getTotalPlaytime() { return this->totalTime; }
+
+void GlobalCtx::resetGame() {
+    delete (this->game);
+    this->game = new Game();
+    game->getMap()->loadArena(arenaFile);
+
+    this->totalTime = 0;
+}
