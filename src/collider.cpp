@@ -83,53 +83,32 @@ glm::fvec2 Collider::getCenter() {
 }
 
 glm::bvec4 Collider::getOverlapDirection(Collider* other) {
-    glm::fvec4 thisBoundingBox = this->getBoundingBox();
-    glm::fvec4 otherBoundingBox = other->getBoundingBox();
+    glm::fvec2 thisCenter = this->getCenter();
+    glm::fvec2 otherCenter = other->getCenter();
     glm::bvec4 overlapDirection = {false, false, false, false};
-    // if (thisBoundingBox[3] > otherBoundingBox[2] &&
-    //     thisBoundingBox[2] < otherBoundingBox[3]) {
-    //     if (thisBoundingBox[0] < otherBoundingBox[1] &&
-    //         thisBoundingBox[1] > otherBoundingBox[1]) {
-    //         overlapDirection[0] = true;
-    //     } else if (thisBoundingBox[1] > otherBoundingBox[0] &&
-    //                thisBoundingBox[0] < otherBoundingBox[0]) {
-    //         overlapDirection[1] = true;
-    //     }
-    // }
 
-    if (thisBoundingBox[2] > otherBoundingBox[2] &&
-        thisBoundingBox[3] < otherBoundingBox[3]) {
-        if (thisBoundingBox[0] < otherBoundingBox[1] &&
-            thisBoundingBox[1] > otherBoundingBox[1]) {
-            overlapDirection[0] = true;
-        } else if (thisBoundingBox[1] > otherBoundingBox[0] &&
-                   thisBoundingBox[0] < otherBoundingBox[0]) {
+    float dx = otherCenter.x - thisCenter.x;
+    float px = (other->width / 2 + this->width / 2) - std::abs(dx);
+
+    float dy = otherCenter.y - thisCenter.y;
+    float py = (other->height / 2 + this->height / 2) - std::abs(dy);
+
+    if (px < py) {
+        int sx = dx < 0 ? -1 : 1;
+        if (sx > 0) {
             overlapDirection[1] = true;
+        } else {
+            overlapDirection[0] = true;
         }
-    }
-
-    if (thisBoundingBox[1] > otherBoundingBox[0] &&
-        thisBoundingBox[0] < otherBoundingBox[1]) {
-        if (thisBoundingBox[2] < otherBoundingBox[3] &&
-            thisBoundingBox[3] > otherBoundingBox[3]) {
-            overlapDirection[2] = true;
-        } else if (thisBoundingBox[3] > otherBoundingBox[2] &&
-                   thisBoundingBox[2] < otherBoundingBox[2]) {
+    } else {
+        int sy = dy < 0 ? -1 : 1;
+        if (sy > 0) {
             overlapDirection[3] = true;
+        } else {
+            overlapDirection[2] = true;
         }
     }
-    // if (thisBoundingBox[0] < otherBoundingBox[1] &&
-    //     thisBoundingBox[1] > otherBoundingBox[1])
-    //     overlapDirection[0] = true;
-    // else if (thisBoundingBox[1] > otherBoundingBox[0] &&
-    //          thisBoundingBox[3] < otherBoundingBox[2])
-    //     overlapDirection[1] = true;
 
-    // if (thisBoundingBox[2] < otherBoundingBox[2] &&
-    //     thisBoundingBox[3] > otherBoundingBox[2])
-    //     overlapDirection[3] = true;
-    // else if (thisBoundingBox[3] > otherBoundingBox[3])
-    //     overlapDirection[2] = true;
     return overlapDirection;
 }
 

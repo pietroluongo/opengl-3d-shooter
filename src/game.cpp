@@ -59,7 +59,6 @@ void Game::createPlayer(double x, double y, double size) {
 
 void Game::createEnemy(double x, double y, double size) {
     this->enemies.push_back(new Enemy(x, y, size));
-    this->cam->setFollowTarget(this->enemies.back());
 }
 
 Camera* Game::getMainCamera() { return this->cam; }
