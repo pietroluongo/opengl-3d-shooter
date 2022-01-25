@@ -13,8 +13,9 @@ class Camera {
     glm::fvec4 bounds = {0, 0, 0, 0};
     glm::fvec2 center = {0, 0};
 
+    glm::fvec2 size = {0, 0};
+
     // For CAMERA_FOLLOW_SINGLE_AXIS
-    float targetHeight = 0;
     float targetYCoordinate = 0;
 
     Object* followTarget = nullptr;
@@ -38,8 +39,9 @@ class Camera {
     void setCenter(glm::fvec2 focus);
     void setFollowTarget(Object* target);
     void setFollowMode(CameraFollowMode mode);
-    void setTargetHeight(float height);
     void setTargetYCoordinates(float y);
+    void setDesiredSize(glm::fvec2 size);
+    glm::fvec2 getSize() { return this->size; };
 };
 
 #endif

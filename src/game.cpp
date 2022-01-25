@@ -162,6 +162,6 @@ void Game::setupCamera() {
     glm::fvec4 worldBounds = map->getWorldBounds();
     float deltaY = worldBounds[3] - worldBounds[2];
     printf("deltay = %.2f\n", deltaY);
-    this->cam->setTargetHeight(deltaY);
+    this->cam->setDesiredSize({deltaY, deltaY});
     this->cam->setTargetYCoordinates(worldBounds[2] + deltaY / 2);
 }

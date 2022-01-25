@@ -10,8 +10,8 @@
 
 constexpr float CAMERA_SPEED = 50.0f;
 
-constexpr float CAMERA_WIDTH = BASE_CAMERA_WIDTH / 2;
-constexpr float CAMERA_HEIGHT = BASE_CAMERA_HEIGHT / 2;
+constexpr float DEFAULT_CAMERA_WIDTH = BASE_CAMERA_WIDTH / 2;
+constexpr float DEFAULT_CAMERA_HEIGHT = BASE_CAMERA_HEIGHT / 2;
 
 extern GlobalCtx* context;
 
@@ -43,19 +43,19 @@ void Camera::setCenter(glm::fvec2 focus) {
 void Camera::updateBounds() {
     float camHeight, camWidth;
     if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
-        camHeight = this->targetHeight;
+        camHeight = this->size.y;
         this->center.y = this->targetYCoordinate;
     } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
-        camHeight = CAMERA_HEIGHT;
+        camHeight = DEFAULT_CAMERA_HEIGHT;
     } else {
-        camHeight = CAMERA_HEIGHT;
+        camHeight = DEFAULT_CAMERA_HEIGHT;
     }
     if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
         camWidth = camHeight;
     } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
-        camWidth = CAMERA_WIDTH;
+        camWidth = DEFAULT_CAMERA_WIDTH;
     } else {
-        camWidth = CAMERA_WIDTH;
+        camWidth = DEFAULT_CAMERA_WIDTH;
     }
     this->bounds[0] = center.x - (camWidth * this->zoomLevel);
     this->bounds[1] = center.x + (camWidth * this->zoomLevel);
@@ -90,5 +90,6 @@ void Camera::handleInput() {
 
 void Camera::setFollowMode(CameraFollowMode mode) { this->followMode = mode; }
 
-void Camera::setTargetHeight(float height) { this->targetHeight = height; }
 void Camera::setTargetYCoordinates(float y) { this->targetYCoordinate = y; }
+
+void Camera::setDesiredSize(glm::fvec2 size) { this->size = size; }
