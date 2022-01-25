@@ -97,6 +97,7 @@ void GlobalCtx::resetGame() {
     delete (this->game);
     this->game = new Game();
     game->getMap()->loadArena(arenaFile);
+    this->game->setupCamera();
 
     this->totalTime = 0;
 }
