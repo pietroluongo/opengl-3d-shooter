@@ -89,6 +89,7 @@ class Character : public Object {
 
     void setLegsPosition(glm::fvec4 position);
     float* tmp_getSize() { return &this->size; };
+    virtual void kill() = 0;
 };
 
 #endif

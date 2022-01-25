@@ -18,6 +18,7 @@ class Enemy : public Character {
     virtual void idle();
     virtual void updateArmAngle();
     virtual void shoot();
+    virtual void kill();
 };
 
 #endif

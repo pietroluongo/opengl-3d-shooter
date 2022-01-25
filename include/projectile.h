@@ -1,16 +1,20 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
+#include "character.h"
 #include "collider.h"
 #include "object.h"
+
+enum ProjectileType { PROJECTILE_TYPE_PLAYER, PROJECTILE_TYPE_ENEMY };
 
 class Projectile : private Object {
 
   private:
     float angle;
+    std::vector<Character*> colliderCharacters;
 
   public:
-    Projectile(float x, float y, float size, float angle);
+    Projectile(float x, float y, float size, float angle, ProjectileType type);
     virtual ~Projectile();
     virtual void draw();
     virtual void idle();

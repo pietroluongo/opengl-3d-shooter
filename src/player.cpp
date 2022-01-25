@@ -132,7 +132,7 @@ void Player::shoot() {
     context->getGameRef()->createProjectile(
         position.x + (this->armHeight * sin(-this->armAngle * M_PI / 180)),
         position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)), 0.5,
-        (90 + this->armAngle) * M_PI / 180);
+        (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER);
 }
 
 void Player::updateAnimState() {

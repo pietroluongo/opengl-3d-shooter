@@ -1,12 +1,22 @@
 #include "../include/projectile.h"
+#include "../include/enemy.h"
 #include "../include/globalCtx.h"
 
 extern GlobalCtx* context;
 
-Projectile::Projectile(float x, float y, float size, float angle)
+Projectile::Projectile(float x, float y, float size, float angle,
+                       ProjectileType type)
     : Object(x, y, size) {
     this->angle = angle;
     this->setIsAffectedByGravity(false);
+    if (type == PROJECTILE_TYPE_PLAYER) {
+        std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+        for (auto enemy : enemies) {
+            this->colliderCharacters.push_back(enemy);
+        }
+    } else {
+        this->colliderCharacters.push_back(context->getGameRef()->getPlayer());
+    }
 }
 
 Projectile::~Projectile() { delete (this->collider); }
@@ -50,18 +60,23 @@ void Projectile::setPosition(GLfloat x, GLfloat y) {
 void Projectile::checkCollisions() {
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
-    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
     for (auto platform : platforms) {
         if (this->collider->overlaps(platform->getCollider())) {
             context->getGameRef()->deleteProjectile(this);
         }
     }
-    for (auto enemy : enemies) {
-        if (this->collider->overlaps(enemy->getCollider())) {
-            context->getGameRef()->deleteEnemy(enemy);
+    for (auto character : colliderCharacters) {
+        if (this->collider->overlaps(character->getCollider())) {
             context->getGameRef()->deleteProjectile(this);
+            character->kill();
         }
     }
+    // for (auto enemy : enemies) {
+    //     if (this->collider->overlaps(enemy->getCollider())) {
+    //         context->getGameRef()->deleteEnemy(enemy);
+    //         context->getGameRef()->deleteProjectile(this);
+    //     }
+    // }
 }
 
 const char* Projectile::debug() { return "ok i'm alive\n"; }

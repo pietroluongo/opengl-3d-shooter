@@ -30,7 +30,8 @@ class Game {
     void idle();
     void createPlayer(double x, double y, double size);
     void createEnemy(double x, double y, double size);
-    void createProjectile(float x, float y, float size, float angle);
+    void createProjectile(float x, float y, float size, float angle,
+                          ProjectileType type);
     Camera* getMainCamera();
     Map* getMap();
     std::vector<Enemy*> getEnemies();

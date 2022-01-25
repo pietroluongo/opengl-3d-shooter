@@ -26,7 +26,7 @@ class Player : public Character {
     void shoot();
     void updateAnimState();
     double getJumpTime() { return this->jumpTime; };
-    void kill();
+    virtual void kill();
 };
 
 #endif
