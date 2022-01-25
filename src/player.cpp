@@ -90,10 +90,10 @@ float limitArmMovement(float angle) {
 void Player::updateArmAngle() {
     glm::fvec2 mousePos = context->getWorldSpaceMousePos();
     glfvec2 position = this->getPosition();
-    this->armAngle =
-        atan2(mousePos.y - position.y, mousePos.x - position.x) * 180 / M_PI -
-        90;
-    this->armAngle = limitArmMovement(this->armAngle);
+    float dy = position.y - mousePos.y;
+    float dx = position.x - mousePos.x;
+    this->armAngle = atan2(-dy, -dx) * 180 / M_PI - 90;
+    // this->armAngle = limitArmMovement(this->armAngle);
     if ((this->armAngle >= 45 && this->armAngle <= 90) ||
         this->armAngle <= -225) {
         this->setHeading(LEFT);

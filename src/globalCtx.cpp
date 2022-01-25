@@ -36,9 +36,12 @@ glm::fvec2 GlobalCtx::getNormalizedMousePos() {
 
 glm::fvec2 GlobalCtx::getWorldSpaceMousePos() {
     glm::fvec2 cameraCenter = this->game->getMainCamera()->getPosition();
+    glm::fvec4 cameraBounds = this->game->getMainCamera()->getBounds();
+    float dx = std::abs(cameraBounds[0] - cameraBounds[1]) / 2;
+    float dy = std::abs(cameraBounds[2] - cameraBounds[3]) / 2;
     glm::fvec2 normalizedMousePos = this->getNormalizedMousePos();
-    return glm::fvec2(cameraCenter.x + normalizedMousePos.x * WINDOW_WIDTH,
-                      cameraCenter.y + normalizedMousePos.y * WINDOW_HEIGHT);
+    return glm::fvec2(cameraCenter.x + normalizedMousePos.x * dx,
+                      cameraCenter.y + normalizedMousePos.y * dy);
 }
 
 void GlobalCtx::toggleDebugInfo() {
