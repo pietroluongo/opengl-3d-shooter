@@ -42,6 +42,8 @@ class Character : public Object {
      */
     glm::fvec4 legRotation = {25, 20, 10, 30};
 
+    bool isAlive = true;
+
   public:
     // Public for debug reasons
     float armAngle = 0.0f;

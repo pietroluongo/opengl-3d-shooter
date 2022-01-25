@@ -150,6 +150,8 @@ void Character::drawLegs() {
 
 void Character::nextAnimFrame() {
     const float deltaTimeBetweenFrames = .5f;
+    if (context->getGameRef()->canRestart())
+        return;
     glm::fvec4* targetAnims = nullptr;
     this->animTimer += context->getDeltaTime();
     curAnimCounter++;

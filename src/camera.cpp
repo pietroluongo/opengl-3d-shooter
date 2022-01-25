@@ -41,10 +41,27 @@ void Camera::setCenter(glm::fvec2 focus) {
 }
 
 void Camera::updateBounds() {
-    this->bounds[0] = center.x - (CAMERA_WIDTH * this->zoomLevel);
-    this->bounds[1] = center.x + (CAMERA_WIDTH * this->zoomLevel);
-    this->bounds[2] = center.y + (CAMERA_HEIGHT * this->zoomLevel);
-    this->bounds[3] = center.y - (CAMERA_HEIGHT * this->zoomLevel);
+    float camHeight, camWidth;
+    if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
+        camHeight = this->targetHeight;
+        this->center.y = this->targetYCoordinate;
+    } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
+        camHeight = CAMERA_HEIGHT;
+    } else {
+        camHeight = CAMERA_HEIGHT;
+    }
+    if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
+        camWidth = camHeight;
+    } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
+        camWidth = CAMERA_WIDTH;
+    } else {
+        camWidth = CAMERA_WIDTH;
+    }
+    this->bounds[0] = center.x - (camWidth * this->zoomLevel);
+    this->bounds[1] = center.x + (camWidth * this->zoomLevel);
+
+    this->bounds[2] = center.y + (camHeight * this->zoomLevel);
+    this->bounds[3] = center.y - (camHeight * this->zoomLevel);
 }
 
 glm::fvec2 Camera::getPosition() { return glm::fvec2(center.x, center.y); }
@@ -70,3 +87,8 @@ void Camera::handleInput() {
         }
     }
 }
+
+void Camera::setFollowMode(CameraFollowMode mode) { this->followMode = mode; }
+
+void Camera::setTargetHeight(float height) { this->targetHeight = height; }
+void Camera::setTargetYCoordinates(float y) { this->targetYCoordinate = y; }

@@ -4,6 +4,11 @@
 #include <cstdio>
 extern GlobalCtx* context;
 
+enum PlatformType {
+    PLATFORM_VISIBLE,
+    PLATFORM_INVISIBLE,
+};
+
 Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
     this->position = glfvec2(x, y);
     this->width = w;

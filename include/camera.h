@@ -3,14 +3,26 @@
 #include "../libs/glm/glm.hpp"
 #include "object.h"
 
+enum CameraFollowMode {
+    CAMERA_FOLLOW_MODE_NONE,
+    CAMERA_FOLLOW_MODE_SINGLE_AXIS,
+    CAMERA_FOLLOW_MODE_DUAL_AXIS
+};
+
 class Camera {
     glm::fvec4 bounds = {0, 0, 0, 0};
     glm::fvec2 center = {0, 0};
+
+    // For CAMERA_FOLLOW_SINGLE_AXIS
+    float targetHeight = 0;
+    float targetYCoordinate = 0;
 
     Object* followTarget = nullptr;
 
     void updateBounds();
     void handleInput();
+
+    CameraFollowMode followMode = CAMERA_FOLLOW_MODE_NONE;
 
   public:
     bool shouldFollowTarget = false;
@@ -25,6 +37,9 @@ class Camera {
     void moveY(float y);
     void setCenter(glm::fvec2 focus);
     void setFollowTarget(Object* target);
+    void setFollowMode(CameraFollowMode mode);
+    void setTargetHeight(float height);
+    void setTargetYCoordinates(float y);
 };
 
 #endif

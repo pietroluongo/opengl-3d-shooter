@@ -161,4 +161,7 @@ void Player::updateAnimState() {
     }
 }
 
-void Player::kill() { context->getGameRef()->setState(GameState::OVER); }
+void Player::kill() {
+    context->getGameRef()->setState(GameState::OVER);
+    this->isAlive = false;
+}

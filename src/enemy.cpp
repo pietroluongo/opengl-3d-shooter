@@ -123,4 +123,7 @@ void Enemy::shoot() {
         (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_ENEMY);
 }
 
-void Enemy::kill() { context->getGameRef()->deleteEnemy(this); }
+void Enemy::kill() {
+    context->getGameRef()->deleteEnemy(this);
+    this->isAlive = false;
+}

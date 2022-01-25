@@ -64,6 +64,11 @@ void Map::loadArena(char* fileName) {
                 this->addPlatform(p1);
                 this->addPlatform(p2);
                 this->addPlatform(p3);
+                context->getGameRef()->getMainCamera()->setTargetHeight(h);
+                context->getGameRef()->getMainCamera()->setTargetYCoordinates(
+                    y + (h + 2) / 2);
+                context->getGameRef()->getMainCamera()->setFollowMode(
+                    CAMERA_FOLLOW_MODE_SINGLE_AXIS);
                 this->worldBounds = {x, x + w, y, y + h};
             }
         } else if (svgIsCircle(currentNode->Name())) {

@@ -41,8 +41,8 @@ void Projectile::draw() {
 
 void Projectile::idle() {
     this->checkCollisions();
-    this->moveX(cos(this->angle) * 20);
-    this->moveY(sin(this->angle) * 20);
+    this->moveX(cos(this->angle) * 40);
+    this->moveY(sin(this->angle) * 40);
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
