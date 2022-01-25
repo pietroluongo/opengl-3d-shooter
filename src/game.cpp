@@ -8,6 +8,7 @@ Game::Game() {
     this->player = nullptr;
     this->map = new Map();
     this->cam = new Camera();
+    this->cam->setFollowMode(CAMERA_FOLLOW_MODE_SINGLE_AXIS);
 }
 
 Game::~Game() {
@@ -155,4 +156,12 @@ void Game::drawGameOverScreen() {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
+}
+
+void Game::setupCamera() {
+    glm::fvec4 worldBounds = map->getWorldBounds();
+    float deltaY = worldBounds[3] - worldBounds[2];
+    printf("deltay = %.2f\n", deltaY);
+    this->cam->setTargetHeight(deltaY);
+    this->cam->setTargetYCoordinates(worldBounds[2] + deltaY / 2);
 }

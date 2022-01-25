@@ -42,6 +42,7 @@ class Game {
     void togglePause();
     bool canRestart();
     void drawGameOverScreen();
+    void setupCamera();
 };
 
 #endif
