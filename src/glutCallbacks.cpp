@@ -56,9 +56,9 @@ void keyUp(unsigned char key, int x, int y) {
     if (key == 'k') {
         context->getGameRef()->getPlayer()->kill();
     }
-    if (key == ' ') {
-        context->getGameRef()->getPlayer()->shoot();
-    }
+    // if (key == ' ') {
+    //     // context->getGameRef()->getPlayer()->shoot();
+    // }
     glutPostRedisplay();
 }
 

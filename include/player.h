@@ -14,6 +14,8 @@ class Player : public Character {
     bool shouldIncreaseHeight = false;
     bool isRequestingMove = false;
 
+    bool isRequestingFire = false;
+
   public:
     Player(GLfloat x, GLfloat y, GLfloat size);
     virtual ~Player();

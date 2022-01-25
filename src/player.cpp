@@ -71,6 +71,12 @@ void Player::handleMovementKeys() {
     }
 
     if (context->isKeyPressed(' ')) {
+        if (!isRequestingFire) {
+            this->shoot();
+            isRequestingFire = true;
+        }
+    } else {
+        isRequestingFire = false;
     }
 }
 
