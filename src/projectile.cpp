@@ -27,9 +27,14 @@ void Projectile::draw() {
     glTranslatef(position.x, position.y, 0);
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_POLYGON);
-    for (int i = 0; i < 360; i++) {
-        glVertex2f(cos(i) * this->size, sin(i) * this->size);
-    }
+    // for (int i = 0; i < 360; i++) {
+    //     glVertex2f(cos(i) * this->size, sin(i) * this->size);
+    // }
+    glVertex2f(0, 0);
+    glVertex2f(this->size, 0);
+    glVertex2f(this->size, this->size);
+    glVertex2f(0, this->size);
+
     glEnd();
     glPopMatrix();
 }

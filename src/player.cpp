@@ -128,11 +128,24 @@ void Player::handleJump() {
 }
 
 void Player::shoot() {
+    // glPushMatrix();
     glfvec2 position = this->getPosition();
+    // glPointSize(5);
+    // glTranslatef(position.x, position.y, 0.0f);
+    // glBegin(GL_POINTS);
+    // // glVertex2f((position.x + 0.4 * this->size +
+    // //             (this->armHeight * sin(-this->armAngle * M_PI / 180))),
+    // //            (position.y - 0.2 * this->size +
+    // //             (this->armHeight * cos(this->armAngle * M_PI / 180))));
+    // glVertex2f(1, 1);
+    // glEnd();
+    // glPopMatrix();
     context->getGameRef()->createProjectile(
-        position.x + (this->armHeight * sin(-this->armAngle * M_PI / 180)),
-        position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)), 0.5,
-        (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER);
+        position.x + ((this->armHeight + 0.4 * this->size) *
+                      sin(-this->armAngle * M_PI / 180)),
+        position.y + ((this->armHeight + 1 * this->size) *
+                      cos(this->armAngle * M_PI / 180)),
+        0.5, (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER);
 }
 
 void Player::updateAnimState() {

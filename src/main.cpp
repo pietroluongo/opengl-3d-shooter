@@ -18,7 +18,7 @@
 #endif
 
 void init() {
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClearColor(0.f, 0.f, 1.f, 1.f);
 
     glMatrixMode(GL_PROJECTION);
     glOrtho(-WINDOW_WIDTH, WINDOW_WIDTH, WINDOW_HEIGHT, -WINDOW_HEIGHT, -1, 1);

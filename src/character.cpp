@@ -6,7 +6,7 @@ extern GlobalCtx* context;
 void Character::drawChest() {
     glPushMatrix();
     float chestXSize = this->size * 0.05f;
-    float chestYSize = this->size * 0.3f;
+    float chestYSize = this->size * 0.2f;
     glTranslatef(0.0f, -0.05 * this->size, 0.0f);
     glBegin(GL_QUADS);
     glVertex2f(-chestXSize, -chestYSize);
@@ -50,10 +50,6 @@ void Character::drawGun() {
         glVertex2f(gunSizeSmall, -gunSizeBig);
         glVertex2f(gunSizeSmall, gunSizeSmall);
         glVertex2f(-gunSizeSmall, gunSizeSmall);
-        // glVertex2f(gunSizeSmall, -gunSizeBig);
-        // glVertex2f(-gunSizeSmall, -gunSizeBig);
-        // glVertex2f(-gunSizeSmall, gunSizeSmall);
-        // glVertex2f(gunSizeSmall, gunSizeSmall);
 
         glEnd();
     }
@@ -84,8 +80,9 @@ void Character::drawLegs() {
     glPushMatrix();
     this->nextAnimFrame();
     float legSizeX = this->size * 0.05f;
-    float legSizeY = this->size * 0.25f;
-    glTranslatef(0, this->size * 0.5f, 0);
+    float legSizeY = this->size * 0.2f;
+    glColor3f(0.1f, .1f, .2f);
+    glTranslatef(0, this->size * 0.4f, 0);
     {
         glPushMatrix();
         glRotatef(-legRotation[0], 0, 0, 1);
