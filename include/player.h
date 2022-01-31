@@ -17,6 +17,8 @@ class Player : public Character {
     bool isRequestingFire = false;
 
   public:
+    bool isInvincible = false;
+
     Player(GLfloat x, GLfloat y, GLfloat size);
     virtual ~Player();
     void draw();

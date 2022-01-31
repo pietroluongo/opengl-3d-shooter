@@ -114,7 +114,13 @@ void setupGlut(int argc, char** argv) {
     glutMouseFunc(mouse);
 }
 
-void passiveMotion(int x, int y) { context->updateMousePos(glm::ivec2(x, y)); }
+void passiveMotion(int x, int y) {
+    if (context->imguiHasMouseFocus) {
+        ImGui_ImplGLUT_MotionFunc(x, y);
+        return;
+    }
+    context->updateMousePos(glm::ivec2(x, y));
+}
 
 void idle() {
     static GLdouble prevTime = glutGet(GLUT_ELAPSED_TIME);

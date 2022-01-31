@@ -171,6 +171,8 @@ void Player::updateAnimState() {
 }
 
 void Player::kill() {
+    if (this->isInvincible)
+        return;
     context->getGameRef()->setState(GameState::OVER);
     this->isAlive = false;
 }

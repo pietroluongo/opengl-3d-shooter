@@ -168,6 +168,8 @@ void imgui_display() {
                     context->getGameRef()->getPlayer()->getFallTimer());
         ImGui::Text("Player anim timer: %.2f",
                     context->getGameRef()->getPlayer()->animTimer);
+        ImGui::Checkbox("Player invincible",
+                        &context->getGameRef()->getPlayer()->isInvincible);
         ImGui::End();
     }
 }
