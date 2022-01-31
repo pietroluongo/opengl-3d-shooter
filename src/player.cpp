@@ -122,7 +122,7 @@ void Player::handleJump() {
         shouldIncreaseHeight = true;
         this->setIsAffectedByGravity(false);
     }
-    if (this->jumpTime >= 2) {
+    if (this->jumpTime >= 1) {
         this->setIsAffectedByGravity(true);
     }
     if (!this->isGrounded && !this->isRequestingJump) {
@@ -131,8 +131,8 @@ void Player::handleJump() {
     if (this->wasRequestingJump && !this->isRequestingJump) {
         shouldIncreaseHeight = false;
     }
-    if (this->isRequestingJump && this->jumpTime < 2 && shouldIncreaseHeight) {
-        this->moveY(-10);
+    if (this->isRequestingJump && this->jumpTime < 1 && shouldIncreaseHeight) {
+        this->moveY(-20);
     }
     this->jumpTime += context->getDeltaTime();
 }
