@@ -5,11 +5,12 @@
 extern GlobalCtx* context;
 
 Projectile::Projectile(float x, float y, float size, float angle,
-                       ProjectileType type)
+                       ProjectileType type, float speed)
     : Object(x, y, size) {
     this->angle = angle;
     this->getCollider()->resize(size, size / 2);
     this->setIsAffectedByGravity(false);
+    this->speed = speed;
     if (type == PROJECTILE_TYPE_PLAYER) {
         std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
         for (auto enemy : enemies) {
@@ -40,8 +41,8 @@ void Projectile::draw() {
 
 void Projectile::idle() {
     this->checkCollisions();
-    this->moveX(cos(this->angle) * 40);
-    this->moveY(sin(this->angle) * 40);
+    this->moveX(cos(this->angle) * this->speed);
+    this->moveY(sin(this->angle) * this->speed);
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();

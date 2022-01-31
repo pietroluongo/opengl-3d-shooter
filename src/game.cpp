@@ -78,8 +78,8 @@ Map* Game::getMap() { return this->map; }
 std::vector<Enemy*> Game::getEnemies() { return this->enemies; }
 
 void Game::createProjectile(float x, float y, float size, float angle,
-                            ProjectileType type) {
-    this->projectiles.push_back(new Projectile(x, y, size, angle, type));
+                            ProjectileType type, float speed) {
+    this->projectiles.push_back(new Projectile(x, y, size, angle, type, speed));
 }
 
 void Game::deleteProjectile(Projectile* projectile) {

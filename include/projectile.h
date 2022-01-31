@@ -12,9 +12,11 @@ class Projectile : private Object {
   private:
     float angle;
     std::vector<Character*> colliderCharacters;
+    float speed;
 
   public:
-    Projectile(float x, float y, float size, float angle, ProjectileType type);
+    Projectile(float x, float y, float size, float angle, ProjectileType type,
+               float speed);
     virtual ~Projectile();
     virtual void draw();
     virtual void idle();
