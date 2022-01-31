@@ -2,6 +2,11 @@
 #include "../include/camera.h"
 #include "../include/constants.h"
 #include "../include/debug.h"
+
+#include "../libs/imgui/imgui.h"
+#include "../libs/imgui/imgui_impl_glut.h"
+#include "../libs/imgui/imgui_impl_opengl2.h"
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -21,6 +26,12 @@ void keyDown(unsigned char key, int x, int y) {
 }
 
 void mouse(int button, int state, int x, int y) {
+    if (context->imguiHasMouseFocus) {
+        ImGui_ImplGLUT_MouseFunc(button, state, x, y);
+        ImGui_ImplGLUT_MotionFunc(x, y);
+        return;
+    }
+
     if (state == GLUT_DOWN) {
         if (button == GLUT_LEFT_BUTTON) {
             context->setMouseButtons(MOUSE_BUTTON_LEFT, true);
@@ -35,6 +46,7 @@ void mouse(int button, int state, int x, int y) {
         }
     }
 
+    passiveMotion(x, y);
     glutPostRedisplay();
 };
 
@@ -71,12 +83,9 @@ void keyUp(unsigned char key, int x, int y) {
     if (key == 'p') {
         context->getGameRef()->togglePause();
     }
-    if (key == 'k') {
-        context->getGameRef()->getPlayer()->kill();
+    if (key == 'm') {
+        context->imguiHasMouseFocus = !context->imguiHasMouseFocus;
     }
-    // if (key == ' ') {
-    //     // context->getGameRef()->getPlayer()->shoot();
-    // }
     glutPostRedisplay();
 }
 
