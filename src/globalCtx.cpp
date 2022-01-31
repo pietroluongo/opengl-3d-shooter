@@ -16,6 +16,16 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     for (auto enemy : game->getEnemies()) {
         enemy->reacquireColliders();
         enemy->addCollider(game->getPlayer()->getCollider());
+        bool isGrounded = false;
+        for (auto platform : game->getMap()->getPlatforms()) {
+            if (platform->getCollider()->overlaps(enemy->getCollider())) {
+                isGrounded = true;
+                break;
+            }
+        }
+        if (!isGrounded) {
+            enemy->teleportToGround();
+        }
     }
 }
 
@@ -109,6 +119,16 @@ void GlobalCtx::resetGame() {
     for (auto enemy : game->getEnemies()) {
         enemy->reacquireColliders();
         enemy->addCollider(game->getPlayer()->getCollider());
+        bool isGrounded = false;
+        for (auto platform : game->getMap()->getPlatforms()) {
+            if (platform->getCollider()->overlaps(enemy->getCollider())) {
+                isGrounded = true;
+                break;
+            }
+        }
+        if (!isGrounded) {
+            enemy->teleportToGround();
+        }
     }
     this->totalTime = 0;
 }

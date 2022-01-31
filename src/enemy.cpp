@@ -11,7 +11,7 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->armPosition = 0.2 * size;
     this->armWidth = 0.04 * size;
     this->armHeight = 0.4 * size;
-    this->teleportToGround();
+    // this->teleportToGround();
     this->getCollider()->resize(size * 0.2, size);
     this->targetShootTimer = rand() % 1000 / 100;
     this->currentAnimState = AnimState::WALKING;
