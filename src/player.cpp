@@ -73,11 +73,11 @@ void Player::idle() {
 void Player::handleMovementKeys() {
     if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
         this->isRequestingMove = true;
-        this->moveX(20);
+        this->moveX(2.5 * this->size);
     }
     if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
         this->isRequestingMove = true;
-        this->moveX(-20);
+        this->moveX(-2.5 * this->size);
     }
 
     if (context->isKeyPressed('w') || context->isKeyPressed('W') ||
@@ -87,9 +87,9 @@ void Player::handleMovementKeys() {
         this->isRequestingJump = false;
     }
 
-    if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-        this->moveY(20);
-    }
+    // if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
+    //     this->moveY(20);
+    // }
     if (context->getIsPressingLMB()) {
         if (!isRequestingFire) {
             this->shoot();
@@ -148,7 +148,7 @@ void Player::handleJump() {
         shouldIncreaseHeight = false;
     }
     if (this->isRequestingJump && this->jumpTime < 1 && shouldIncreaseHeight) {
-        this->moveY(-20);
+        this->moveY(-2.5 * this->size);
     }
     this->jumpTime += context->getDeltaTime();
 }

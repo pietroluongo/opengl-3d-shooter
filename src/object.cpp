@@ -86,7 +86,7 @@ void Object::idle() {
     }
 
     if (!this->isGrounded && this->isAffectedByGravity) {
-        this->moveY(30 * fallTimer);
+        this->moveY(this->size * 3.75 * fallTimer);
         this->fallTimer += context->getDeltaTime();
     }
 
