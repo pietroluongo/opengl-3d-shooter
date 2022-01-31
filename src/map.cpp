@@ -36,6 +36,11 @@ void Map::loadArena(char* fileName) {
     printf("attempting to load arena from file %s\n", fileName);
     FILE* filePointer = fopen(fileName, "rb");
 
+    if (!filePointer) {
+        printf("failed to open arena file %s\n", fileName);
+        exit(1);
+    }
+
     tinyxml2::XMLDocument doc;
     doc.LoadFile(filePointer);
     tinyxml2::XMLElement* root = doc.FirstChildElement();

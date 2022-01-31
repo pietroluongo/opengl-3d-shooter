@@ -12,7 +12,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-    printf("deleting game\n");
     if (this->player != nullptr)
         delete (this->player);
     if (this->cam != nullptr)
@@ -84,7 +83,6 @@ void Game::createProjectile(float x, float y, float size, float angle,
 }
 
 void Game::deleteProjectile(Projectile* projectile) {
-    printf("Deleting...\n");
     for (auto it = this->projectiles.begin(); it != this->projectiles.end();) {
         if (*it == projectile) {
             it = this->projectiles.erase(it);
@@ -92,7 +90,6 @@ void Game::deleteProjectile(Projectile* projectile) {
             it++;
         }
     }
-    printf("deleted ok\n");
 }
 
 void Game::deleteEnemy(Enemy* enemy) {
@@ -200,7 +197,6 @@ void Game::drawWinScreen() {
 void Game::setupCamera() {
     glm::fvec4 worldBounds = map->getWorldBounds();
     float deltaY = worldBounds[3] - worldBounds[2];
-    printf("deltay = %.2f\n", deltaY);
     this->cam->setDesiredSize({deltaY, deltaY});
     this->cam->setTargetYCoordinates(worldBounds[2] + deltaY / 2);
 }

@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
     static const char* header =
         "\n\n########################################################## \n\
-#                 Mario Shooter 2D                       # \n\
+#                 2D Shooter                             # \n\
 #        %s        # \n\
 #        compiled at %s           # \n\
 ########################################################## \
