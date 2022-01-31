@@ -158,10 +158,11 @@ void Player::shoot() {
     glfvec2 position = this->getPosition();
 
     glfvec2 firePosition = {0, 0};
-    firePosition.x = position.x - ((this->armHeight + 0.4 * this->size) *
+    firePosition.x = position.x - ((this->armHeight + 0.2 * this->size) *
                                    sin(this->armAngle * M_PI / 180));
-    firePosition.y = position.y + ((this->armHeight + 0.4 * this->size) *
-                                   cos(this->armAngle * M_PI / 180));
+    firePosition.y = (position.y - 0.2 * this->size) +
+                     ((this->armHeight + 0.2 * this->size) *
+                      cos(this->armAngle * M_PI / 180));
     context->getGameRef()->createProjectile(firePosition.x, firePosition.y, 0.5,
                                             (90 + this->armAngle) * M_PI / 180,
                                             PROJECTILE_TYPE_PLAYER);

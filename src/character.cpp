@@ -35,7 +35,7 @@ void Character::drawArm() {
 
 void Character::drawGun() {
     glPushMatrix();
-    float gunSizeBig = 0.2 * this->size;
+    float gunSizeBig = 0.1 * this->size;
     float gunSizeSmall = gunSizeBig / 4;
     glColor3f(0.2f, .2f, .2f);
     glTranslatef(0.0f, this->armHeight, 0.0f);
