@@ -16,7 +16,7 @@ COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -std=c++11 -O3 $(COMPILE_VARS)
+CFLAGS  = -std=c++11 $(COMPILE_VARS)
 LINKING = -lglut -lGL -lGLU
 
 IMGUI_SOURCES_DIRTY := $(wildcard $(IMGUI_DIR)/*.cpp)
