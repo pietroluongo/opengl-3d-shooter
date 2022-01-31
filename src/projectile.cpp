@@ -8,6 +8,7 @@ Projectile::Projectile(float x, float y, float size, float angle,
                        ProjectileType type)
     : Object(x, y, size) {
     this->angle = angle;
+    this->getCollider()->resize(size, size / 2);
     this->setIsAffectedByGravity(false);
     if (type == PROJECTILE_TYPE_PLAYER) {
         std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
@@ -25,15 +26,13 @@ void Projectile::draw() {
     glfvec2 position = this->getPosition();
     glPushMatrix();
     glTranslatef(position.x, position.y, 0);
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glRotatef(this->angle * 180 / M_PI, 0, 0, 1);
+    glColor3f(1.0f, 1.0f, 0.0f);
     glBegin(GL_POLYGON);
-    // for (int i = 0; i < 360; i++) {
-    //     glVertex2f(cos(i) * this->size, sin(i) * this->size);
-    // }
     glVertex2f(0, 0);
     glVertex2f(this->size, 0);
-    glVertex2f(this->size, this->size);
-    glVertex2f(0, this->size);
+    glVertex2f(this->size, this->size / 2);
+    glVertex2f(0, this->size / 2);
 
     glEnd();
     glPopMatrix();
