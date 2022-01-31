@@ -13,6 +13,9 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     game->getMap()->loadArena(arenaFile);
     this->game->setupCamera();
     game->getPlayer()->reacquireColliders();
+    for (auto enemy : game->getEnemies()) {
+        enemy->reacquireColliders();
+    }
 }
 
 GlobalCtx::~GlobalCtx() { delete (this->game); }

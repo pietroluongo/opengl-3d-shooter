@@ -74,7 +74,7 @@ void Enemy::idle() {
     this->enemyShootTimer += context->getDeltaTime();
     if (this->enemyShootTimer >= this->targetShootTimer) {
         this->enemyShootTimer = 0;
-        this->targetShootTimer = rand() % 1000 / 100;
+        this->targetShootTimer = rand() % 600 / 100 + 1;
         this->shoot();
     }
     this->Object::idle();
