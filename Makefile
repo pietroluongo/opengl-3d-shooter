@@ -61,7 +61,9 @@ build_tinyxml: build
 build:
 	mkdir build -p
 
-clean:
+clean: clean-full
+
+clean-partial:
 	$(RM) $(BUILD_DIR)/*.o trabalhocg -rf
 
 clean-full:
