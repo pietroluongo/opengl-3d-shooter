@@ -20,6 +20,24 @@ void keyDown(unsigned char key, int x, int y) {
     glutPostRedisplay();
 }
 
+void mouse(int button, int state, int x, int y) {
+    if (state == GLUT_DOWN) {
+        if (button == GLUT_LEFT_BUTTON) {
+            context->setMouseButtons(MOUSE_BUTTON_LEFT, true);
+        } else if (button == GLUT_RIGHT_BUTTON) {
+            context->setMouseButtons(MOUSE_BUTTON_RIGHT, true);
+        }
+    } else if (state == GLUT_UP) {
+        if (button == GLUT_LEFT_BUTTON) {
+            context->setMouseButtons(MOUSE_BUTTON_LEFT, false);
+        } else if (button == GLUT_RIGHT_BUTTON) {
+            context->setMouseButtons(MOUSE_BUTTON_RIGHT, false);
+        }
+    }
+
+    glutPostRedisplay();
+};
+
 void specialDown(int key, int x, int y) {
     context->updateKeyStatus(key, KEY_DOWN_STATUS);
     if (key == GLUT_KEY_F1) {
@@ -83,6 +101,8 @@ void setupGlut(int argc, char** argv) {
 
     glutSpecialFunc(specialDown);
     glutSpecialUpFunc(specialUp);
+
+    glutMouseFunc(mouse);
 }
 
 void passiveMotion(int x, int y) { context->updateMousePos(glm::ivec2(x, y)); }

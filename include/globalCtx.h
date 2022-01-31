@@ -7,12 +7,19 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
+enum MouseButtonState {
+    MOUSE_BUTTON_LEFT,
+    MOUSE_BUTTON_RIGHT,
+};
+
 class GlobalCtx {
   private:
     GLint windowWidth, windowHeight;
     Game* game;
     glm::vec2 mousePos;
     int keyStatus[256] = {0};
+    bool isPressingLMB = false;
+    bool isPressingRMB = false;
     GLdouble framerate = 0, deltaTime = 0;
     GLdouble totalTime = 0;
     char arenaFile[99] = {};
@@ -55,6 +62,9 @@ class GlobalCtx {
     void updateMousePos(glm::ivec2 pos);
     void updateTiming(GLdouble framerate, GLdouble deltaTime);
     void resetGame();
+    void setMouseButtons(MouseButtonState state, bool status);
+    bool getIsPressingLMB() { return this->isPressingLMB; }
+    bool getIsPressingRMB() { return this->isPressingRMB; }
 };
 
 #endif

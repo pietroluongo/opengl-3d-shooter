@@ -60,7 +60,8 @@ void Player::handleMovementKeys() {
         this->moveX(-20);
     }
 
-    if (context->isKeyPressed('w') || context->isKeyPressed('W')) {
+    if (context->isKeyPressed('w') || context->isKeyPressed('W') ||
+        context->getIsPressingRMB()) {
         this->isRequestingJump = true;
     } else {
         this->isRequestingJump = false;
@@ -69,8 +70,7 @@ void Player::handleMovementKeys() {
     if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
         this->moveY(20);
     }
-
-    if (context->isKeyPressed(' ')) {
+    if (context->getIsPressingLMB()) {
         if (!isRequestingFire) {
             this->shoot();
             isRequestingFire = true;
@@ -140,12 +140,11 @@ void Player::shoot() {
     // glTranslatef(position.x, position.y, 0.0f);
     // glBegin(GL_POINTS);
     // // glVertex2f((position.x + 0.4 * this->size +
-    // //             (this->armHeight * sin(-this->armAngle * M_PI / 180))),
+    // //             (this->armHeight * sin(-this->armAngle * M_PI /
+    // 180))),
     // //            (position.y - 0.2 * this->size +
-    // //             (this->armHeight * cos(this->armAngle * M_PI / 180))));
-    // glVertex2f(1, 1);
-    // glEnd();
-    // glPopMatrix();
+    // //             (this->armHeight * cos(this->armAngle * M_PI /
+    // 180)))); glVertex2f(1, 1); glEnd(); glPopMatrix();
     context->getGameRef()->createProjectile(
         position.x + ((this->armHeight + 0.4 * this->size) *
                       sin(-this->armAngle * M_PI / 180)),

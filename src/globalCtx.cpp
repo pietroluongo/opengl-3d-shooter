@@ -104,3 +104,11 @@ void GlobalCtx::resetGame() {
 
     this->totalTime = 0;
 }
+
+void GlobalCtx::setMouseButtons(MouseButtonState button, bool status) {
+    if (button == MOUSE_BUTTON_LEFT) {
+        this->isPressingLMB = status;
+    } else if (button == MOUSE_BUTTON_RIGHT) {
+        this->isPressingRMB = status;
+    }
+}
