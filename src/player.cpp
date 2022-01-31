@@ -119,7 +119,7 @@ void Player::updateArmAngle() {
     float dy = position.y - mousePos.y;
     float dx = position.x - mousePos.x;
     this->armAngle = atan2(-dy, -dx) * 180 / M_PI - 90;
-    // this->armAngle = limitArmMovement(this->armAngle);
+    this->armAngle = limitArmMovement(this->armAngle);
     if ((this->armAngle >= 45 && this->armAngle <= 90) ||
         this->armAngle <= -225) {
         this->setHeading(LEFT);
