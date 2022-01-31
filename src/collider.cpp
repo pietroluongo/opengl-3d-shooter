@@ -35,7 +35,7 @@ void Collider::idle() {
 }
 
 bool Collider::overlaps(Collider* other) {
-    if (this->owner == other->owner)
+    if (this->owner == other->owner || !this->enabled || !other->enabled)
         return false;
     glm::fvec4 thisBoundingBox = this->getBoundingBox();
     glm::fvec4 otherBoundingBox = other->getBoundingBox();

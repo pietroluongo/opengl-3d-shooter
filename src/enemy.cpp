@@ -124,5 +124,6 @@ void Enemy::shoot() {
 
 void Enemy::kill() {
     context->getGameRef()->deleteEnemy(this);
+    this->collider->disable();
     this->isAlive = false;
 }

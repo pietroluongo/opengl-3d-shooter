@@ -9,6 +9,7 @@ class Collider {
     float width, height;
     pivotPosition pivot;
     Object* owner = nullptr;
+    bool enabled = true;
 
   public:
     Collider(float x, float y, float w, float h, Object* owner = nullptr,
@@ -20,6 +21,8 @@ class Collider {
     bool overlaps(Collider* other);
     glm::bvec4 getOverlapDirection(Collider* other, glm::bvec4 oldDirection);
     void resize(float w, float h);
+    void enable() { this->enabled = true; }
+    void disable() { this->enabled = false; }
 };
 
 #endif
