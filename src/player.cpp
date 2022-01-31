@@ -39,17 +39,6 @@ void Player::draw() {
                                    sin(this->armAngle * M_PI / 180));
     firePosition.y = position.y + ((this->armHeight + 0.4 * this->size) *
                                    cos(this->armAngle * M_PI / 180));
-    // glPushMatrix();
-    // glTranslatef(firePosition.x, firePosition.y, 0.0f);
-    // glColor3f(0.2, 0.2, 0.2);
-    // glBegin(GL_POLYGON);
-    // glVertex2f(-1, -1);
-    // glVertex2f(1, -1);
-    // glVertex2f(1, 1);
-    // glVertex2f(-1, 1);
-    // glEnd();
-    // glPopMatrix();
-
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
 }
@@ -87,9 +76,6 @@ void Player::handleMovementKeys() {
         this->isRequestingJump = false;
     }
 
-    // if (context->isKeyPressed('s') || context->isKeyPressed('S')) {
-    //     this->moveY(20);
-    // }
     if (context->getIsPressingLMB()) {
         if (!isRequestingFire) {
             this->shoot();
@@ -154,7 +140,6 @@ void Player::handleJump() {
 }
 
 void Player::shoot() {
-    // glPushMatrix();
     glfvec2 position = this->getPosition();
 
     glfvec2 firePosition = {0, 0};
