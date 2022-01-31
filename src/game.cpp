@@ -42,6 +42,8 @@ void Game::draw() {
     }
     if (this->state == GameState::OVER) {
         this->drawGameOverScreen();
+    } else if (this->state == GameState::WON) {
+        this->drawWinScreen();
     }
 }
 
@@ -90,6 +92,7 @@ void Game::deleteProjectile(Projectile* projectile) {
             it++;
         }
     }
+    printf("deleted ok\n");
 }
 
 void Game::deleteEnemy(Enemy* enemy) {
@@ -122,7 +125,9 @@ void Game::togglePause() {
     }
 }
 
-bool Game::canRestart() { return this->state == GameState::OVER; }
+bool Game::canRestart() {
+    return this->state == GameState::OVER || this->state == GameState::WON;
+}
 
 void Game::drawGameOverScreen() {
     glPushMatrix();
@@ -158,10 +163,57 @@ void Game::drawGameOverScreen() {
     }
 }
 
+void Game::drawWinScreen() {
+    glPushMatrix();
+    glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
+    glTranslatef(this->cam->getPosition().x, this->cam->getPosition().y, 0);
+    glBegin(GL_QUADS);
+    glVertex2f(-250.0f, -250.0f);
+    glVertex2f(250.0f, -250.0f);
+    glVertex2f(250.0f, 250.0f);
+    glVertex2f(-250.0f, 250.0f);
+    glEnd();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    glPopMatrix();
+    char* tmpString;
+    glColor3f(1.0f, 1.0f, 1.0f);
+    sprintf(context->textBuffer, "You Won!");
+    tmpString = context->textBuffer;
+    glRasterPos2f(this->cam->getPosition().x - 2, this->cam->getPosition().y);
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
+
+    glRasterPos2f(this->cam->getPosition().x - 4,
+                  this->cam->getPosition().y + 2);
+    sprintf(context->textBuffer, "Press R to restart");
+    tmpString = context->textBuffer;
+    while (*tmpString) {
+        glutBitmapCharacter(context->font, *tmpString);
+        tmpString++;
+    }
+}
+
 void Game::setupCamera() {
     glm::fvec4 worldBounds = map->getWorldBounds();
     float deltaY = worldBounds[3] - worldBounds[2];
     printf("deltay = %.2f\n", deltaY);
     this->cam->setDesiredSize({deltaY, deltaY});
     this->cam->setTargetYCoordinates(worldBounds[2] + deltaY / 2);
+}
+
+const char* Game::getState() {
+    if (this->state == GameState::PLAYING) {
+        return "Playing";
+    } else if (this->state == GameState::PAUSED) {
+        return "Paused";
+    } else if (this->state == GameState::OVER) {
+        return "Over";
+    } else if (this->state == GameState::WON) {
+        return "Won";
+    }
+    return "";
 }

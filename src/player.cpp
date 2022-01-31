@@ -48,6 +48,10 @@ void Player::idle() {
     this->updateAnimState();
     this->handleJump();
     this->updateArmAngle();
+    if (this->getPosition().x >=
+        context->getGameRef()->getMap()->getWorldBounds()[1] - 1) {
+        context->getGameRef()->setState(GameState::WON);
+    }
 }
 
 void Player::handleMovementKeys() {

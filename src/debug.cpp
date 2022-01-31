@@ -66,6 +66,7 @@ void imgui_display() {
                     context->getGameRef()->getMap()->getWorldBounds()[1],
                     context->getGameRef()->getMap()->getWorldBounds()[2],
                     context->getGameRef()->getMap()->getWorldBounds()[3]);
+        ImGui::Text("Game State: %s", context->getGameRef()->getState());
         ImGui::End();
     }
     if (context->shouldDrawCameraInfo) {

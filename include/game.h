@@ -10,7 +10,7 @@
 
 #include <vector>
 
-enum GameState { PLAYING, PAUSED, OVER };
+enum GameState { PLAYING, PAUSED, OVER, WON };
 
 class Game {
     Player* player = nullptr;
@@ -42,7 +42,9 @@ class Game {
     void togglePause();
     bool canRestart();
     void drawGameOverScreen();
+    void drawWinScreen();
     void setupCamera();
+    const char* getState();
 };
 
 #endif
