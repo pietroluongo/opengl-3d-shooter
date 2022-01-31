@@ -36,6 +36,9 @@ class GlobalCtx {
     bool shouldPlatformsShowCollisions = false;
     bool shouldEnemiesDrawInfo = false;
 
+    bool enemiesCanShoot = false;
+    bool enemiesCanMove = false;
+
     bool imguiHasMouseFocus = false;
 
     void* font = GLUT_BITMAP_9_BY_15;

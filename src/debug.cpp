@@ -100,6 +100,8 @@ void imgui_display() {
         ImGui::Begin("Enemy [F4]", &context->shouldDrawEnemyInfo);
         ImGui::Checkbox("Toggle Enemy Debug Info",
                         &context->shouldEnemiesDrawInfo);
+        ImGui::Checkbox("Toggle shooting", &context->enemiesCanShoot);
+        ImGui::Checkbox("Toggle movement", &context->enemiesCanMove);
         int i = 0;
         std::ostringstream os;
         for (auto enemy : enemies) {

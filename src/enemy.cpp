@@ -75,7 +75,8 @@ void Enemy::idle() {
     if (this->enemyShootTimer >= this->targetShootTimer) {
         this->enemyShootTimer = 0;
         this->targetShootTimer = rand() % 600 / 100 + 1;
-        this->shoot();
+        if (context->enemiesCanShoot)
+            this->shoot();
     }
     this->Object::idle();
     this->updateArmAngle();
@@ -98,7 +99,12 @@ void Enemy::idle() {
                            this->getPosition().y);
         }
     }
-    this->moveX(this->moveDirection * 10);
+    if (context->enemiesCanMove) {
+        this->currentAnimState = AnimState::WALKING;
+        this->moveX(this->moveDirection * 10);
+    } else {
+        this->currentAnimState = AnimState::IDLE;
+    }
 }
 
 void Enemy::updateArmAngle() {
