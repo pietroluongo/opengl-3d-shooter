@@ -130,7 +130,7 @@ void Player::handleJump() {
         this->setIsAffectedByGravity(true);
     }
     if (this->wasRequestingJump && !this->isRequestingJump ||
-        this->hasHitHead) {
+        this->hasHitHead || (this->fallTimer > 0 && !this->isRequestingJump)) {
         shouldIncreaseHeight = false;
     }
     if (this->isRequestingJump && this->jumpTime < 1 && shouldIncreaseHeight) {
