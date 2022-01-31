@@ -44,18 +44,19 @@ void Map::loadArena(char* fileName) {
     while (currentNode != NULL) {
         if (svgIsRect(currentNode->Name())) {
             if (svgIsTag(currentNode->Attribute("fill"), SVG_BARRIER)) {
-                Platform* p = new Platform(currentNode->IntAttribute("x"),
-                                           currentNode->IntAttribute("y"),
-                                           currentNode->IntAttribute("width"),
-                                           currentNode->IntAttribute("height"));
+                Platform* p =
+                    new Platform(currentNode->FloatAttribute("x"),
+                                 currentNode->FloatAttribute("y"),
+                                 currentNode->FloatAttribute("width"),
+                                 currentNode->FloatAttribute("height"));
                 context->getGameRef()->getMap()->addPlatform(p);
             }
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYABLE_AREA)) {
                 int x, y, w, h;
-                x = currentNode->IntAttribute("x");
-                y = currentNode->IntAttribute("y");
-                w = currentNode->IntAttribute("width");
-                h = currentNode->IntAttribute("height");
+                x = currentNode->FloatAttribute("x");
+                y = currentNode->FloatAttribute("y");
+                w = currentNode->FloatAttribute("width");
+                h = currentNode->FloatAttribute("height");
                 Platform* p0 = new Platform(x, y - 1, w, 1);
                 Platform* p1 = new Platform(x - 1, y - 1, 1, h + 1);
                 Platform* p2 = new Platform(x, y + h, w, 1);
@@ -69,14 +70,14 @@ void Map::loadArena(char* fileName) {
         } else if (svgIsCircle(currentNode->Name())) {
             if (svgIsTag(currentNode->Attribute("fill"), SVG_PLAYER)) {
                 context->getGameRef()->createPlayer(
-                    currentNode->IntAttribute("cx"),
-                    currentNode->IntAttribute("cy"),
-                    2 * currentNode->IntAttribute("r"));
+                    currentNode->FloatAttribute("cx"),
+                    currentNode->FloatAttribute("cy"),
+                    2 * currentNode->FloatAttribute("r"));
             } else if (svgIsTag(currentNode->Attribute("fill"), SVG_ENEMY)) {
                 context->getGameRef()->createEnemy(
-                    currentNode->IntAttribute("cx"),
-                    currentNode->IntAttribute("cy"),
-                    2 * currentNode->IntAttribute("r"));
+                    currentNode->FloatAttribute("cx"),
+                    currentNode->FloatAttribute("cy"),
+                    2 * currentNode->FloatAttribute("r"));
             }
         }
         currentNode = currentNode->NextSiblingElement();
