@@ -45,7 +45,6 @@ void mouse(int button, int state, int x, int y) {
             context->setMouseButtons(MOUSE_BUTTON_RIGHT, false);
         }
     }
-
     passiveMotion(x, y);
     glutPostRedisplay();
 };
@@ -103,6 +102,7 @@ void setupGlut(int argc, char** argv) {
 
     glutDisplayFunc(display);
     glutPassiveMotionFunc(passiveMotion);
+    glutMotionFunc(passiveMotion);
     glutIdleFunc(idle);
 
     glutKeyboardFunc(keyDown);
