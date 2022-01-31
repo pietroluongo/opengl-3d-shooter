@@ -75,12 +75,6 @@ void Projectile::checkCollisions() {
             character->kill();
         }
     }
-    // for (auto enemy : enemies) {
-    //     if (this->collider->overlaps(enemy->getCollider())) {
-    //         context->getGameRef()->deleteEnemy(enemy);
-    //         context->getGameRef()->deleteProjectile(this);
-    //     }
-    // }
 }
 
 const char* Projectile::debug() { return "ok i'm alive\n"; }

@@ -15,6 +15,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     game->getPlayer()->reacquireColliders();
     for (auto enemy : game->getEnemies()) {
         enemy->reacquireColliders();
+        enemy->addCollider(game->getPlayer()->getCollider());
     }
 }
 
@@ -107,6 +108,7 @@ void GlobalCtx::resetGame() {
     game->getPlayer()->reacquireColliders();
     for (auto enemy : game->getEnemies()) {
         enemy->reacquireColliders();
+        enemy->addCollider(game->getPlayer()->getCollider());
     }
     this->totalTime = 0;
 }

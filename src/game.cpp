@@ -85,12 +85,16 @@ void Game::createProjectile(float x, float y, float size, float angle,
 void Game::deleteProjectile(Projectile* projectile) {
     auto it = std::find(this->projectiles.begin(), this->projectiles.end(),
                         projectile);
-    this->projectiles.erase(it);
+    if (it != this->projectiles.end()) {
+        this->projectiles.erase(it);
+    }
 }
 
 void Game::deleteEnemy(Enemy* enemy) {
     auto it = std::find(this->enemies.begin(), this->enemies.end(), enemy);
-    this->enemies.erase(it);
+    if (it != this->enemies.end()) {
+        this->enemies.erase(it);
+    }
 }
 
 std::vector<Collider*> Game::getAllObjectColliders() {

@@ -124,3 +124,7 @@ void Object::setIsAffectedByGravity(bool isAffected) {
 void Object::reacquireColliders() {
     this->colliders = context->getGameRef()->getAllObjectColliders();
 }
+
+void Object::addCollider(Collider* c) { this->colliders.push_back(c); }
+
+void Object::clearColliders() { this->colliders.clear(); }

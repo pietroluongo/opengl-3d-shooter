@@ -40,6 +40,8 @@ class Object {
     void setIsAffectedByGravity(bool isAffectedByGravity);
     double getFallTimer() { return this->fallTimer; };
     void reacquireColliders();
+    void addCollider(Collider* collider);
+    void clearColliders();
 };
 
 #endif
