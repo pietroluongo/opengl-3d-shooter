@@ -104,7 +104,10 @@ void GlobalCtx::resetGame() {
     this->game = new Game();
     game->getMap()->loadArena(arenaFile);
     this->game->setupCamera();
-
+    game->getPlayer()->reacquireColliders();
+    for (auto enemy : game->getEnemies()) {
+        enemy->reacquireColliders();
+    }
     this->totalTime = 0;
 }
 
