@@ -41,6 +41,10 @@ void Player::idle() {
     this->isRequestingMove = false;
     if (this->getCollisionArr()[3]) {
         this->isGrounded = true;
+        this->hasHitHead = false;
+    }
+    if (this->getCollisionArr()[2]) {
+        this->hasHitHead = true;
     }
     this->Object::idle();
     this->handleMovementKeys();
@@ -119,13 +123,14 @@ void Player::handleJump() {
         shouldIncreaseHeight = true;
         this->setIsAffectedByGravity(false);
     }
-    if (this->jumpTime >= 1) {
+    if (this->jumpTime >= 1 || this->hasHitHead) {
         this->setIsAffectedByGravity(true);
     }
     if (!this->isGrounded && !this->isRequestingJump) {
         this->setIsAffectedByGravity(true);
     }
-    if (this->wasRequestingJump && !this->isRequestingJump) {
+    if (this->wasRequestingJump && !this->isRequestingJump ||
+        this->hasHitHead) {
         shouldIncreaseHeight = false;
     }
     if (this->isRequestingJump && this->jumpTime < 1 && shouldIncreaseHeight) {

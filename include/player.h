@@ -16,6 +16,8 @@ class Player : public Character {
 
     bool isRequestingFire = false;
 
+    bool hasHitHead = false;
+
   public:
     bool isInvincible = false;
 
