@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := dev
+.DEFAULT_GOAL := all
 
 GIT_HASH = `git rev-parse HEAD`
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
@@ -16,7 +16,7 @@ COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -g -Wall -std=c++11 $(COMPILE_VARS)
+CFLAGS  = -std=c++11 -O3 $(COMPILE_VARS)
 LINKING = -lglut -lGL -lGLU
 
 IMGUI_SOURCES_DIRTY := $(wildcard $(IMGUI_DIR)/*.cpp)
@@ -35,12 +35,6 @@ dev: trabalhocg
 	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 
 slow: remake dev
-
-collisionTest: trabalhocg
-	./trabalhocg /home/pietroluongo/ufes/collisionTest.svg
-
-leakTest: trabalhocg
-	valgrind ./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 
 trabalhocg: trabalhocgDeps imgui tinyxml
 	$(CXX) $(CFLAGS) -o $@ $(BUILD_DIR)/*.o $(BUILD_DIR)/imgui/*.o $(BUILD_DIR)/tinyxml/*.o $(LINKING)
