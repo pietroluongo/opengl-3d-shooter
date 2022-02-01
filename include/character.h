@@ -18,6 +18,8 @@ class Character : public Object {
     AnimState currentAnimState = AnimState::IDLE;
     const double animDelta = 0.1;
 
+    glfvec3 shirtColor = {0.0f, 0.0f, 0.0f};
+
     void drawArm();
     void drawLegs();
     void drawHead();
@@ -92,6 +94,7 @@ class Character : public Object {
     void setLegsPosition(glm::fvec4 position);
     float* tmp_getSize() { return &this->size; };
     virtual void kill() = 0;
+    void setShirtColor(glfvec3 color) { this->shirtColor = color; };
 };
 
 #endif

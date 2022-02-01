@@ -65,11 +65,14 @@ void Game::idle() {
 
 void Game::createPlayer(double x, double y, double size) {
     this->player = new Player(x, y, size);
+    player->setShirtColor({0.0f, .5f, .0f});
     this->cam->setFollowTarget(this->player);
 }
 
 void Game::createEnemy(double x, double y, double size) {
-    this->enemies.push_back(new Enemy(x, y, size));
+    Enemy* enemy = new Enemy(x, y, size);
+    enemy->setShirtColor({1.0f, 0.0f, 0.0f});
+    this->enemies.push_back(enemy);
 }
 
 Camera* Game::getMainCamera() { return this->cam; }
