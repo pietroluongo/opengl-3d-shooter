@@ -1,6 +1,7 @@
 #include "../include/game.h"
 #include "../include/globalCtx.h"
 #include <algorithm>
+#include <cstring>
 
 extern GlobalCtx* context;
 
@@ -126,6 +127,20 @@ bool Game::canRestart() {
 }
 
 void Game::drawGameOverScreen() {
+    static const char* topText = "Game Over!";
+    static const int topTextSize = strlen(topText);
+    static int topTextWidth = 0;
+    for (int i = 0; i < strlen(topText); i++) {
+        topTextWidth += glutBitmapWidth(context->font, topText[i]);
+    }
+
+    static const char* bottomText = "Press R to restart";
+    static const int bottomTextSize = strlen(bottomText);
+    static int bottomTextWidth = 0;
+    for (int i = 0; i < bottomTextSize; i++) {
+        bottomTextWidth += glutBitmapWidth(context->font, bottomText[i]);
+    }
+
     glPushMatrix();
     glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
     glTranslatef(this->cam->getPosition().x, this->cam->getPosition().y, 0);
@@ -140,18 +155,20 @@ void Game::drawGameOverScreen() {
 
     glPopMatrix();
     char* tmpString;
-    glColor3f(1.0f, 1.0f, 1.0f);
-    sprintf(context->textBuffer, "Game over!");
+    glColor3f(1.0f, .0f, .0f);
+    sprintf(context->textBuffer, "%s", topText);
     tmpString = context->textBuffer;
-    glRasterPos2f(this->cam->getPosition().x - 2, this->cam->getPosition().y);
+    glRasterPos2f(this->cam->getPosition().x - topTextSize / 2,
+                  this->cam->getPosition().y);
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
+    glColor3f(1.0f, 1.0f, 1.0f);
 
-    glRasterPos2f(this->cam->getPosition().x - 4,
-                  this->cam->getPosition().y + 2);
-    sprintf(context->textBuffer, "Press R to restart");
+    glRasterPos2f(this->cam->getPosition().x - bottomTextSize / 2,
+                  this->cam->getPosition().y + 4);
+    sprintf(context->textBuffer, "%s", bottomText);
     tmpString = context->textBuffer;
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
@@ -160,6 +177,19 @@ void Game::drawGameOverScreen() {
 }
 
 void Game::drawWinScreen() {
+    static const char* topText = "You Won!";
+    static const int topTextSize = strlen(topText);
+    static int topTextWidth = 0;
+    for (int i = 0; i < strlen(topText); i++) {
+        topTextWidth += glutBitmapWidth(context->font, topText[i]);
+    }
+
+    static const char* bottomText = "Press R to restart";
+    static const int bottomTextSize = strlen(bottomText);
+    static int bottomTextWidth = 0;
+    for (int i = 0; i < bottomTextSize; i++) {
+        bottomTextWidth += glutBitmapWidth(context->font, bottomText[i]);
+    }
     glPushMatrix();
     glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
     glTranslatef(this->cam->getPosition().x, this->cam->getPosition().y, 0);
@@ -174,18 +204,20 @@ void Game::drawWinScreen() {
 
     glPopMatrix();
     char* tmpString;
-    glColor3f(1.0f, 1.0f, 1.0f);
-    sprintf(context->textBuffer, "You Won!");
+    glColor3f(.0f, 1.0f, .0f);
+    sprintf(context->textBuffer, "%s", topText);
     tmpString = context->textBuffer;
-    glRasterPos2f(this->cam->getPosition().x - 2, this->cam->getPosition().y);
+    glRasterPos2f(this->cam->getPosition().x - topTextSize / 2,
+                  this->cam->getPosition().y);
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
+    glColor3f(1.0f, 1.0f, 1.0f);
 
-    glRasterPos2f(this->cam->getPosition().x - 4,
-                  this->cam->getPosition().y + 2);
-    sprintf(context->textBuffer, "Press R to restart");
+    glRasterPos2f(this->cam->getPosition().x - bottomTextSize / 2,
+                  this->cam->getPosition().y + 4);
+    sprintf(context->textBuffer, "%s", bottomText);
     tmpString = context->textBuffer;
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
