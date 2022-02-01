@@ -9,6 +9,8 @@
 #include "../include/map.h"
 #include "_main.h"
 
+#define CUR_VER "v1.0"
+
 #ifndef GIT_HASH
 #define GIT_HASH "unknown revision"
 #endif
@@ -32,14 +34,22 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    //     static const char* header =
+    //         "\n\n##########################################################
+    //         \n\
+// #                 2D Shooter                             # \n\
+// #        %s        # \n\
+// #        compiled at %s           # \n\
+// ########################################################## \
+//             \n\n";
     static const char* header =
         "\n\n########################################################## \n\
-#                 2D Shooter                             # \n\
-#        %s        # \n\
+#                    2D Shooter                          # \n\
+#                       %s                             # \n\
 #        compiled at %s           # \n\
 ########################################################## \
             \n\n";
-    printf(header, GIT_HASH, COMPILE_TIME);
+    printf(header, CUR_VER, COMPILE_TIME);
 
     context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT, argv[1]);
 
