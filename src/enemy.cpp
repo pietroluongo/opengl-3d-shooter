@@ -123,9 +123,9 @@ void Enemy::shoot() {
     glfvec2 position = this->getPosition();
     context->getGameRef()->createProjectile(
         position.x + (this->armHeight * sin(-this->armAngle * M_PI / 180)),
-        position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)), 0.5,
-        (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_ENEMY,
-        5 * this->size);
+        position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)),
+        0.1 * this->size, (90 + this->armAngle) * M_PI / 180,
+        PROJECTILE_TYPE_ENEMY, 5 * this->size);
 }
 
 void Enemy::kill() {

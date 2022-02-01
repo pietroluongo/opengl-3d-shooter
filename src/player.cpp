@@ -149,8 +149,9 @@ void Player::shoot() {
                      ((this->armHeight + 0.2 * this->size) *
                       cos(this->armAngle * M_PI / 180));
     context->getGameRef()->createProjectile(
-        firePosition.x, firePosition.y, 0.5, (90 + this->armAngle) * M_PI / 180,
-        PROJECTILE_TYPE_PLAYER, 5 * this->size);
+        firePosition.x, firePosition.y, 0.1 * this->size,
+        (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER,
+        5 * this->size);
 }
 
 void Player::updateAnimState() {

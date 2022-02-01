@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := all
 
-GIT_HASH = `git rev-parse HEAD`
+# GIT_HASH = `git rev-parse HEAD`
+GIT_HASH = ""
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
 
 # the compiler: gcc for C program, define as g++ for C++
