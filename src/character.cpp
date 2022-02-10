@@ -1,6 +1,11 @@
 #include "../include/character.h"
 #include "../include/globalCtx.h"
 
+#if defined(_WIN32) || defined(WIN32)
+#define M_PI 3.14159265358979323846
+#endif
+
+
 extern GlobalCtx* context;
 
 void Character::drawChest() {
