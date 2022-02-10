@@ -90,44 +90,44 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/projectile.o \
 	$(BUILD_DIR)/character.o
 	
-$(BUILD_DIR)/globalctx.o: src/globalCtx.cpp | build
+$(BUILD_DIR)/globalctx.o: src/globalCtx.cpp include/globalCtx.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/game.o: src/game.cpp | build
+$(BUILD_DIR)/game.o: src/game.cpp include/game.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/player.o: src/player.cpp | build
+$(BUILD_DIR)/player.o: src/player.cpp include/player.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/main.o: src/main.cpp | build
+$(BUILD_DIR)/main.o: src/main.cpp src/_main.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/debug.o: src/debug.cpp | build
+$(BUILD_DIR)/debug.o: src/debug.cpp include/debug.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/platform.o: src/platform.cpp | build
+$(BUILD_DIR)/platform.o: src/platform.cpp include/platform.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/glutCallbacks.o: src/glutCallbacks.cpp | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/camera.o: src/camera.cpp | build
+$(BUILD_DIR)/camera.o: src/camera.cpp include/camera.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/object.o: src/object.cpp | build
+$(BUILD_DIR)/object.o: src/object.cpp include/object.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/map.o: src/map.cpp | build
+$(BUILD_DIR)/map.o: src/map.cpp include/map.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/enemy.o: src/enemy.cpp | build
+$(BUILD_DIR)/enemy.o: src/enemy.cpp include/enemy.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/collider.o: src/collider.cpp | build
+$(BUILD_DIR)/collider.o: src/collider.cpp include/collider.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 	
-$(BUILD_DIR)/projectile.o: src/projectile.cpp | build
+$(BUILD_DIR)/projectile.o: src/projectile.cpp include/projectile.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(BUILD_DIR)/character.o: src/character.cpp | build
+$(BUILD_DIR)/character.o: src/character.cpp include/character.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
