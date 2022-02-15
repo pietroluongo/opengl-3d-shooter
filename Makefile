@@ -26,7 +26,7 @@ COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -std=c++11 $(COMPILE_VARS) $(LINKING)
+CFLAGS  = -std=c++11 -g -Wall $(COMPILE_VARS) $(LINKING)
 
 ifeq ($(ARCH), WIN)
 ifeq ($(RENDERER), GLUT)

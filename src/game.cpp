@@ -13,18 +13,14 @@ Game::Game() {
 }
 
 Game::~Game() {
-    if (this->player != nullptr)
-        delete (this->player);
-    if (this->cam != nullptr)
-        delete (this->cam);
-    if (this->map != nullptr)
-        delete (this->map);
+    delete (this->player);
+    delete (this->cam);
+    delete (this->map);
     for (auto enemy : this->enemies) {
         delete (enemy);
     }
     for (auto projectile : this->projectiles) {
-        if (projectile != nullptr)
-            delete (projectile);
+        delete (projectile);
     }
 }
 
@@ -37,8 +33,7 @@ void Game::draw() {
         enemy->draw();
     }
     for (auto projectile : this->projectiles) {
-        if (projectile)
-            projectile->draw();
+        projectile->draw();
     }
     if (this->state == GameState::OVER) {
         this->drawGameOverScreen();
@@ -56,8 +51,7 @@ void Game::idle() {
             enemy->idle();
         }
         for (auto projectile : this->projectiles) {
-            if (projectile != nullptr)
-                projectile->idle();
+            projectile->idle();
         }
     }
     this->cam->idle();
@@ -83,15 +77,35 @@ std::vector<Enemy*> Game::getEnemies() { return this->enemies; }
 
 void Game::createProjectile(float x, float y, float size, float angle,
                             ProjectileType type, float speed) {
-    this->projectiles.push_back(new Projectile(x, y, size, angle, type, speed));
+    Projectile* proj = new Projectile(x, y, size, angle, type, speed);
+    Collider* coll = proj->getCollider();
+    this->projectiles.push_back(proj);
+    this->projectilesColliders.push_back(proj->getCollider());
 }
 
 void Game::deleteProjectile(Projectile* projectile) {
-    auto it = std::find(this->projectiles.begin(), this->projectiles.end(),
-                        projectile);
-    if (it != this->projectiles.end()) {
-        this->projectiles.erase(it);
-    }
+    this->projectiles.erase(std::remove(this->projectiles.begin(),
+                                        this->projectiles.end(), projectile),
+                            this->projectiles.end());
+    this->projectilesColliders.erase(
+        std::remove(this->projectilesColliders.begin(),
+                    this->projectilesColliders.end(),
+                    projectile->getCollider()),
+        this->projectilesColliders.end());
+    //    auto it = std::find(this->projectiles.begin(),
+    //    this->projectiles.end(),
+    //                        projectile);
+    //    if (it != this->projectiles.end()) {
+    //        printf("Erasing projectile...\n");
+    //        this->projectiles.erase(it);
+    //    }
+    //    auto it2 =
+    //        std::find(this->projectilesColliders.begin(),
+    //                  this->projectilesColliders.end(),
+    //                  projectile->getCollider());
+    //    if (it2 != this->projectilesColliders.end()) {
+    //        this->projectilesColliders.erase(it2);
+    //    }
 }
 
 void Game::deleteEnemy(Enemy* enemy) {
@@ -99,20 +113,6 @@ void Game::deleteEnemy(Enemy* enemy) {
     if (it != this->enemies.end()) {
         this->enemies.erase(it);
     }
-}
-
-std::vector<Collider*> Game::getAllObjectColliders() {
-    std::vector<Collider*> colliders;
-
-    for (auto enemy : this->getEnemies()) {
-        colliders.push_back(enemy->getCollider());
-    }
-
-    for (auto platform : this->getMap()->getPlatforms()) {
-        colliders.push_back(platform->getCollider());
-    }
-
-    return colliders;
 }
 
 void Game::setState(GameState state) { this->state = state; }

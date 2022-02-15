@@ -24,6 +24,7 @@ Map::~Map() {
 
 void Map::addPlatform(Platform* platform) {
     this->platforms.push_back(platform);
+    this->platformColliders.push_back(platform->getCollider());
 }
 
 void Map::draw() {

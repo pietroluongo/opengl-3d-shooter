@@ -33,6 +33,7 @@ class Player : public Character {
     void updateAnimState();
     double getJumpTime() { return this->jumpTime; };
     virtual void kill();
+    virtual std::vector<std::vector<Collider*>*> colliders();
 };
 
 #endif

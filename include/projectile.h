@@ -7,11 +7,11 @@
 
 enum ProjectileType { PROJECTILE_TYPE_PLAYER, PROJECTILE_TYPE_ENEMY };
 
-class Projectile : private Object {
+class Projectile : public Object {
 
   private:
     float angle;
-    std::vector<Character*> colliderCharacters;
+    ProjectileType type;
     float speed;
 
   public:
@@ -24,6 +24,7 @@ class Projectile : private Object {
     virtual void setPosition(GLfloat x, GLfloat y);
     void checkCollisions();
     const char* debug();
+    virtual std::vector<std::vector<Collider*>*> colliders();
 };
 
 #endif

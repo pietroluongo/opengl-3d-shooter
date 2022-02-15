@@ -8,7 +8,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-
 extern GlobalCtx* context;
 
 float limitArmMovement(float angle);
@@ -177,4 +176,10 @@ void Player::kill() {
         return;
     context->getGameRef()->setState(GameState::OVER);
     this->isAlive = false;
+}
+
+std::vector<std::vector<Collider*>*> Player::colliders() {
+    return std::vector<std::vector<Collider*>*>{
+        context->getGameRef()->getEnemyColliders(),
+        context->getGameRef()->getMap()->getPlatformsColliders()};
 }

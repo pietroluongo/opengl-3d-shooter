@@ -19,6 +19,7 @@ class Enemy : public Character {
     virtual void updateArmAngle();
     virtual void shoot();
     virtual void kill();
+    virtual std::vector<std::vector<Collider*>*> colliders();
 };
 
 #endif

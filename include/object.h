@@ -11,7 +11,6 @@ class Object {
     glfvec2 position = {0, 0};
     glfvec2 positionDelta = {0, 0};
     glm::bvec4 collisionDirections = {false, false, false, false};
-    std::vector<Collider*> colliders = {};
     double currentTime = 0;
     bool isAffectedByGravity = true;
 
@@ -39,9 +38,7 @@ class Object {
     void teleportToGround();
     void setIsAffectedByGravity(bool isAffectedByGravity);
     double getFallTimer() { return this->fallTimer; };
-    void reacquireColliders();
-    void addCollider(Collider* collider);
-    void clearColliders();
+    virtual std::vector<std::vector<Collider*>*> colliders() = 0;
 };
 
 #endif

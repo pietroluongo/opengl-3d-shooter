@@ -12,10 +12,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     this->game = new Game();
     game->getMap()->loadArena(arenaFile);
     this->game->setupCamera();
-    game->getPlayer()->reacquireColliders();
     for (auto enemy : game->getEnemies()) {
-        enemy->reacquireColliders();
-        enemy->addCollider(game->getPlayer()->getCollider());
         bool isGrounded = false;
         for (auto platform : game->getMap()->getPlatforms()) {
             if (platform->getCollider()->overlaps(enemy->getCollider())) {
@@ -115,10 +112,7 @@ void GlobalCtx::resetGame() {
     this->game = new Game();
     game->getMap()->loadArena(arenaFile);
     this->game->setupCamera();
-    game->getPlayer()->reacquireColliders();
     for (auto enemy : game->getEnemies()) {
-        enemy->reacquireColliders();
-        enemy->addCollider(game->getPlayer()->getCollider());
         bool isGrounded = false;
         for (auto platform : game->getMap()->getPlatforms()) {
             if (platform->getCollider()->overlaps(enemy->getCollider())) {

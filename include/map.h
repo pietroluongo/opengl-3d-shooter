@@ -7,6 +7,7 @@
 class Map {
   private:
     std::vector<Platform*> platforms;
+    std::vector<Collider*> platformColliders;
     glm::fvec4 worldBounds = {0, 0, 0, 0};
 
   public:
@@ -17,6 +18,9 @@ class Map {
     void loadArena(char* fileName);
     std::vector<Platform*> getPlatforms();
     glm::fvec4 getWorldBounds();
+    std::vector<Collider*>* getPlatformsColliders() {
+        return &this->platformColliders;
+    };
 };
 
 #endif

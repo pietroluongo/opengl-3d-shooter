@@ -9,7 +9,6 @@ Object::Object(GLfloat x, GLfloat y, GLfloat size) {
     this->size = size;
     this->collider =
         new Collider(x, y, size, size, this, pivotPosition::CENTER);
-    this->reacquireColliders();
 }
 
 Object::Object() {}
@@ -58,25 +57,27 @@ void Object::idle() {
     this->isGrounded = false;
     this->collider->idle();
 
-    for (auto otherCollider : this->colliders) {
-        if (this->collider->overlaps(otherCollider)) {
-            this->collisionDirections = this->collider->getOverlapDirection(
-                otherCollider, collisionDirections);
-            if (this->collisionDirections[0] && this->positionDelta.x < 0) {
-                this->positionDelta.x = 0;
-            }
-            if (this->collisionDirections[1] && this->positionDelta.x > 0) {
-                this->positionDelta.x = 0;
-            }
-            if (this->collisionDirections[3] && this->positionDelta.y > 0) {
-                this->positionDelta.y = 0;
-            }
-            if (this->collisionDirections[2] && this->positionDelta.y < 0) {
-                this->positionDelta.y = 0;
-            }
+    for (auto colliderList : this->colliders()) {
+        for (auto otherCollider : *colliderList) {
+            if (this->collider->overlaps(otherCollider)) {
+                this->collisionDirections = this->collider->getOverlapDirection(
+                    otherCollider, collisionDirections);
+                if (this->collisionDirections[0] && this->positionDelta.x < 0) {
+                    this->positionDelta.x = 0;
+                }
+                if (this->collisionDirections[1] && this->positionDelta.x > 0) {
+                    this->positionDelta.x = 0;
+                }
+                if (this->collisionDirections[3] && this->positionDelta.y > 0) {
+                    this->positionDelta.y = 0;
+                }
+                if (this->collisionDirections[2] && this->positionDelta.y < 0) {
+                    this->positionDelta.y = 0;
+                }
 
-            if (this->collisionDirections[3]) {
-                this->isGrounded = true;
+                if (this->collisionDirections[3]) {
+                    this->isGrounded = true;
+                }
             }
         }
     }
@@ -111,12 +112,14 @@ void Object::teleportToGround() {
         glfvec2 oldPosition = this->position;
         this->position.y += 1;
         this->collider->idle();
-        for (auto otherCollider : this->colliders) {
-            if (this->collider->overlaps(otherCollider)) {
-                this->position = oldPosition;
-                this->position.y += .01;
-                this->collider->idle();
-                return;
+        for (auto colliderList : this->colliders()) {
+            for (auto otherCollider : *colliderList) {
+                if (this->collider->overlaps(otherCollider)) {
+                    this->position = oldPosition;
+                    this->position.y += .01;
+                    this->collider->idle();
+                    return;
+                }
             }
         }
     }
@@ -125,11 +128,3 @@ void Object::teleportToGround() {
 void Object::setIsAffectedByGravity(bool isAffected) {
     this->isAffectedByGravity = isAffected;
 }
-
-void Object::reacquireColliders() {
-    this->colliders = context->getGameRef()->getAllObjectColliders();
-}
-
-void Object::addCollider(Collider* c) { this->colliders.push_back(c); }
-
-void Object::clearColliders() { this->colliders.clear(); }

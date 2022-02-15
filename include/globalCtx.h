@@ -38,11 +38,11 @@ class GlobalCtx {
 #endif
 
   public:
-    bool shouldDrawDebugInfo = true;
-    bool shouldDrawCameraInfo = true;
-    bool shouldDrawPhysicsInfo = true;
-    bool shouldDrawPlayerInfo = true;
-    bool shouldDrawEnemyInfo = true;
+    bool shouldDrawDebugInfo = false;
+    bool shouldDrawCameraInfo = false;
+    bool shouldDrawPhysicsInfo = false;
+    bool shouldDrawPlayerInfo = false;
+    bool shouldDrawEnemyInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;

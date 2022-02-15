@@ -17,9 +17,17 @@ class Game {
     Camera* cam = nullptr;
     Map* map = nullptr;
     std::vector<Enemy*> enemies = {};
+    std::vector<Collider*> enemyColliders = {};
+
     std::vector<Projectile*> projectiles = {};
+    std::vector<Collider*> projectilesColliders = {};
+
     std::vector<Collider*> colliders = {};
+
     GameState state = PLAYING;
+
+    bool enemyCollidersNeedUpdate = false;
+    bool projectilesCollidersNeedUpdate = false;
 
   public:
     Game();
@@ -45,6 +53,12 @@ class Game {
     void drawWinScreen();
     void setupCamera();
     const char* getState();
+    std::vector<Collider*>* getEnemyColliders() {
+        return &this->enemyColliders;
+    }
+    std::vector<Collider*>* getProjectilesColliders() {
+        return &this->projectilesColliders;
+    }
 };
 
 #endif

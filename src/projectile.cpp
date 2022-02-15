@@ -6,7 +6,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-
 extern GlobalCtx* context;
 
 Projectile::Projectile(float x, float y, float size, float angle,
@@ -16,17 +15,13 @@ Projectile::Projectile(float x, float y, float size, float angle,
     this->getCollider()->resize(size, size / 2);
     this->setIsAffectedByGravity(false);
     this->speed = speed;
-    if (type == PROJECTILE_TYPE_PLAYER) {
-        std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
-        for (auto enemy : enemies) {
-            this->colliderCharacters.push_back(enemy);
-        }
-    } else {
-        this->colliderCharacters.push_back(context->getGameRef()->getPlayer());
-    }
+    this->type = type;
 }
 
-Projectile::~Projectile() { delete (this->collider); }
+Projectile::~Projectile() {
+    printf("deleteing projectile...\n");
+    delete (this->collider);
+}
 
 void Projectile::draw() {
     glfvec2 position = this->getPosition();
@@ -75,12 +70,23 @@ void Projectile::checkCollisions() {
             context->getGameRef()->deleteProjectile(this);
         }
     }
-    for (auto character : colliderCharacters) {
-        if (this->collider->overlaps(character->getCollider())) {
+    if (this->type == PROJECTILE_TYPE_PLAYER) {
+        std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+        for (auto enemy : enemies) {
+            if (this->collider->overlaps(enemy->getCollider())) {
+                context->getGameRef()->deleteProjectile(this);
+                context->getGameRef()->deleteEnemy(enemy);
+            }
+        }
+    } else {
+        Player* player = context->getGameRef()->getPlayer();
+        if (this->collider->overlaps(player->getCollider())) {
             context->getGameRef()->deleteProjectile(this);
-            character->kill();
+            player->kill();
         }
     }
 }
 
 const char* Projectile::debug() { return "ok i'm alive\n"; }
+
+std::vector<std::vector<Collider*>*> Projectile::colliders() { return {}; }
