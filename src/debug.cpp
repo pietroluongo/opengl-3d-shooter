@@ -13,15 +13,26 @@ void imgui_init() {
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
     ImGui::StyleColorsDark();
+#ifdef USE_GLUT
     ImGui_ImplGLUT_Init();
     ImGui_ImplGLUT_InstallFuncs();
+#endif
+
+#ifdef USE_GLFW
+    ImGui_ImplGlfw_InitForOpenGL(context->getWindow(), true);
+#endif
+
     ImGui_ImplOpenGL2_Init();
 }
 
 void drawUI() {
     ImGui_ImplOpenGL2_NewFrame();
+#ifdef USE_GLUT
     ImGui_ImplGLUT_NewFrame();
-
+#endif
+#ifdef USE_GLFW
+    ImGui_ImplGlfw_NewFrame();
+#endif
     imgui_display();
 
     ImGui::Render();

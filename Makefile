@@ -1,5 +1,9 @@
 .DEFAULT_GOAL := all
 
+ifndef $(RENDERER)
+RENDERER = GLUT
+endif
+
 GIT_HASH = `git rev-parse HEAD`
 # GIT_HASH = ""
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
@@ -42,6 +46,12 @@ IMGUI_SOURCES_NO_PREFIX := $(subst $(IMGUI_DIR)/,,$(IMGUI_SOURCES_DIRTY))
 IMGUI_SOURCES := $(IMGUI_SOURCES_NO_PREFIX:.cpp=)
 IMGUI_OBJS := $(IMGUI_SOURCES:%=$(BUILD_DIR)/imgui/%.o)
 
+ifeq ($(RENDERER), GLUT)
+IMGUI_OBJS := $(IMGUI_OBJS) $(BUILD_DIR)/imgui/imgui_impl_glut.o
+else
+IMGUI_OBJS := $(IMGUI_OBJS) $(BUILD_DIR)/imgui/imgui_impl_glfw.o
+endif
+
 TINYXML_SOURCES_DIRTY := $(wildcard $(TINYXML_DIR)/*.cpp)
 TINYXML_SOURCES_NO_PREFIX := $(subst $(TINYXML_DIR)/,,$(TINYXML_SOURCES_DIRTY))
 TINYXML_SOURCES := $(TINYXML_SOURCES_NO_PREFIX:.cpp=)
@@ -70,6 +80,12 @@ $(BUILD_DIR)/tinyxml/%.o: $(TINYXML_DIR)/%.cpp | build_tinyxml
 $(BUILD_DIR)/imgui/%.o: $(IMGUI_DIR)/%.cpp | build_imgui
 	$(CXX) $(CFLAGS) -o $@ -c $< 
 
+$(BUILD_DIR)/imgui/%.o: $(IMGUI_DIR)/glut/%.cpp | build_imgui
+	$(CXX) $(CFLAGS) -o $@ -c $< 
+
+$(BUILD_DIR)/imgui/%.o: $(IMGUI_DIR)/glfw/%.cpp | build_imgui
+	$(CXX) $(CFLAGS) -o $@ -c $< 
+
 build_imgui: build
 	mkdir build/imgui -p
 
@@ -91,6 +107,14 @@ remake: clean all
 
 # Domain classes
 
+CALLBACK_DEPS = ""
+
+ifeq ($(RENDERER), GLUT)
+	CALLBACK_DEPS = $(BUILD_DIR)/glutCallbacks.o
+else
+	CALLBACK_DEPS = $(BUILD_DIR)/glfwCallbacks.o
+endif
+
 trabalhocgDeps: \
 	$(BUILD_DIR)/main.o \
 	$(BUILD_DIR)/globalctx.o \
@@ -98,15 +122,16 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/player.o \
 	$(BUILD_DIR)/debug.o \
 	$(BUILD_DIR)/platform.o \
-	$(BUILD_DIR)/glutCallbacks.o \
 	$(BUILD_DIR)/camera.o \
 	$(BUILD_DIR)/object.o \
 	$(BUILD_DIR)/map.o \
 	$(BUILD_DIR)/enemy.o \
 	$(BUILD_DIR)/collider.o \
 	$(BUILD_DIR)/projectile.o \
-	$(BUILD_DIR)/character.o
-	
+	$(BUILD_DIR)/character.o \
+	$(CALLBACK_DEPS)
+
+
 $(BUILD_DIR)/globalctx.o: src/globalCtx.cpp include/globalCtx.h include/constants.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
@@ -147,4 +172,7 @@ $(BUILD_DIR)/projectile.o: src/projectile.cpp include/projectile.h include/const
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/character.o: src/character.cpp include/character.h include/constants.h | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/glfwCallbacks.o: src/glfwCallbacks.cpp include/glfwCallbacks.h include/constants.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

@@ -3,12 +3,19 @@
 #include "../include/game.h"
 #include "../libs/glm/glm.hpp"
 #include "customTypes.h"
+#if defined(_WIN32) || defined(WIN32)
+#include <windows.h>
+#endif
+
+#ifdef USE_GLUT
 #include <GL/gl.h>
 #include <GL/glu.h>
-#if defined(_WIN32) || defined(WIN32)
-#include <windows.h> 
-#endif
 #include <GL/glut.h>
+#endif
+
+#ifdef USE_GLFW
+#include <GLFW/glfw3.h>
+#endif
 
 enum MouseButtonState {
     MOUSE_BUTTON_LEFT,
@@ -26,6 +33,9 @@ class GlobalCtx {
     GLdouble framerate = 0, deltaTime = 0;
     GLdouble totalTime = 0;
     char arenaFile[99] = {};
+#ifdef USE_GLFW
+    GLFWwindow* window;
+#endif
 
   public:
     bool shouldDrawDebugInfo = false;
@@ -43,8 +53,9 @@ class GlobalCtx {
     bool enemiesCanMove = true;
 
     bool imguiHasMouseFocus = false;
-
+#ifdef USE_GLUT
     void* font = GLUT_BITMAP_9_BY_15;
+#endif
     char textBuffer[1024];
 
     GlobalCtx(GLint w, GLint h, char* arenaFile);
@@ -73,6 +84,9 @@ class GlobalCtx {
     void setMouseButtons(MouseButtonState state, bool status);
     bool getIsPressingLMB() { return this->isPressingLMB; }
     bool getIsPressingRMB() { return this->isPressingRMB; }
+#ifdef USE_GLFW
+    GLFWwindow* getWindow() { return this->window; }
+#endif
 };
 
 #endif

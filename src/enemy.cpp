@@ -8,7 +8,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-
 extern GlobalCtx* context;
 
 Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
@@ -44,7 +43,7 @@ void Enemy::draw() {
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
     if (context->shouldEnemiesDrawInfo) {
-
+#ifdef USE_GLUT
         char* tmpString;
         glColor3f(1.0f, 1.0f, 1.0f);
         sprintf(context->textBuffer, "Inimigo");
@@ -71,6 +70,7 @@ void Enemy::draw() {
             glutBitmapCharacter(context->font, *tmpString);
             tmpString++;
         }
+#endif
     }
 }
 

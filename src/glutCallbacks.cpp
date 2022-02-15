@@ -3,14 +3,14 @@
 #include "../include/constants.h"
 #include "../include/debug.h"
 
+#include "../libs/imgui/glut/imgui_impl_glut.h"
 #include "../libs/imgui/imgui.h"
-#include "../libs/imgui/imgui_impl_glut.h"
 #include "../libs/imgui/imgui_impl_opengl2.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
 #if defined(_WIN32) || defined(WIN32)
-#include <windows.h> 
+#include <windows.h>
 #endif
 #include <GL/glut.h>
 

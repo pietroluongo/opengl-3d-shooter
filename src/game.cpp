@@ -133,6 +133,7 @@ void Game::drawGameOverScreen() {
     static const char* topText = "Game Over!";
     static const int topTextSize = strlen(topText);
     static int topTextWidth = 0;
+#ifdef USE_GLUT
     for (int i = 0; i < strlen(topText); i++) {
         topTextWidth += glutBitmapWidth(context->font, topText[i]);
     }
@@ -143,6 +144,7 @@ void Game::drawGameOverScreen() {
     for (int i = 0; i < bottomTextSize; i++) {
         bottomTextWidth += glutBitmapWidth(context->font, bottomText[i]);
     }
+#endif
 
     glPushMatrix();
     glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
@@ -163,6 +165,7 @@ void Game::drawGameOverScreen() {
     tmpString = context->textBuffer;
     glRasterPos2f(this->cam->getPosition().x - topTextSize / 2,
                   this->cam->getPosition().y);
+#ifdef USE_GLUT
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
@@ -177,12 +180,14 @@ void Game::drawGameOverScreen() {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
+#endif
 }
 
 void Game::drawWinScreen() {
     static const char* topText = "You Won!";
     static const int topTextSize = strlen(topText);
     static int topTextWidth = 0;
+#ifdef USE_GLUT
     for (int i = 0; i < strlen(topText); i++) {
         topTextWidth += glutBitmapWidth(context->font, topText[i]);
     }
@@ -193,6 +198,7 @@ void Game::drawWinScreen() {
     for (int i = 0; i < bottomTextSize; i++) {
         bottomTextWidth += glutBitmapWidth(context->font, bottomText[i]);
     }
+#endif
     glPushMatrix();
     glColor4f(0.0f, 0.0f, 0.0f, 0.8f);
     glTranslatef(this->cam->getPosition().x, this->cam->getPosition().y, 0);
@@ -212,6 +218,7 @@ void Game::drawWinScreen() {
     tmpString = context->textBuffer;
     glRasterPos2f(this->cam->getPosition().x - topTextSize / 2,
                   this->cam->getPosition().y);
+#ifdef USE_GLUT
     while (*tmpString) {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
@@ -226,6 +233,7 @@ void Game::drawWinScreen() {
         glutBitmapCharacter(context->font, *tmpString);
         tmpString++;
     }
+#endif
 }
 
 void Game::setupCamera() {
