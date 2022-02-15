@@ -47,7 +47,6 @@ void Character::drawGun() {
     glColor3f(0.2f, .2f, .2f);
     glTranslatef(0.0f, this->armHeight, 0.0f);
     glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
-    int multiplier = 1;
     if (this->currentHeading == RIGHT) {
         glRotatef(180, 1.0f, 0, 0);
     }

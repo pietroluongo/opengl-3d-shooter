@@ -78,7 +78,6 @@ std::vector<Enemy*> Game::getEnemies() { return this->enemies; }
 void Game::createProjectile(float x, float y, float size, float angle,
                             ProjectileType type, float speed) {
     Projectile* proj = new Projectile(x, y, size, angle, type, speed);
-    Collider* coll = proj->getCollider();
     this->projectiles.push_back(proj);
     this->projectilesColliders.push_back(proj->getCollider());
 }
@@ -92,20 +91,6 @@ void Game::deleteProjectile(Projectile* projectile) {
                     this->projectilesColliders.end(),
                     projectile->getCollider()),
         this->projectilesColliders.end());
-    //    auto it = std::find(this->projectiles.begin(),
-    //    this->projectiles.end(),
-    //                        projectile);
-    //    if (it != this->projectiles.end()) {
-    //        printf("Erasing projectile...\n");
-    //        this->projectiles.erase(it);
-    //    }
-    //    auto it2 =
-    //        std::find(this->projectilesColliders.begin(),
-    //                  this->projectilesColliders.end(),
-    //                  projectile->getCollider());
-    //    if (it2 != this->projectilesColliders.end()) {
-    //        this->projectilesColliders.erase(it2);
-    //    }
 }
 
 void Game::deleteEnemy(Enemy* enemy) {
@@ -134,14 +119,14 @@ void Game::drawGameOverScreen() {
     static const int topTextSize = strlen(topText);
     static int topTextWidth = 0;
 #ifdef USE_GLUT
-    for (int i = 0; i < strlen(topText); i++) {
+    for (long unsigned int i = 0; i < strlen(topText); i++) {
         topTextWidth += glutBitmapWidth(context->font, topText[i]);
     }
 
     static const char* bottomText = "Press R to restart";
-    static const int bottomTextSize = strlen(bottomText);
+    static const unsigned long int bottomTextSize = strlen(bottomText);
     static int bottomTextWidth = 0;
-    for (int i = 0; i < bottomTextSize; i++) {
+    for (long unsigned int i = 0; i < bottomTextSize; i++) {
         bottomTextWidth += glutBitmapWidth(context->font, bottomText[i]);
     }
 #endif
@@ -185,10 +170,10 @@ void Game::drawGameOverScreen() {
 
 void Game::drawWinScreen() {
     static const char* topText = "You Won!";
-    static const int topTextSize = strlen(topText);
+    static const unsigned long int topTextSize = strlen(topText);
     static int topTextWidth = 0;
 #ifdef USE_GLUT
-    for (int i = 0; i < strlen(topText); i++) {
+    for (unsigned long int i = 0; i < strlen(topText); i++) {
         topTextWidth += glutBitmapWidth(context->font, topText[i]);
     }
 
