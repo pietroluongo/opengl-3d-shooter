@@ -76,6 +76,14 @@ int main(int argc, char** argv) {
 
     glfw::mainLoop();
 
+    // Cleanup
+    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(context->getWindow());
+    glfwTerminate();
+
 #endif
 
 #ifdef USE_GLUT
