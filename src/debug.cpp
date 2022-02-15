@@ -11,8 +11,10 @@ void imgui_init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    (void)io;
     ImGui::StyleColorsDark();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport
+    io.ConfigViewportsNoTaskBarIcon = true;
 #ifdef USE_GLUT
     ImGui_ImplGLUT_Init();
     ImGui_ImplGLUT_InstallFuncs();
@@ -21,7 +23,6 @@ void imgui_init() {
 #ifdef USE_GLFW
     ImGui_ImplGlfw_InitForOpenGL(context->getWindow(), true);
 #endif
-
     ImGui_ImplOpenGL2_Init();
 }
 
@@ -33,12 +34,19 @@ void drawUI() {
 #ifdef USE_GLFW
     ImGui_ImplGlfw_NewFrame();
 #endif
+    ImGui::NewFrame();
     imgui_display();
 
     ImGui::Render();
     ImGuiIO& io = ImGui::GetIO();
     glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
     ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
 }
 
 void imgui_display() {

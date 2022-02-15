@@ -4,12 +4,15 @@
 #endif
 
 #ifdef USE_GLUT
+#include "../include/glutCallbacks.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+
 #endif
 
 #ifdef USE_GLFW
+#include "../include/glfwCallbacks.h"
 #include <GLFW/glfw3.h>
 #endif
 
@@ -17,9 +20,6 @@
 
 #include "../include/constants.h"
 #include "../include/debug.h"
-#ifdef USE_GLUT
-#include "../include/glutCallbacks.h"
-#endif
 #include "../include/map.h"
 #include "_main.h"
 
@@ -30,10 +30,6 @@
 #ifndef COMPILE_TIME
 #define COMPILE_TIME "unknown time"
 #endif
-
-static void glfw_error_callback(int error, const char* description) {
-    printf("GLFW Error %d: %s\n", error, description);
-}
 
 void init() {
     glClearColor(0.f, 0.f, 1.f, 1.f);
@@ -76,24 +72,9 @@ int main(int argc, char** argv) {
     init();
 
 #ifdef USE_GLFW
+    glfw::init();
 
-    glfwSetErrorCallback(glfw_error_callback);
-    if (!glfwInit()) {
-        return 1;
-    }
-    GLFWwindow* mainWindow =
-        glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "2D Shooter", NULL, NULL);
-    if (mainWindow == NULL) {
-        return 1;
-    }
-    glfwMakeContextCurrent(mainWindow);
-    glfwSwapInterval(1);
-
-    while (!glfwWindowShouldClose(mainWindow)) {
-        glfwPollEvents();
-        glClear(GL_COLOR_BUFFER_BIT);
-        glfwSwapBuffers(mainWindow);
-    }
+    glfw::mainLoop();
 
 #endif
 

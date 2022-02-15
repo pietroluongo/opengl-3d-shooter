@@ -38,11 +38,11 @@ class GlobalCtx {
 #endif
 
   public:
-    bool shouldDrawDebugInfo = false;
-    bool shouldDrawCameraInfo = false;
-    bool shouldDrawPhysicsInfo = false;
-    bool shouldDrawPlayerInfo = false;
-    bool shouldDrawEnemyInfo = false;
+    bool shouldDrawDebugInfo = true;
+    bool shouldDrawCameraInfo = true;
+    bool shouldDrawPhysicsInfo = true;
+    bool shouldDrawPlayerInfo = true;
+    bool shouldDrawEnemyInfo = true;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;
@@ -86,6 +86,7 @@ class GlobalCtx {
     bool getIsPressingRMB() { return this->isPressingRMB; }
 #ifdef USE_GLFW
     GLFWwindow* getWindow() { return this->window; }
+    void setWindow(GLFWwindow* window) { this->window = window; }
 #endif
 };
 
