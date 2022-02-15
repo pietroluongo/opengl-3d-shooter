@@ -1,10 +1,18 @@
-#include <GL/gl.h>
-#include <GL/glu.h>
 #if defined(_WIN32) || defined(WIN32)
 #define UNICODE
-#include <windows.h> 
+#include <windows.h>
 #endif
+
+#ifdef USE_GLUT
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <GL/glut.h>
+#endif
+
+#ifdef USE_GLFW
+#include <GLFW/glfw3.h>
+#endif
+
 #include <cstdio>
 
 #include "../include/constants.h"
@@ -12,8 +20,6 @@
 #include "../include/glutCallbacks.h"
 #include "../include/map.h"
 #include "_main.h"
-
-#define CUR_VER "v1.0"
 
 #ifndef GIT_HASH
 #define GIT_HASH "unknown revision"
@@ -49,18 +55,23 @@ int main(int argc, char** argv) {
     static const char* header =
         "\n\n########################################################## \n\
 #                    2D Shooter                          # \n\
-#                       %s                             # \n\
+#        %s        # \n\
 #        compiled at %s           # \n\
 ########################################################## \
             \n\n";
-    printf(header, CUR_VER, COMPILE_TIME);
+    printf(header, GIT_HASH, COMPILE_TIME);
 
     context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT, argv[1]);
 
+#ifdef USE_GLUT
     setupGlut(argc, argv);
+#endif
+
     init();
 
+#ifdef USE_GLUT
     glutMainLoop();
+#endif
 
     delete (context);
     return 0;
