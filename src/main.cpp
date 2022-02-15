@@ -1,6 +1,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #if defined(_WIN32) || defined(WIN32)
+#define UNICODE
 #include <windows.h> 
 #endif
 #include <GL/glut.h>
