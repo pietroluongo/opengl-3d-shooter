@@ -14,20 +14,57 @@ static void glfw_error_callback(int error, const char* description) {
     printf("GLFW Error %d: %s\n", error, description);
 }
 
+static void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
+    context->updateMousePos(glm::ivec2(xpos, ypos));
+}
+
+static void mouseButtonCallback(GLFWwindow* window, int button, int action,
+                                int mods) {
+    if (action == GLFW_PRESS) {
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            context->setMouseButtons(MOUSE_BUTTON_LEFT, true);
+        } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+            context->setMouseButtons(MOUSE_BUTTON_RIGHT, true);
+        }
+    } else if (action == GLFW_RELEASE) {
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            context->setMouseButtons(MOUSE_BUTTON_LEFT, false);
+        } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+            context->setMouseButtons(MOUSE_BUTTON_RIGHT, false);
+        }
+    }
+}
+
+static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
+                        int mods) {
+    if (action == GLFW_PRESS) {
+        context->updateKeyStatus(key, KEY_DOWN_STATUS);
+
+        if (key == GLFW_KEY_F1) {
+            context->toggleDebugInfo();
+        }
+        if (key == GLFW_KEY_F2) {
+            context->toggleCameraInfo();
+        }
+        if (key == GLFW_KEY_F3) {
+            context->togglePhysicsInfo();
+        }
+        if (key == GLFW_KEY_F12) {
+            context->togglePlayerInfo();
+        }
+        if (key == GLFW_KEY_F4) {
+            context->toggleEnemyInfo();
+        }
+    } else if (action == GLFW_RELEASE) {
+        context->updateKeyStatus(key, KEY_UP_STATUS);
+    }
+}
+
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
-    debug::drawUI();
-
-    glBegin(GL_TRIANGLES);
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex2f(0.0f, 0.0f);
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex2f(0.5f, 0.0f);
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex2f(0.0f, 0.5f);
-    glEnd();
 
     context->getGameRef()->draw();
+    debug::drawUI();
 
     glfwSwapBuffers(context->getWindow());
 }
@@ -64,6 +101,10 @@ void init() {
 
     glfwMakeContextCurrent(mainWindow);
     glfwSwapInterval(1);
+
+    glfwSetCursorPosCallback(mainWindow, cursorCallback);
+    glfwSetMouseButtonCallback(mainWindow, mouseButtonCallback);
+    glfwSetKeyCallback(mainWindow, keyCallback);
 
     debug::imgui_init();
 

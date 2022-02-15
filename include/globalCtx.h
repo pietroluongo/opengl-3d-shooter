@@ -27,7 +27,7 @@ class GlobalCtx {
     GLint windowWidth, windowHeight;
     Game* game;
     glm::vec2 mousePos;
-    int keyStatus[256] = {0};
+    int keyStatus[1024] = {0};
     bool isPressingLMB = false;
     bool isPressingRMB = false;
     GLdouble framerate = 0, deltaTime = 0;

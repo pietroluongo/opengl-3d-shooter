@@ -30,9 +30,9 @@ CFLAGS  = -std=c++11 $(COMPILE_VARS) $(LINKING)
 
 ifeq ($(ARCH), WIN)
 ifeq ($(RENDERER), GLUT)
-LINKING=-static -lfreeglut -lopengl32 -Wl,--subsystem,windows -Ilibs/win/freeglut/include -Llibs/win/freeglut/lib/x64=
+LINKING=-static -lfreeglut -lopengl32 -Wl,--subsystem,windows -Ilibs/win/freeglut/include -Llibs/win/freeglut/lib/x64
 else
-LINKING=-static -lglfw32 -lglfw3 -lopengl32 -Wl,--subsystem,windows -Ilibs/win/glfw/include -Ilibs/win/glfw/include -Llibs/win/glfw/lib/x64 -Llibs/win/glfw/lib/x64
+LINKING=-static -lglfw3 -lopengl32 -lgdi32 -Wl,--subsystem,windows -Ilibs/win/glfw/include -Llibs/win/glfw/lib/
 endif
 else
 ifeq ($(RENDERER), GLUT)

@@ -1,12 +1,16 @@
 #include "../include/camera.h"
 #include "../include/globalCtx.h"
 
+#if defined(_WIN32) || defined(WIN32)
+#include <windows.h>
+#endif
+
 #include <GL/gl.h>
 #include <GL/glu.h>
-#if defined(_WIN32) || defined(WIN32)
-#include <windows.h> 
-#endif
+
+#ifdef USE_GLUT
 #include <GL/glut.h>
+#endif
 
 #define BASE_CAMERA_WIDTH 100
 #define BASE_CAMERA_HEIGHT 100
