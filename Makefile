@@ -29,14 +29,21 @@ COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 CFLAGS  = -std=c++11 $(COMPILE_VARS) $(LINKING)
 
 ifeq ($(ARCH), WIN)
-LINKING=-static -lfreeglut -lopengl32 -Wl,--subsystem,windows -Ilibs/win/freeglut/include -Llibs/win/freeglut/lib/x64
+ifeq ($(RENDERER), GLUT)
+LINKING=-static -lfreeglut -lopengl32 -Wl,--subsystem,windows -Ilibs/win/freeglut/include -Llibs/win/freeglut/lib/x64=
 else
+LINKING=-static -lglfw32 -lglfw3 -lopengl32 -Wl,--subsystem,windows -Ilibs/win/glfw/include -Ilibs/win/glfw/include -Llibs/win/glfw/lib/x64 -Llibs/win/glfw/lib/x64
+endif
+else
+ifeq ($(RENDERER), GLUT)
 LINKING = -lglut -lGL -lGLU
+else
+LINKING = -lglfw -lGL -lGLU
+endif
 endif
 
 ifeq ($(RENDERER), GLFW)
 CFLAGS := $(CFLAGS) -DUSE_GLFW
-LINKING := $(LINKING) -lglfw
 else
 CFLAGS := $(CFLAGS) -DUSE_GLUT
 endif

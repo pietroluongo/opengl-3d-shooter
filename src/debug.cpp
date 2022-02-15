@@ -30,23 +30,25 @@ void drawUI() {
     ImGui_ImplOpenGL2_NewFrame();
 #ifdef USE_GLUT
     ImGui_ImplGLUT_NewFrame();
-#endif
-#ifdef USE_GLFW
+#else
     ImGui_ImplGlfw_NewFrame();
-#endif
     ImGui::NewFrame();
+#endif
+
     imgui_display();
 
     ImGui::Render();
     ImGuiIO& io = ImGui::GetIO();
     glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
     ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+#ifdef USE_GLFW
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
         GLFWwindow* backup_current_context = glfwGetCurrentContext();
         ImGui::UpdatePlatformWindows();
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup_current_context);
     }
+#endif
 }
 
 void imgui_display() {
