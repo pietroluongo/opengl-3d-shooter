@@ -2,6 +2,7 @@
 #include "../include/globalCtx.h"
 #include <algorithm>
 #include <cstring>
+#include <memory>
 
 extern GlobalCtx* context;
 
@@ -13,7 +14,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-    delete (this->player);
     delete (this->cam);
     delete (this->map);
     for (auto enemy : this->enemies) {
@@ -42,7 +42,7 @@ void Game::draw() {
     }
 }
 
-Player* Game::getPlayer() { return this->player; }
+Player* Game::getPlayer() { return this->player.get(); }
 
 void Game::idle() {
     if (this->state == GameState::PLAYING) {
@@ -58,9 +58,9 @@ void Game::idle() {
 }
 
 void Game::createPlayer(double x, double y, double size) {
-    this->player = new Player(x, y, size);
+    this->player = std::unique_ptr<Player>(new Player(x, y, size));
     player->setShirtColor({0.0f, .5f, .0f});
-    this->cam->setFollowTarget(this->player);
+    this->cam->setFollowTarget(this->player.get());
 }
 
 void Game::createEnemy(double x, double y, double size) {

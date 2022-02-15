@@ -13,7 +13,7 @@
 enum GameState { PLAYING, PAUSED, OVER, WON };
 
 class Game {
-    Player* player = nullptr;
+    std::unique_ptr<Player> player = nullptr;
     Camera* cam = nullptr;
     Map* map = nullptr;
     std::vector<Enemy*> enemies = {};
