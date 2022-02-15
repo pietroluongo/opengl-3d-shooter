@@ -103,6 +103,11 @@ void Object::teleport(float x, float y) {
 
 void Object::teleportToGround() {
     while (1) {
+        if (this->position.y <
+            context->getGameRef()->getMap()->getWorldBounds()[3]) {
+            printf("[ERROR] Could not teleport object to ground.\n");
+            return;
+        }
         glfvec2 oldPosition = this->position;
         this->position.y += 1;
         this->collider->idle();
