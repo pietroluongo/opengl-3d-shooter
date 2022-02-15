@@ -71,11 +71,11 @@ void Projectile::checkCollisions() {
         }
     }
     if (this->type == PROJECTILE_TYPE_PLAYER) {
-        std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
-        for (auto enemy : enemies) {
+        auto enemies = context->getGameRef()->getEnemies();
+        for (auto& enemy : enemies) {
             if (this->collider->overlaps(enemy->getCollider())) {
                 context->getGameRef()->deleteProjectile(this);
-                context->getGameRef()->deleteEnemy(enemy);
+                context->getGameRef()->deleteEnemy(*enemy);
             }
         }
     } else {

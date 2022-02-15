@@ -134,7 +134,7 @@ void Enemy::shoot() {
 }
 
 void Enemy::kill() {
-    context->getGameRef()->deleteEnemy(this);
+    context->getGameRef()->deleteEnemy(*this);
     this->isAlive = false;
 }
 std::vector<std::vector<Collider*>*> Enemy::colliders() {

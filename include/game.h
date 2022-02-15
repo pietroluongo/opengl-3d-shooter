@@ -16,7 +16,7 @@ class Game {
     std::unique_ptr<Player> player = nullptr;
     Camera* cam = nullptr;
     Map* map = nullptr;
-    std::vector<Enemy*> enemies = {};
+    std::vector<std::shared_ptr<Enemy>> enemies = {};
     std::vector<Collider*> enemyColliders = {};
 
     std::vector<Projectile*> projectiles = {};
@@ -42,10 +42,9 @@ class Game {
                           ProjectileType type, float speed);
     Camera* getMainCamera();
     Map* getMap();
-    std::vector<Enemy*> getEnemies();
+    std::vector<std::shared_ptr<Enemy>> const& getEnemies();
     void deleteProjectile(Projectile* projectile);
-    void deleteEnemy(Enemy* enemy);
-    std::vector<Collider*> getAllObjectColliders();
+    void deleteEnemy(Enemy& enemy);
     void setState(GameState state);
     void togglePause();
     bool canRestart();

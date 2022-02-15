@@ -65,7 +65,7 @@ void imgui_display() {
     glm::bvec4 playerCollisionData =
         context->getGameRef()->getPlayer()->getCollisionArr();
 
-    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+    std::vector<std::shared_ptr<Enemy>> const& enemies = context->getGameRef()->getEnemies();
 
     int minutes = (int)context->getTotalPlaytime() / 60;
     int seconds = (int)context->getTotalPlaytime() % 60;

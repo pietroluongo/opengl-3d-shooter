@@ -16,9 +16,6 @@ Game::Game() {
 Game::~Game() {
     delete (this->cam);
     delete (this->map);
-    for (auto enemy : this->enemies) {
-        delete (enemy);
-    }
     for (auto projectile : this->projectiles) {
         delete (projectile);
     }
@@ -29,7 +26,7 @@ glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
 void Game::draw() {
     this->map->draw();
     this->player->draw();
-    for (auto enemy : this->enemies) {
+    for (auto& enemy : this->enemies) {
         enemy->draw();
     }
     for (auto projectile : this->projectiles) {
@@ -47,7 +44,7 @@ Player* Game::getPlayer() { return this->player.get(); }
 void Game::idle() {
     if (this->state == GameState::PLAYING) {
         this->player->idle();
-        for (auto enemy : this->enemies) {
+        for (auto& enemy : this->enemies) {
             enemy->idle();
         }
         for (auto projectile : this->projectiles) {
@@ -64,7 +61,7 @@ void Game::createPlayer(double x, double y, double size) {
 }
 
 void Game::createEnemy(double x, double y, double size) {
-    Enemy* enemy = new Enemy(x, y, size);
+    auto enemy = std::make_shared<Enemy>(x, y, size);
     enemy->setShirtColor({1.0f, 0.0f, 0.0f});
     this->enemies.push_back(enemy);
 }
@@ -73,7 +70,9 @@ Camera* Game::getMainCamera() { return this->cam; }
 
 Map* Game::getMap() { return this->map; }
 
-std::vector<Enemy*> Game::getEnemies() { return this->enemies; }
+std::vector<std::shared_ptr<Enemy>> const& Game::getEnemies() {
+    return this->enemies;
+}
 
 void Game::createProjectile(float x, float y, float size, float angle,
                             ProjectileType type, float speed) {
@@ -93,10 +92,13 @@ void Game::deleteProjectile(Projectile* projectile) {
         this->projectilesColliders.end());
 }
 
-void Game::deleteEnemy(Enemy* enemy) {
-    auto it = std::find(this->enemies.begin(), this->enemies.end(), enemy);
-    if (it != this->enemies.end()) {
-        this->enemies.erase(it);
+void Game::deleteEnemy(Enemy& enemy) {
+    for(auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
+        auto curEnemy = (*it).get();
+        if(&enemy == curEnemy) {
+            this->enemies.erase(it);
+            break;
+        }
     }
 }
 
