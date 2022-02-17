@@ -71,6 +71,7 @@ void Game::createPlayer(double x, double y, double size) {
     this->player = std::unique_ptr<Player>(new Player(x, y, size));
     player->setShirtColor({0.0f, .5f, .0f});
     this->cam->setFollowTarget(this->player.get());
+    this->playersColliders.push_back(this->player.get()->getCollider());
 }
 
 void Game::createEnemy(double x, double y, double size) {

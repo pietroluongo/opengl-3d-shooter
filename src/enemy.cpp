@@ -138,8 +138,6 @@ void Enemy::kill() {
     this->isAlive = false;
 }
 std::vector<std::vector<Collider*>*> Enemy::colliders() {
-    std::vector<Collider*>* colliders =
-        context->getGameRef()->getMap()->getPlatformsColliders();
-    colliders->push_back(context->getGameRef()->getPlayer()->getCollider());
-    return {context->getGameRef()->getMap()->getPlatformsColliders()};
+    return {context->getGameRef()->getMap()->getPlatformsColliders(),
+            context->getGameRef()->getPlayerColliders()};
 }

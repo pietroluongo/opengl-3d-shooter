@@ -18,6 +18,7 @@ class Game {
     std::unique_ptr<Map> map = nullptr;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<Collider*> enemyColliders;
+    std::vector<Collider*> playersColliders;
 
     std::vector<std::unique_ptr<Projectile>> projectiles;
     std::vector<Collider*> projectilesColliders;
@@ -54,6 +55,9 @@ class Game {
     }
     std::vector<Collider*>* getProjectilesColliders() {
         return &this->projectilesColliders;
+    }
+    std::vector<Collider*>* getPlayerColliders() {
+        return &this->playersColliders;
     }
     unsigned long getProjectileCount() { return projectiles.size(); }
 };
