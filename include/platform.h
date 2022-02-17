@@ -9,7 +9,7 @@ class Platform {
     glfvec3 color = {1.0f, 1.0f, 1.0f};
     float width, height;
     pivotPosition pivot;
-    Collider* collider;
+    std::unique_ptr<Collider> collider;
 
     void drawAxis();
 

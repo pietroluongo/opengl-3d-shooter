@@ -78,9 +78,10 @@ std::vector<Enemy*> Game::getEnemies() {
 
 void Game::createProjectile(float x, float y, float size, float angle,
                             ProjectileType type, float speed) {
-    Projectile* proj = new Projectile(x, y, size, angle, type, speed);
-    this->projectiles.push_back(std::unique_ptr<Projectile>(proj));
+    auto proj = std::unique_ptr<Projectile>(
+        new Projectile(x, y, size, angle, type, speed));
     this->projectilesColliders.push_back(proj->getCollider());
+    this->projectiles.push_back(std::move(proj));
 }
 
 void Game::deleteProjectile(Projectile& projectile) {
@@ -95,13 +96,13 @@ void Game::deleteProjectile(Projectile& projectile) {
 }
 
 void Game::deleteEnemy(Enemy& enemy) {
-     for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
-         auto curEnemy = (*it).get();
-         if (&enemy == curEnemy) {
-             this->enemies.erase(it);
-             break;
-         }
-     }
+    for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
+        auto curEnemy = (*it).get();
+        if (&enemy == curEnemy) {
+            this->enemies.erase(it);
+            break;
+        }
+    }
 }
 
 void Game::setState(GameState state) { this->state = state; }

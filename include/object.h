@@ -16,7 +16,7 @@ class Object {
 
   protected:
     float size = 1.0f;
-    Collider* collider;
+    std::unique_ptr<Collider> collider;
     bool isGrounded = false;
     double fallTimer = 0;
 

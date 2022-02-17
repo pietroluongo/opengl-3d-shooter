@@ -55,7 +55,9 @@ int main(int argc, char** argv) {
             \n\n";
     printf(header, GIT_HASH, COMPILE_TIME);
 
-    context = new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT, argv[1]);
+    std::unique_ptr<GlobalCtx> contextPtr(
+        new GlobalCtx(WINDOW_WIDTH, WINDOW_HEIGHT, argv[1]));
+    context = contextPtr.get();
 
 #ifdef USE_GLUT
     setupGlut(argc, argv);
@@ -63,7 +65,9 @@ int main(int argc, char** argv) {
 
     init();
 
-#ifdef USE_GLFW
+#ifdef USE_GLUT
+    glutMainLoop();
+#else
     glfw::init();
 
     glfw::mainLoop();
@@ -77,11 +81,5 @@ int main(int argc, char** argv) {
     glfwTerminate();
 
 #endif
-
-#ifdef USE_GLUT
-    glutMainLoop();
-#endif
-
-    delete (context);
     return 0;
 }

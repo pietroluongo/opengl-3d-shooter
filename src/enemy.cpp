@@ -20,7 +20,7 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->currentAnimState = AnimState::WALKING;
 }
 
-Enemy::~Enemy() { delete (this->collider); }
+Enemy::~Enemy() {}
 
 void Enemy::draw() {
     glfvec2 position = this->getPosition();

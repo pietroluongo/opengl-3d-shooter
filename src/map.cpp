@@ -16,19 +16,15 @@ bool svgIsTag(const char* attr, const char* target) {
 
 Map::Map() {}
 
-Map::~Map() {
-    for (auto platform : this->platforms) {
-        delete (platform);
-    }
-}
+Map::~Map() {}
 
 void Map::addPlatform(Platform* platform) {
-    this->platforms.push_back(platform);
+    this->platforms.push_back(std::unique_ptr<Platform>(platform));
     this->platformColliders.push_back(platform->getCollider());
 }
 
 void Map::draw() {
-    for (auto platform : this->platforms) {
+    for (auto& platform : this->platforms) {
         platform->draw();
     }
 }
@@ -91,6 +87,12 @@ void Map::loadArena(char* fileName) {
     fclose(filePointer);
 }
 
-std::vector<Platform*> Map::getPlatforms() { return this->platforms; }
+std::vector<Platform*> Map::getPlatforms() {
+    std::vector<Platform*> platforms;
+    for (auto& platform : this->platforms) {
+        platforms.push_back(platform.get());
+    }
+    return platforms;
+}
 
 glm::fvec4 Map::getWorldBounds() { return this->worldBounds; }

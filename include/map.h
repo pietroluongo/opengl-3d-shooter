@@ -6,7 +6,7 @@
 
 class Map {
   private:
-    std::vector<Platform*> platforms;
+    std::vector<std::unique_ptr<Platform>> platforms;
     std::vector<Collider*> platformColliders;
     glm::fvec4 worldBounds = {0, 0, 0, 0};
 

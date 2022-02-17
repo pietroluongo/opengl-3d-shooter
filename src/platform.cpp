@@ -14,10 +14,11 @@ Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
     this->width = w;
     this->height = h;
     this->pivot = pivot;
-    this->collider = new Collider(x, y, w, h, nullptr, pivot);
+    this->collider =
+        std::unique_ptr<Collider>(new Collider(x, y, w, h, nullptr, pivot));
 }
 
-Platform::~Platform() { delete this->collider; }
+Platform::~Platform() {}
 
 void Platform::draw() {
     glPushMatrix();
@@ -78,6 +79,6 @@ void Platform::drawAxis() {
     glEnd();
 }
 
-Collider* Platform::getCollider() { return this->collider; }
+Collider* Platform::getCollider() { return this->collider.get(); }
 
 void Platform::setColor(glfvec3 color) { this->color = color; }

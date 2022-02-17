@@ -7,8 +7,8 @@ extern GlobalCtx* context;
 Object::Object(GLfloat x, GLfloat y, GLfloat size) {
     this->position = {x, y};
     this->size = size;
-    this->collider =
-        new Collider(x, y, size, size, this, pivotPosition::CENTER);
+    this->collider = std::unique_ptr<Collider>(
+        new Collider(x, y, size, size, this, pivotPosition::CENTER));
 }
 
 Object::Object() {}
@@ -95,7 +95,7 @@ void Object::idle() {
     this->positionDelta = {0, 0};
 }
 
-Collider* Object::getCollider() { return this->collider; }
+Collider* Object::getCollider() { return this->collider.get(); }
 
 void Object::teleport(float x, float y) {
     this->position = {x, y};

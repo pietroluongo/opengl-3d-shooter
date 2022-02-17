@@ -18,7 +18,7 @@ Projectile::Projectile(float x, float y, float size, float angle,
     this->type = type;
 }
 
-Projectile::~Projectile() { delete (this->collider); }
+Projectile::~Projectile() {}
 
 void Projectile::draw() {
     glfvec2 position = this->getPosition();

@@ -19,7 +19,7 @@ Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
     this->collider->resize(size * 0.2, size);
 }
 
-Player::~Player() { delete (this->collider); }
+Player::~Player() {}
 
 void Player::draw() {
     glfvec2 position = this->getPosition();
