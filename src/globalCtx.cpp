@@ -41,8 +41,8 @@ glm::ivec2 GlobalCtx::getScreenSpaceMousePos() {
 }
 
 glm::fvec2 GlobalCtx::getNormalizedMousePos() {
-    return glm::fvec2((this->mousePos.x * 2) / WINDOW_WIDTH - 1,
-                      (this->mousePos.y * 2) / WINDOW_HEIGHT - 1);
+    return glm::fvec2((this->mousePos.x * 2) / windowWidth - 1,
+                      (this->mousePos.y * 2) / windowHeight - 1);
 }
 
 glm::fvec2 GlobalCtx::getWorldSpaceMousePos() {

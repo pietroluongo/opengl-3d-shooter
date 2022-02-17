@@ -79,6 +79,10 @@ class GlobalCtx {
     double getFramerate();
     Game* getGameRef();
     glivec2 getWindowSize();
+    void setWindowSize(glivec2 size) {
+        this->windowWidth = size.x;
+        this->windowHeight = size.y;
+    }
     glm::ivec2 getScreenSpaceMousePos();
     glm::fvec2 getWorldSpaceMousePos();
     glm::fvec2 getNormalizedMousePos();

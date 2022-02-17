@@ -97,10 +97,13 @@ void idle() {
 
     processInput(context->getWindow());
     context->idle();
-    display();
 }
 
 void processInput(GLFWwindow* window) {}
+
+void resizeCallback(GLFWwindow* window, int x, int y) {
+    context->setWindowSize({x, y});
+}
 
 void init() {
     glfwSetErrorCallback(glfw_error_callback);
@@ -116,12 +119,17 @@ void init() {
 
     context->setWindow(mainWindow);
 
+    glfwSetWindowPos(mainWindow, 10, 10);
+
     glfwMakeContextCurrent(mainWindow);
     glfwSwapInterval(1);
 
     glfwSetCursorPosCallback(mainWindow, cursorCallback);
     glfwSetMouseButtonCallback(mainWindow, mouseButtonCallback);
     glfwSetKeyCallback(mainWindow, keyCallback);
+    glfwSetFramebufferSizeCallback(mainWindow, resizeCallback);
+    glfwSetWindowSizeLimits(mainWindow, 500, 500, GLFW_DONT_CARE,
+                            GLFW_DONT_CARE);
 
     debug::imgui_init();
 
@@ -135,6 +143,7 @@ void mainLoop() {
     while (!glfwWindowShouldClose(context->getWindow())) {
         glfwPollEvents();
         idle();
+        display();
     }
 }
 

@@ -50,21 +50,36 @@ void Camera::setCenter(glm::fvec2 focus) {
 
 void Camera::updateBounds() {
     float camHeight, camWidth;
-    if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
-        camHeight = this->size.y;
-        this->center.y = this->targetYCoordinate;
-    } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
-        camHeight = DEFAULT_CAMERA_HEIGHT;
+    camHeight = this->size.y;
+    this->center.y = this->targetYCoordinate;
+    // if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
+    //     camHeight = this->size.y;
+    //     this->center.y = this->targetYCoordinate;
+    // } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
+    //     camHeight = DEFAULT_CAMERA_HEIGHT;
+    // } else {
+    //     camHeight = DEFAULT_CAMERA_HEIGHT;
+    // }
+    // if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
+    //     camWidth = camHeight;
+    // } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
+    //     camWidth = DEFAULT_CAMERA_WIDTH;
+    // } else {
+    //     camWidth = DEFAULT_CAMERA_WIDTH;
+    // }
+    // if (context->getWindowSize().x <= 500) {
+    //     camWidth = context->getWindowSize().x / 5;
+    // } else {
+    //     camWidth = context->getWindowSize().x / 15;
+    // }
+    if (context->getWindowSize().x >= context->getWindowSize().y) {
+        camWidth =
+            camHeight * context->getWindowSize().x / context->getWindowSize().y;
     } else {
-        camHeight = DEFAULT_CAMERA_HEIGHT;
+        camWidth =
+            camHeight * context->getWindowSize().y / context->getWindowSize().x;
     }
-    if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
-        camWidth = camHeight;
-    } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
-        camWidth = DEFAULT_CAMERA_WIDTH;
-    } else {
-        camWidth = DEFAULT_CAMERA_WIDTH;
-    }
+
     this->bounds[0] = center.x - (camWidth * this->zoomLevel);
     this->bounds[1] = center.x + (camWidth * this->zoomLevel);
 
