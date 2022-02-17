@@ -14,6 +14,7 @@ class Collider {
   public:
     Collider(float x, float y, float w, float h, Object* owner = nullptr,
              pivotPosition pivot = pivotPosition::TOP_LEFT);
+    ~Collider();
     void draw();
     void idle();
     glm::fvec4 getBoundingBox();

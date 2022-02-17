@@ -11,6 +11,8 @@ Collider::Collider(float x, float y, float w, float h, Object* owner,
     this->owner = owner;
 }
 
+Collider::~Collider(){};
+
 void Collider::draw() {
     glPushMatrix();
     glm::fvec2 thisCenter = this->getCenter();
