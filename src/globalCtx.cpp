@@ -9,7 +9,7 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     strcpy(this->arenaFile, arenaFile);
     this->windowHeight = h;
     this->windowWidth = w;
-    this->game = new Game();
+    this->game = std::unique_ptr<Game>(new Game());
     game->getMap()->loadArena(arenaFile);
     this->game->setupCamera();
     for (auto enemy : game->getEnemies()) {
@@ -26,13 +26,13 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     }
 }
 
-GlobalCtx::~GlobalCtx() { delete (this->game); }
+GlobalCtx::~GlobalCtx() {}
 
 glivec2 GlobalCtx::getWindowSize() {
     return glivec2(this->windowWidth, this->windowHeight);
 }
 
-Game* GlobalCtx::getGameRef() { return this->game; }
+Game* GlobalCtx::getGameRef() { return this->game.get(); }
 
 void GlobalCtx::updateMousePos(glm::ivec2 pos) { this->mousePos = pos; }
 
@@ -112,8 +112,7 @@ double GlobalCtx::getTotalPlaytime() { return this->totalTime; }
 void GlobalCtx::resetGame() {
     if (!this->game->canRestart())
         return;
-    delete (this->game);
-    this->game = new Game();
+    this->game = std::unique_ptr<Game>(new Game());
     game->getMap()->loadArena(arenaFile);
     this->game->setupCamera();
     for (auto enemy : game->getEnemies()) {

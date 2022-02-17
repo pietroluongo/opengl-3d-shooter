@@ -14,9 +14,9 @@ enum GameState { PLAYING, PAUSED, OVER, WON };
 
 class Game {
     std::unique_ptr<Player> player = nullptr;
-    Camera* cam = nullptr;
-    Map* map = nullptr;
-    std::vector<std::shared_ptr<Enemy>> enemies;
+    std::unique_ptr<Camera> cam = nullptr;
+    std::unique_ptr<Map> map = nullptr;
+    std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<Collider*> enemyColliders;
 
     std::vector<std::unique_ptr<Projectile>> projectiles;
@@ -42,7 +42,7 @@ class Game {
                           ProjectileType type, float speed);
     Camera* getMainCamera();
     Map* getMap();
-    std::vector<std::shared_ptr<Enemy>> const& getEnemies();
+    std::vector<Enemy*> getEnemies();
     void deleteProjectile(Projectile& projectile);
     void deleteEnemy(Enemy& enemy);
     void setState(GameState state);
@@ -58,8 +58,7 @@ class Game {
     std::vector<Collider*>* getProjectilesColliders() {
         return &this->projectilesColliders;
     }
-    unsigned long getProjectileCount() {return projectiles.size();}
-
+    unsigned long getProjectileCount() { return projectiles.size(); }
 };
 
 #endif

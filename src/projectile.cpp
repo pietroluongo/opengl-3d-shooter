@@ -18,9 +18,7 @@ Projectile::Projectile(float x, float y, float size, float angle,
     this->type = type;
 }
 
-Projectile::~Projectile() {
-     delete (this->collider);
-}
+Projectile::~Projectile() { delete (this->collider); }
 
 void Projectile::draw() {
     glfvec2 position = this->getPosition();
@@ -72,7 +70,7 @@ void Projectile::checkCollisions() {
     }
     if (this->type == PROJECTILE_TYPE_PLAYER) {
         auto enemies = context->getGameRef()->getEnemies();
-        for (auto& enemy : enemies) {
+        for (auto enemy : enemies) {
             if (this->collider->overlaps(enemy->getCollider())) {
                 context->getGameRef()->deleteProjectile(*this);
                 context->getGameRef()->deleteEnemy(*enemy);

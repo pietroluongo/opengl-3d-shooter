@@ -8,15 +8,12 @@ extern GlobalCtx* context;
 
 Game::Game() {
     this->player = nullptr;
-    this->map = new Map();
-    this->cam = new Camera();
+    this->map = std::unique_ptr<Map>(new Map());
+    this->cam = std::unique_ptr<Camera>(new Camera());
     this->cam->setFollowMode(CAMERA_FOLLOW_MODE_SINGLE_AXIS);
 }
 
-Game::~Game() {
-    delete (this->cam);
-    delete (this->map);
-}
+Game::~Game() {}
 
 glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
 
@@ -62,17 +59,21 @@ void Game::createPlayer(double x, double y, double size) {
 }
 
 void Game::createEnemy(double x, double y, double size) {
-    auto enemy = std::make_shared<Enemy>(x, y, size);
+    auto enemy = std::unique_ptr<Enemy>(new Enemy(x, y, size));
     enemy->setShirtColor({1.0f, 0.0f, 0.0f});
-    this->enemies.push_back(enemy);
+    this->enemies.push_back(std::move(enemy));
 }
 
-Camera* Game::getMainCamera() { return this->cam; }
+Camera* Game::getMainCamera() { return this->cam.get(); }
 
-Map* Game::getMap() { return this->map; }
+Map* Game::getMap() { return this->map.get(); }
 
-std::vector<std::shared_ptr<Enemy>> const& Game::getEnemies() {
-    return this->enemies;
+std::vector<Enemy*> Game::getEnemies() {
+    std::vector<Enemy*> enemies;
+    for (auto& enemy : this->enemies) {
+        enemies.push_back(enemy.get());
+    }
+    return enemies;
 }
 
 void Game::createProjectile(float x, float y, float size, float angle,
@@ -94,13 +95,13 @@ void Game::deleteProjectile(Projectile& projectile) {
 }
 
 void Game::deleteEnemy(Enemy& enemy) {
-    for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
-        auto curEnemy = (*it).get();
-        if (&enemy == curEnemy) {
-            this->enemies.erase(it);
-            break;
-        }
-    }
+    // for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
+    //     auto curEnemy = (*it).get();
+    //     if (&enemy == curEnemy) {
+    //         this->enemies.erase(it);
+    //         break;
+    //     }
+    // }
 }
 
 void Game::setState(GameState state) { this->state = state; }

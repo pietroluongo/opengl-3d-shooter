@@ -25,7 +25,7 @@ enum MouseButtonState {
 class GlobalCtx {
   private:
     GLint windowWidth, windowHeight;
-    Game* game;
+    std::unique_ptr<Game> game;
     glm::vec2 mousePos;
     int keyStatus[1024] = {0};
     bool isPressingLMB = false;
