@@ -26,9 +26,6 @@ class Game {
 
     GameState state = PLAYING;
 
-    bool enemyCollidersNeedUpdate = false;
-    bool projectilesCollidersNeedUpdate = false;
-
   public:
     Game();
     ~Game();

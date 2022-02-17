@@ -61,6 +61,7 @@ void Game::createPlayer(double x, double y, double size) {
 void Game::createEnemy(double x, double y, double size) {
     auto enemy = std::unique_ptr<Enemy>(new Enemy(x, y, size));
     enemy->setShirtColor({1.0f, 0.0f, 0.0f});
+    this->enemyColliders.push_back(enemy->getCollider());
     this->enemies.push_back(std::move(enemy));
 }
 
