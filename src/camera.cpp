@@ -1,5 +1,6 @@
 #include "../include/camera.h"
 #include "../include/globalCtx.h"
+#include "../include/keymap.h"
 
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
@@ -80,16 +81,16 @@ void Camera::setFollowTarget(Object* target) {
 
 void Camera::handleInput() {
     if (this->freeCamEnabled) {
-        if (context->isKeyPressed('l')) {
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
             this->moveX(CAMERA_SPEED);
         }
-        if (context->isKeyPressed('j')) {
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
             this->moveX(-CAMERA_SPEED);
         }
-        if (context->isKeyPressed('i')) {
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_UP_BUTTON)) {
             this->moveY(-CAMERA_SPEED);
         }
-        if (context->isKeyPressed('k')) {
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_DOWN_BUTTON)) {
             this->moveY(CAMERA_SPEED);
         }
     }

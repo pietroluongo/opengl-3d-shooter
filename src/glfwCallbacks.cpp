@@ -2,6 +2,7 @@
 #include "../include/constants.h"
 #include "../include/debug.h"
 #include "../include/globalCtx.h"
+#include "../include/keymap.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cstdio>
@@ -40,20 +41,36 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
     if (action == GLFW_PRESS) {
         context->updateKeyStatus(key, KEY_DOWN_STATUS);
 
-        if (key == GLFW_KEY_F1) {
+        switch (key) {
+        case keymap::CLOSE_PROGRAM_BUTTON:
+            glfwSetWindowShouldClose(window, true);
+            break;
+        case keymap::TOGGLE_DEBUG_INFO_BUTTON:
             context->toggleDebugInfo();
-        }
-        if (key == GLFW_KEY_F2) {
+            break;
+        case keymap::TOGGLE_CAMERA_INFO_BUTTON:
             context->toggleCameraInfo();
-        }
-        if (key == GLFW_KEY_F3) {
+            break;
+        case keymap::TOGGLE_PHYSICS_INFO_BUTTON:
             context->togglePhysicsInfo();
-        }
-        if (key == GLFW_KEY_F12) {
-            context->togglePlayerInfo();
-        }
-        if (key == GLFW_KEY_F4) {
+            break;
+        case keymap::TOGGLE_ENEMY_INFO_BUTTON:
             context->toggleEnemyInfo();
+            break;
+        case keymap::TOGGLE_MEMORY_INFO_BUTTON:
+            context->toggleMemoryInfo();
+            break;
+        case keymap::TOGGLE_PLAYER_INFO_BUTTON:
+            context->togglePlayerInfo();
+            break;
+        case keymap::PAUSE_GAME_BUTTON:
+            context->getGameRef()->togglePause();
+            break;
+        case keymap::RESTART_GAME_BUTTON:
+            context->resetGame();
+            break;
+        default:
+            break;
         }
     } else if (action == GLFW_RELEASE) {
         context->updateKeyStatus(key, KEY_UP_STATUS);

@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := all
 
 ifndef $(RENDERER)
-RENDERER = GLUT
+RENDERER = GLFW
 endif
 
 GIT_HASH = `git rev-parse HEAD`

@@ -1,5 +1,6 @@
 #include "../include/player.h"
 #include "../include/globalCtx.h"
+#include "../include/keymap.h"
 #include <cmath>
 #include <string>
 #include <vector>
@@ -63,16 +64,16 @@ void Player::idle() {
 }
 
 void Player::handleMovementKeys() {
-    if (context->isKeyPressed('D') || context->isKeyPressed('d')) {
+    if (context->isKeyPressed(keymap::MOVE_RIGHT_BUTTON)) {
         this->isRequestingMove = true;
         this->moveX(2.5 * this->size);
     }
-    if (context->isKeyPressed('A') || context->isKeyPressed('a')) {
+    if (context->isKeyPressed(keymap::MOVE_LEFT_BUTTON)) {
         this->isRequestingMove = true;
         this->moveX(-2.5 * this->size);
     }
 
-    if (context->isKeyPressed('w') || context->isKeyPressed('W') ||
+    if (context->isKeyPressed(keymap::MOVE_UP_BUTTON) ||
         context->getIsPressingRMB()) {
         this->isRequestingJump = true;
     } else {
