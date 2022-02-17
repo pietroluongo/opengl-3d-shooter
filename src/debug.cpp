@@ -142,6 +142,13 @@ void imgui_display() {
         }
         ImGui::End();
     }
+
+    if(context->shouldDrawMemoryInfo) {
+        ImGui::Begin("Memory [F5]");
+        ImGui::Text("Projectiles: %lu", context->getGameRef()->getProjectileCount());
+        ImGui::End();
+    }
+
     if (context->shouldDrawPlayerInfo) {
         ImGui::Begin("Player [F12]", &context->shouldDrawPlayerInfo);
         ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);

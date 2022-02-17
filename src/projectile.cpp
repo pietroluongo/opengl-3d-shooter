@@ -19,8 +19,7 @@ Projectile::Projectile(float x, float y, float size, float angle,
 }
 
 Projectile::~Projectile() {
-    printf("deleteing projectile...\n");
-    delete (this->collider);
+     delete (this->collider);
 }
 
 void Projectile::draw() {
@@ -40,7 +39,6 @@ void Projectile::draw() {
 }
 
 void Projectile::idle() {
-    this->checkCollisions();
     this->moveX(cos(this->angle) * this->speed);
     this->moveY(sin(this->angle) * this->speed);
     this->collider->idle();
@@ -50,8 +48,9 @@ void Projectile::idle() {
         this->getPosition().x > worldBounds[1] ||
         this->getPosition().y < worldBounds[2] ||
         this->getPosition().y > worldBounds[3]) {
-        context->getGameRef()->deleteProjectile(this);
+        context->getGameRef()->deleteProjectile(*this);
     }
+    this->checkCollisions();
 }
 
 void Projectile::setPosition(glfvec2 position) {
@@ -67,26 +66,27 @@ void Projectile::checkCollisions() {
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
         if (this->collider->overlaps(platform->getCollider())) {
-            context->getGameRef()->deleteProjectile(this);
+            context->getGameRef()->deleteProjectile(*this);
+            return;
         }
     }
     if (this->type == PROJECTILE_TYPE_PLAYER) {
         auto enemies = context->getGameRef()->getEnemies();
         for (auto& enemy : enemies) {
             if (this->collider->overlaps(enemy->getCollider())) {
-                context->getGameRef()->deleteProjectile(this);
+                context->getGameRef()->deleteProjectile(*this);
                 context->getGameRef()->deleteEnemy(*enemy);
+                return;
             }
         }
     } else {
         Player* player = context->getGameRef()->getPlayer();
         if (this->collider->overlaps(player->getCollider())) {
-            context->getGameRef()->deleteProjectile(this);
+            context->getGameRef()->deleteProjectile(*this);
             player->kill();
+            return;
         }
     }
 }
-
-const char* Projectile::debug() { return "ok i'm alive\n"; }
 
 std::vector<std::vector<Collider*>*> Projectile::colliders() { return {}; }

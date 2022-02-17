@@ -16,13 +16,13 @@ class Game {
     std::unique_ptr<Player> player = nullptr;
     Camera* cam = nullptr;
     Map* map = nullptr;
-    std::vector<std::shared_ptr<Enemy>> enemies = {};
-    std::vector<Collider*> enemyColliders = {};
+    std::vector<std::shared_ptr<Enemy>> enemies;
+    std::vector<Collider*> enemyColliders;
 
-    std::vector<Projectile*> projectiles = {};
-    std::vector<Collider*> projectilesColliders = {};
+    std::vector<std::unique_ptr<Projectile>> projectiles;
+    std::vector<Collider*> projectilesColliders;
 
-    std::vector<Collider*> colliders = {};
+    std::vector<Collider*> colliders;
 
     GameState state = PLAYING;
 
@@ -43,7 +43,7 @@ class Game {
     Camera* getMainCamera();
     Map* getMap();
     std::vector<std::shared_ptr<Enemy>> const& getEnemies();
-    void deleteProjectile(Projectile* projectile);
+    void deleteProjectile(Projectile& projectile);
     void deleteEnemy(Enemy& enemy);
     void setState(GameState state);
     void togglePause();
@@ -58,6 +58,8 @@ class Game {
     std::vector<Collider*>* getProjectilesColliders() {
         return &this->projectilesColliders;
     }
+    unsigned long getProjectileCount() {return projectiles.size();}
+
 };
 
 #endif

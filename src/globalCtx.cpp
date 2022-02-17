@@ -71,6 +71,10 @@ void GlobalCtx::togglePlayerInfo() {
     this->shouldDrawPlayerInfo = !this->shouldDrawPlayerInfo;
 }
 
+void GlobalCtx::toggleMemoryInfo() {
+    this->shouldDrawMemoryInfo = !this->shouldDrawMemoryInfo;
+}
+
 void GlobalCtx::toggleEnemyInfo() {
     this->shouldDrawEnemyInfo = !this->shouldDrawEnemyInfo;
 }

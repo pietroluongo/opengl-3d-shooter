@@ -16,9 +16,6 @@ Game::Game() {
 Game::~Game() {
     delete (this->cam);
     delete (this->map);
-    for (auto projectile : this->projectiles) {
-        delete (projectile);
-    }
 }
 
 glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
@@ -29,7 +26,7 @@ void Game::draw() {
     for (auto& enemy : this->enemies) {
         enemy->draw();
     }
-    for (auto projectile : this->projectiles) {
+    for (auto& projectile : this->projectiles) {
         projectile->draw();
     }
     if (this->state == GameState::OVER) {
@@ -45,9 +42,13 @@ void Game::idle() {
     if (this->state == GameState::PLAYING) {
         this->player->idle();
         for (auto& enemy : this->enemies) {
+            if (enemy == nullptr)
+                continue;
             enemy->idle();
         }
-        for (auto projectile : this->projectiles) {
+        for (auto& projectile : this->projectiles) {
+            if (projectile == nullptr)
+                continue;
             projectile->idle();
         }
     }
@@ -77,25 +78,25 @@ std::vector<std::shared_ptr<Enemy>> const& Game::getEnemies() {
 void Game::createProjectile(float x, float y, float size, float angle,
                             ProjectileType type, float speed) {
     Projectile* proj = new Projectile(x, y, size, angle, type, speed);
-    this->projectiles.push_back(proj);
+    this->projectiles.push_back(std::unique_ptr<Projectile>(proj));
     this->projectilesColliders.push_back(proj->getCollider());
 }
 
-void Game::deleteProjectile(Projectile* projectile) {
-    this->projectiles.erase(std::remove(this->projectiles.begin(),
-                                        this->projectiles.end(), projectile),
-                            this->projectiles.end());
-    this->projectilesColliders.erase(
-        std::remove(this->projectilesColliders.begin(),
-                    this->projectilesColliders.end(),
-                    projectile->getCollider()),
-        this->projectilesColliders.end());
+void Game::deleteProjectile(Projectile& projectile) {
+    for (auto it = this->projectiles.begin(); it != this->projectiles.end();
+         ++it) {
+        auto curProjectile = (*it).get();
+        if (curProjectile == &projectile) {
+            this->projectiles.erase(it);
+            break;
+        }
+    }
 }
 
 void Game::deleteEnemy(Enemy& enemy) {
-    for(auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
+    for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
         auto curEnemy = (*it).get();
-        if(&enemy == curEnemy) {
+        if (&enemy == curEnemy) {
             this->enemies.erase(it);
             break;
         }

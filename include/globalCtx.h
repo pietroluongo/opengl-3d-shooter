@@ -43,6 +43,7 @@ class GlobalCtx {
     bool shouldDrawPhysicsInfo = false;
     bool shouldDrawPlayerInfo = false;
     bool shouldDrawEnemyInfo = false;
+    bool shouldDrawMemoryInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;
@@ -76,14 +77,15 @@ class GlobalCtx {
     void toggleEnemyInfo();
     void togglePhysicsInfo();
     void togglePlayerInfo();
+    void toggleMemoryInfo();
     void updateKeyStatus(int key, int status);
     void updateKeyStatus(unsigned char key, int status);
     void updateMousePos(glm::ivec2 pos);
     void updateTiming(GLdouble framerate, GLdouble deltaTime);
     void resetGame();
     void setMouseButtons(MouseButtonState state, bool status);
-    bool getIsPressingLMB() { return this->isPressingLMB; }
-    bool getIsPressingRMB() { return this->isPressingRMB; }
+    bool getIsPressingLMB() const { return this->isPressingLMB; }
+    bool getIsPressingRMB() const { return this->isPressingRMB; }
 #ifdef USE_GLFW
     GLFWwindow* getWindow() { return this->window; }
     void setWindow(GLFWwindow* window) { this->window = window; }
