@@ -3,6 +3,8 @@
 #include "../include/game.h"
 #include "../libs/glm/glm.hpp"
 #include "customTypes.h"
+#include <deque>
+
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
 #endif
@@ -22,6 +24,8 @@ enum MouseButtonState {
     MOUSE_BUTTON_RIGHT,
 };
 
+constexpr unsigned long int MAX_QUEUE_SIZE = 100;
+
 class GlobalCtx {
   private:
     GLint windowWidth, windowHeight;
@@ -33,11 +37,18 @@ class GlobalCtx {
     GLdouble framerate = 0, deltaTime = 0;
     GLdouble totalTime = 0;
     char arenaFile[99] = {};
+
+    // timers
+    double playerIdleTime;
+    double projectileIdleTime;
+
 #ifdef USE_GLFW
     GLFWwindow* window;
 #endif
 
   public:
+    std::deque<double> enemyIdleTimerQueue;
+
     bool shouldDrawDebugInfo = false;
     bool shouldDrawCameraInfo = false;
     bool shouldDrawPhysicsInfo = false;
@@ -54,6 +65,7 @@ class GlobalCtx {
     bool enemiesCanMove = true;
 
     bool imguiHasMouseFocus = false;
+
 #ifdef USE_GLUT
     void* font = GLUT_BITMAP_9_BY_15;
 #endif
@@ -86,6 +98,8 @@ class GlobalCtx {
     void setMouseButtons(MouseButtonState state, bool status);
     bool getIsPressingLMB() const { return this->isPressingLMB; }
     bool getIsPressingRMB() const { return this->isPressingRMB; }
+    void addEnemyIdleTimer(double time);
+    double getAveragedEnemyIdleTimer();
 #ifdef USE_GLFW
     GLFWwindow* getWindow() { return this->window; }
     void setWindow(GLFWwindow* window) { this->window = window; }

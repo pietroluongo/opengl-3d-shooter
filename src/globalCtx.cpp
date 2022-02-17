@@ -137,3 +137,23 @@ void GlobalCtx::setMouseButtons(MouseButtonState button, bool status) {
         this->isPressingRMB = status;
     }
 }
+
+void GlobalCtx::addEnemyIdleTimer(double time) {
+    if (this->enemyIdleTimerQueue.size() < MAX_QUEUE_SIZE) {
+        this->enemyIdleTimerQueue.push_back(time);
+    } else {
+        this->enemyIdleTimerQueue.pop_front();
+        this->enemyIdleTimerQueue.push_back(time);
+    }
+}
+
+double GlobalCtx::getAveragedEnemyIdleTimer() {
+    if (this->enemyIdleTimerQueue.size() == 0) {
+        return 0;
+    }
+    double sum = 0;
+    for (auto time : this->enemyIdleTimerQueue) {
+        sum += time;
+    }
+    return sum / this->enemyIdleTimerQueue.size();
+}

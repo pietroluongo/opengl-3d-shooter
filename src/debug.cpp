@@ -145,8 +145,21 @@ void imgui_display() {
 
     if (context->shouldDrawMemoryInfo) {
         ImGui::Begin("Memory [F5]");
+        float values[100];
+        for (int i = 0; i < 100; i++) {
+            if (i >= context->enemyIdleTimerQueue.size())
+                break;
+            values[i] = context->enemyIdleTimerQueue.at(i);
+        }
         ImGui::Text("Projectiles: %lu",
                     context->getGameRef()->getProjectileCount());
+        // ImGui::Text("Player process time: %02.2f", context->playerIdleTime);
+        ImGui::Text("Enemy process time: %02.2f",
+                    context->getAveragedEnemyIdleTimer());
+        ImGui::PlotLines("Enemy process time", values, 100, 0, "", 0, 16,
+                         ImVec2(800, 100));
+        // ImGui::Text("Projectile process time: %02.2f",
+        //             context->projectileIdleTime);
         ImGui::End();
     }
 

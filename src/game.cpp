@@ -1,6 +1,7 @@
 #include "../include/game.h"
 #include "../include/globalCtx.h"
 #include <algorithm>
+#include <chrono>
 #include <cstring>
 #include <memory>
 
@@ -37,17 +38,31 @@ Player* Game::getPlayer() { return this->player.get(); }
 
 void Game::idle() {
     if (this->state == GameState::PLAYING) {
+        std::chrono::duration<double, std::milli> elapsed;
+        auto measurementStart = std::chrono::high_resolution_clock::now();
         this->player->idle();
+        elapsed = std::chrono::high_resolution_clock::now() - measurementStart;
+
+        // context->playerIdleTime = elapsed.count();
+
+        measurementStart = std::chrono::high_resolution_clock::now();
         for (auto& enemy : this->enemies) {
             if (enemy == nullptr)
                 continue;
             enemy->idle();
         }
+        elapsed = std::chrono::high_resolution_clock::now() - measurementStart;
+        context->addEnemyIdleTimer(elapsed.count());
+        // context->enemyIdleTime = elapsed.count();
+
+        measurementStart = std::chrono::high_resolution_clock::now();
         for (auto& projectile : this->projectiles) {
             if (projectile == nullptr)
                 continue;
             projectile->idle();
         }
+        elapsed = std::chrono::high_resolution_clock::now() - measurementStart;
+        // context->projectileIdleTime = elapsed.count();
     }
     this->cam->idle();
 }
