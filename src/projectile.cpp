@@ -37,6 +37,10 @@ void Projectile::draw() {
 }
 
 void Projectile::idle() {
+    bool hasThisBeenDeleted = this->checkCollisions();
+    if (hasThisBeenDeleted) {
+        return;
+    }
     this->moveX(cos(this->angle) * this->speed);
     this->moveY(sin(this->angle) * this->speed);
     this->collider->idle();
@@ -48,7 +52,6 @@ void Projectile::idle() {
         this->getPosition().y > worldBounds[3]) {
         context->getGameRef()->deleteProjectile(*this);
     }
-    this->checkCollisions();
 }
 
 void Projectile::setPosition(glfvec2 position) {
@@ -59,13 +62,13 @@ void Projectile::setPosition(GLfloat x, GLfloat y) {
     this->Object::setPosition(x, y);
 }
 
-void Projectile::checkCollisions() {
+bool Projectile::checkCollisions() {
     std::vector<Platform*> platforms =
         context->getGameRef()->getMap()->getPlatforms();
     for (auto platform : platforms) {
         if (this->collider->overlaps(platform->getCollider())) {
             context->getGameRef()->deleteProjectile(*this);
-            return;
+            return true;
         }
     }
     if (this->type == PROJECTILE_TYPE_PLAYER) {
@@ -74,7 +77,7 @@ void Projectile::checkCollisions() {
             if (this->collider->overlaps(enemy->getCollider())) {
                 context->getGameRef()->deleteProjectile(*this);
                 context->getGameRef()->deleteEnemy(*enemy);
-                return;
+                return true;
             }
         }
     } else {
@@ -82,9 +85,10 @@ void Projectile::checkCollisions() {
         if (this->collider->overlaps(player->getCollider())) {
             context->getGameRef()->deleteProjectile(*this);
             player->kill();
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 std::vector<std::vector<Collider*>*> Projectile::colliders() { return {}; }

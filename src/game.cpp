@@ -95,13 +95,13 @@ void Game::deleteProjectile(Projectile& projectile) {
 }
 
 void Game::deleteEnemy(Enemy& enemy) {
-    // for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
-    //     auto curEnemy = (*it).get();
-    //     if (&enemy == curEnemy) {
-    //         this->enemies.erase(it);
-    //         break;
-    //     }
-    // }
+     for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
+         auto curEnemy = (*it).get();
+         if (&enemy == curEnemy) {
+             this->enemies.erase(it);
+             break;
+         }
+     }
 }
 
 void Game::setState(GameState state) { this->state = state; }
