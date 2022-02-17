@@ -40,12 +40,21 @@ void init() {
     glLoadIdentity();
 }
 
-int main(int argc, char** argv) {
+void checkParams(int argc, char** argv) {
     if (argc != 2) {
         printf("Usage: %s <arena file>\n", argv[0]);
-        return 1;
+#if defined(_WIN32) || defined(WIN32)
+        MessageBox(
+            NULL,
+            (LPCWSTR)L"Drag a .svg map file on to the executable to load it.",
+            (LPCWSTR)L"Error: No map file specified", MB_OK | MB_ICONERROR);
+#endif
+        exit(1);
     }
+}
 
+int main(int argc, char** argv) {
+    checkParams(argc, argv);
     static const char* header =
         "\n\n########################################################## \n\
 #                    2D Shooter                          # \n\
