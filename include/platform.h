@@ -6,7 +6,7 @@
 class Platform {
   private:
     glfvec2 position;
-    glfvec3 color = {1.0f, 1.0f, 1.0f};
+    glfvec3 color = {.7f, .7f, .7f};
     float width, height;
     pivotPosition pivot;
     std::unique_ptr<Collider> collider;
