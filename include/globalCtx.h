@@ -50,7 +50,7 @@ class GlobalCtx {
     std::deque<double> enemyIdleTimerQueue;
 
     bool shouldDrawDebugInfo = false;
-    bool shouldDrawCameraInfo = false;
+    bool shouldDrawCameraInfo = true;
     bool shouldDrawPhysicsInfo = false;
     bool shouldDrawPlayerInfo = false;
     bool shouldDrawEnemyInfo = false;
@@ -61,7 +61,7 @@ class GlobalCtx {
     bool shouldPlatformsShowCollisions = false;
     bool shouldEnemiesDrawInfo = false;
 
-    bool enemiesCanShoot = true;
+    bool enemiesCanShoot = false;
     bool enemiesCanMove = true;
 
     bool imguiHasMouseFocus = false;

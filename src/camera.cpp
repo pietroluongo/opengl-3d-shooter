@@ -2,8 +2,8 @@
 #include "../include/globalCtx.h"
 #include "../include/keymap.h"
 #include "../libs/glm/ext/matrix_clip_space.hpp"
-#include "../libs/glm/glm.hpp"
 #include "../libs/glm/gtc/type_ptr.hpp"
+#include "../libs/glm/gtx/rotate_vector.hpp"
 
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
@@ -20,6 +20,7 @@
 #define BASE_CAMERA_HEIGHT 100
 
 constexpr float CAMERA_SPEED = 50.0f;
+constexpr float CAMERA_ROTATE_SPEED = 5.0f;
 
 constexpr float DEFAULT_CAMERA_WIDTH = BASE_CAMERA_WIDTH / 2;
 constexpr float DEFAULT_CAMERA_HEIGHT = BASE_CAMERA_HEIGHT / 2;
@@ -43,20 +44,20 @@ void Camera::idle() {
         glOrtho(this->bounds[0], this->bounds[1], this->bounds[2],
                 this->bounds[3], -1, 1);
     } else {
-        this->setCenter(context->getGameRef()->getPlayer()->getPosition());
         // TODO: remove this! This is just for testing. It breaks the camera on
         // game restart
         static int flag = 0;
         if (flag == 0) {
+            this->setCenter(context->getGameRef()->getPlayer()->getPosition());
             this->position = {this->center.x, this->center.y, -100};
             flag = 1;
+            this->forward = {0, 0, 1};
         }
         glm::ivec2 windowSize = context->getWindowSize();
         this->projectionMatrix = glm::perspective(
             45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 1000.0f);
         this->projectionMatrix *= glm::lookAt(
-            glm::vec3(this->position.x, this->position.y, this->position.z),
-            glm::vec3(this->center.x, this->center.y, 0), glm::vec3(0, -1, 0));
+            this->position, this->position + this->forward, this->up);
         glMultMatrixf(glm::value_ptr(this->projectionMatrix));
     }
 }
@@ -72,21 +73,26 @@ void Camera::moveY(float y) {
     this->position.y += y * context->getDeltaTime();
 }
 
+void Camera::moveForward(float amount) {
+    this->position += amount * this->forward * (float)context->getDeltaTime();
+}
+
 void Camera::moveZ(float z) { this->position.z += z * context->getDeltaTime(); }
 
 void Camera::rotateX(float x) {
-    this->position.x += x * context->getDeltaTime();
-    this->center.x += x * context->getDeltaTime();
+    printf("Rotating x...\n");
+    float angle = x * context->getDeltaTime();
+    this->forward = glm::rotateX(this->forward, angle);
 }
 
 void Camera::rotateY(float y) {
-    this->position.y += y * context->getDeltaTime();
-    this->center.y += y * context->getDeltaTime();
+    float angle = y * context->getDeltaTime();
+    this->forward = glm::rotateY(this->forward, angle);
 }
 
 void Camera::rotateZ(float z) {
-    this->position.z += z * context->getDeltaTime();
-    this->center.z += z * context->getDeltaTime();
+    float angle = z * context->getDeltaTime();
+    this->forward = glm::rotateZ(this->forward, angle);
 }
 
 void Camera::setCenter(glm::fvec3 focus) {
@@ -142,10 +148,23 @@ void Camera::handleInput() {
                 this->moveY(CAMERA_SPEED);
             }
         } else {
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
+            if (context->isKeyPressed(keymap::ROTATE_CAMERA_UP_BUTTON)) {
+                this->rotateX(CAMERA_ROTATE_SPEED);
+            }
+            if (context->isKeyPressed(keymap::ROTATE_CAMERA_DOWN_BUTTON)) {
+                this->rotateX(-CAMERA_ROTATE_SPEED);
+            }
+            if (context->isKeyPressed(keymap::ROTATE_CAMERA_LEFT_BUTTON)) {
+                this->rotateY(-CAMERA_ROTATE_SPEED);
+            }
+            if (context->isKeyPressed(keymap::ROTATE_CAMERA_RIGHT_BUTTON)) {
+                this->rotateY(CAMERA_ROTATE_SPEED);
+            }
+
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_3D_BUTTON)) {
                 this->moveX(CAMERA_SPEED);
             }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_3D_BUTTON)) {
                 this->moveX(-CAMERA_SPEED);
             }
             if (context->isKeyPressed(keymap::MOVE_CAMERA_HIGH_BUTTON)) {
@@ -155,10 +174,10 @@ void Camera::handleInput() {
                 this->moveY(CAMERA_SPEED);
             }
             if (context->isKeyPressed(keymap::MOVE_CAMERA_IN_BUTTON)) {
-                this->moveZ(CAMERA_SPEED);
+                this->moveForward(CAMERA_SPEED);
             }
             if (context->isKeyPressed(keymap::MOVE_CAMERA_OUT_BUTTON)) {
-                this->moveZ(-CAMERA_SPEED);
+                this->moveForward(-CAMERA_SPEED);
             }
         }
     }

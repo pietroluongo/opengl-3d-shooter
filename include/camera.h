@@ -16,6 +16,9 @@ class Camera {
     glm::fvec3 center = {0, 0, 0};
     glm::fvec3 position = {0, 0, 0};
 
+    glm::fvec3 up = {0, -1, 0};
+    glm::fvec3 forward = {0, 0, 0};
+
     glm::fvec2 size = {0, 0};
 
     // For CAMERA_FOLLOW_SINGLE_AXIS
@@ -33,7 +36,7 @@ class Camera {
 
   public:
     bool shouldFollowTarget = false;
-    bool freeCamEnabled = false;
+    bool freeCamEnabled = true;
     float zoomLevel = .5f;
 
     Camera();
@@ -42,6 +45,7 @@ class Camera {
     glm::fvec4 getBounds();
     glm::fvec3 getCenter();
     glm::fvec3 getPosition();
+    void moveForward(float amount);
     void moveX(float x);
     void moveY(float y);
     void moveZ(float z);
