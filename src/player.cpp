@@ -27,10 +27,10 @@ Player::Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
 Player::~Player() {}
 
 void Player::draw() {
-    glfvec2 position = this->getPosition();
+    glfvec3 position = this->getPosition();
     glPushMatrix();
-    glTranslatef(position.x, position.y, 0.0f);
-    glRotatef(this->getRotation().z, 0, 1, 0);
+    glTranslatef(position.x, position.y, position.z);
+    glRotatef(this->getRotation().y, 0, 1, 0);
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -72,12 +72,12 @@ void Player::handleMovementKeys() {
     if (context->isKeyPressed(keymap::MOVE_RIGHT_BUTTON)) {
         this->isRequestingMove = true;
         // this->moveX(2.5 * this->size);
-        this->rotateZ(1 * this->size);
+        this->rotateY(1 * this->size);
     }
     if (context->isKeyPressed(keymap::MOVE_LEFT_BUTTON)) {
         this->isRequestingMove = true;
         // this->moveX(-2.5 * this->size);
-        this->rotateZ(-1 * this->size);
+        this->rotateY(-1 * this->size);
     }
 
     if (context->isKeyPressed(keymap::JUMP_BUTTON) ||

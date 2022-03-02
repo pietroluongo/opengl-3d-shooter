@@ -12,7 +12,7 @@ void Character::drawChest() {
     float chestXSize = this->size * 0.05f;
     float chestYSize = this->size * 0.2f;
     glColor3f(this->shirtColor.r, this->shirtColor.g, this->shirtColor.b);
-    glTranslatef(0.0f, -0.05 * this->size, 0.0f);
+    glTranslatef(0.0f, -0.05 * this->size, 0);
     if (this->drawMode == CharacterDrawMode::CHARACTER_2D) {
         glBegin(GL_QUADS);
         glVertex2f(-chestXSize, -chestYSize);

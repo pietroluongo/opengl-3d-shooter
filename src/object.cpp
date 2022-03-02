@@ -15,11 +15,9 @@ Object::Object() {}
 Object::~Object() {}
 
 void Object::moveForward(float distance) {
-    const glm::fvec3 delta = distance * this->rotation;
-    this->moveX(delta.x);
-    this->moveY(delta.y);
-    this->moveZ(delta.z);
-    // this->positionDelta += delta * (float)context->getDeltaTime();
+    const glm::fvec3 forward = glm::normalize(this->rotation);
+    const glm::fvec3 delta = distance * forward;
+    this->positionDelta += delta * (float)context->getDeltaTime();
 }
 
 void Object::moveX(double amount) {
@@ -35,27 +33,30 @@ void Object::moveZ(double amount) {
 }
 
 void Object::rotateX(double angle) {
-    this->rotation.x += angle;
-    if (this->rotation.x > 180)
-        this->rotation.x = -180;
-    if (this->rotation.x < -180)
-        this->rotation.x = 180;
+    // if (this->rotation.x > 180)
+    //     this->rotation.x = -180;
+    // if (this->rotation.x < -180)
+    //     this->rotation.x = 180;
+    this->rotation.x =
+        glm::clamp(this->rotation.x + (float)angle, -180.0f, 180.0f);
 }
 
 void Object::rotateY(double angle) {
-    this->rotation.y += angle;
-    if (this->rotation.y > 180)
-        this->rotation.y = -180;
-    if (this->rotation.y < -180)
-        this->rotation.y = 180;
+    // if (this->rotation.y > 180)
+    //     this->rotation.y = -180;
+    // if (this->rotation.y < -180)
+    //     this->rotation.y = 180;
+    this->rotation.y =
+        glm::clamp(this->rotation.y + (float)angle, -180.0f, 180.0f);
 }
 
 void Object::rotateZ(double angle) {
-    this->rotation.z += angle;
-    if (this->rotation.z > 180)
-        this->rotation.z = -180;
-    if (this->rotation.z < -180)
-        this->rotation.z = 180;
+    this->rotation.z =
+        glm::clamp(this->rotation.z + (float)angle, -180.0f, 180.0f);
+    // if (this->rotation.z > 180)
+    //     this->rotation.z = -180;
+    // if (this->rotation.z < -180)
+    //     this->rotation.z = 180;
 }
 
 void Object::setPosition(glfvec2 position) {
