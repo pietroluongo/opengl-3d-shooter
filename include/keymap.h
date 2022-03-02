@@ -69,6 +69,22 @@ constexpr const int MOVE_CAMERA_LEFT_BUTTON = 'j';
 constexpr const int MOVE_CAMERA_RIGHT_BUTTON = 'l';
 constexpr const int MOVE_CAMERA_UP_BUTTON = 'i';
 constexpr const int MOVE_CAMERA_DOWN_BUTTON = 'k';
+constexpr const int ROTATE_CAMERA_UP_BUTTON = 'i';
+constexpr const int ROTATE_CAMERA_DOWN_BUTTON = 'k';
+constexpr const int ROTATE_CAMERA_LEFT_BUTTON = 'j';
+constexpr const int ROTATE_CAMERA_RIGHT_BUTTON = 'l';
+constexpr const int MOVE_CAMERA_RIGHT_3D_BUTTON = 'h';
+constexpr const int MOVE_CAMERA_LEFT_3D_BUTTON = 'f';
+constexpr const int JUMP_BUTTON = ' ';
+
+constexpr const int MOVE_FORWARD_BUTTON = 'w';
+constexpr const int MOVE_BACKWARD_BUTTON = 's';
+
+constexpr const int MOVE_CAMERA_IN_BUTTON = 't';
+constexpr const int MOVE_CAMERA_OUT_BUTTON = 'g';
+constexpr const int MOVE_CAMERA_HIGH_BUTTON = 'y';
+constexpr const int MOVE_CAMERA_LOW_BUTTON = 'r';
+
 } // namespace keymap
 
 #endif

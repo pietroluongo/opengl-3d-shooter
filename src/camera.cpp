@@ -154,36 +154,38 @@ void Camera::handleInput() {
                 this->moveY(CAMERA_SPEED);
             }
         } else {
-            // X rotation: 5
-            // Y rotation: 2
-            // X movement: 0
-            // Y movement: 1
-            float rotX = 0, rotY = 0, rotZ = 0;
-            float movX = 0, movY = 0, movZ = 0;
-            if (abs(context->axes[2]) < 0.1)
-                rotY = 0;
-            else
-                rotY = context->axes[2];
+            if (context->nAxes >= 4) {
+                // X rotation: 5
+                // Y rotation: 2
+                // X movement: 0
+                // Y movement: 1
+                float rotX = 0, rotY = 0, rotZ = 0;
+                float movX = 0, movY = 0, movZ = 0;
+                if (abs(context->axes[2]) < 0.1)
+                    rotY = 0;
+                else
+                    rotY = context->axes[2];
 
-            if (abs(context->axes[5]) < 0.1)
-                rotX = 0;
-            else
-                rotX = context->axes[5];
+                if (abs(context->axes[5]) < 0.1)
+                    rotX = 0;
+                else
+                    rotX = context->axes[5];
 
-            if (abs(context->axes[0]) < 0.1)
-                movX = 0;
-            else
-                movX = context->axes[0];
+                if (abs(context->axes[0]) < 0.1)
+                    movX = 0;
+                else
+                    movX = context->axes[0];
 
-            if (abs(context->axes[1]) < 0.1)
-                movY = 0;
-            else
-                movY = context->axes[1];
+                if (abs(context->axes[1]) < 0.1)
+                    movY = 0;
+                else
+                    movY = context->axes[1];
+                this->rotateY(rotY * CAMERA_ROTATE_SPEED);
+                this->rotateX(-rotX * CAMERA_ROTATE_SPEED);
+                this->moveSidesFromForward(-movX * CAMERA_SPEED);
+                this->moveForward(-movY * CAMERA_SPEED);
+            }
 
-            this->rotateY(rotY * CAMERA_ROTATE_SPEED);
-            this->rotateX(-rotX * CAMERA_ROTATE_SPEED);
-            this->moveSidesFromForward(-movX * CAMERA_SPEED);
-            this->moveForward(-movY * CAMERA_SPEED);
             if (context->isKeyPressed(keymap::ROTATE_CAMERA_UP_BUTTON)) {
                 this->rotateX(CAMERA_ROTATE_SPEED);
             }
