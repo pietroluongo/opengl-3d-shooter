@@ -44,6 +44,23 @@ void Camera::idle() {
         glOrtho(this->bounds[0], this->bounds[1], this->bounds[2],
                 this->bounds[3], -1, 1);
     } else {
+        if (this->behaviour == CAMERA_FPS && !freeCamEnabled) {
+
+            glm::ivec2 windowSize = context->getWindowSize();
+            glm::fvec3 playerDollyPosition =
+                context->getGameRef()->getPlayer()->getDollyPosition();
+            glm::fvec3 playerPosition =
+                context->getGameRef()->getPlayer()->getPosition();
+            this->position = playerDollyPosition;
+            this->projectionMatrix = glm::perspective(
+                45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f,
+                1000.0f);
+            this->projectionMatrix *=
+                glm::lookAt(this->position, playerPosition, this->up);
+            glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+            return;
+        }
+
         // TODO: remove this! This is just for testing. It breaks the camera on
         // game restart
         static int flag = 0;

@@ -45,6 +45,13 @@ constexpr const int MOVE_CAMERA_LOW_BUTTON = GLFW_KEY_R;
 constexpr const int MOVE_CAMERA_RIGHT_3D_BUTTON = GLFW_KEY_H;
 constexpr const int MOVE_CAMERA_LEFT_3D_BUTTON = GLFW_KEY_F;
 
+constexpr const int CAMERA_SET_FPS = GLFW_KEY_1;
+constexpr const int CAMERA_SET_AIM = GLFW_KEY_2;
+constexpr const int CAMERA_SET_THIRD_PERSON = GLFW_KEY_3;
+constexpr const int CAMERA_TOGGLE_ORBIT = GLFW_KEY_X;
+
+constexpr const int CAMERA_TOGGLE_AIM_SECONDARY = GLFW_MOUSE_BUTTON_2;
+
 } // namespace keymap
 
 #else

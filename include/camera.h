@@ -11,6 +11,14 @@ enum CameraFollowMode {
 
 enum CameraMode { CAMERA_2D, CAMERA_3D };
 
+enum CameraBehaviour {
+    CAMERA_FPS,
+    CAMERA_TPS,
+    CAMERA_AIM,
+    CAMERA_FREE,
+    CAMERA_ORBIT
+};
+
 class Camera {
     glm::fvec4 bounds = {0, 0, 0, 0};
     glm::fvec3 center = {0, 0, 0};
@@ -31,6 +39,7 @@ class Camera {
 
     CameraFollowMode followMode = CAMERA_FOLLOW_MODE_NONE;
     CameraMode mode = CAMERA_2D;
+    CameraBehaviour behaviour = CAMERA_FPS;
 
     glm::mat4 projectionMatrix = glm::mat4(1.0f);
 

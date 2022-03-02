@@ -33,6 +33,8 @@ class Player : public Character {
     void shoot();
     void updateAnimState();
     double getJumpTime() { return this->jumpTime; };
+    glm::fvec3 getEyePosition();
+    glm::fvec3 getDollyPosition();
     virtual void kill();
     virtual std::vector<std::vector<Collider*>*> colliders();
 };

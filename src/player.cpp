@@ -203,3 +203,23 @@ std::vector<std::vector<Collider*>*> Player::colliders() {
         context->getGameRef()->getEnemyColliders(),
         context->getGameRef()->getMap()->getPlatformsColliders()};
 }
+
+glm::fvec3 Player::getEyePosition() {
+    glPushMatrix();
+    glColor3f(1, 0, 0);
+    glBegin(GL_POLYGON);
+    glVertex3f(-1, -1, 0);
+    glVertex3f(1, -1, 0);
+    glVertex3f(1, 1, 0);
+    glVertex3f(-1, 1, 0);
+
+    glEnd();
+    glPopMatrix();
+    return glm::fvec3(1, 0.3 * this->size, 0);
+}
+
+glm::fvec3 Player::getDollyPosition() {
+    return glm::fvec3(this->getPosition().x - 10,
+                      this->getPosition().y - this->size,
+                      this->getPosition().z - 10);
+}
