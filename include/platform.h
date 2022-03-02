@@ -10,6 +10,7 @@ class Platform {
     float width, height;
     pivotPosition pivot;
     std::unique_ptr<Collider> collider;
+    float depth = 0;
 
     void drawAxis();
 
@@ -20,6 +21,7 @@ class Platform {
     void draw();
     Collider* getCollider();
     void setColor(glfvec3 color);
+    void setDepth(float depth) { this->depth = depth; };
 };
 
 #endif

@@ -21,6 +21,7 @@ class Map {
     std::vector<Collider*>* getPlatformsColliders() {
         return &this->platformColliders;
     };
+    glm::fvec2 getWorldSize();
 };
 
 #endif

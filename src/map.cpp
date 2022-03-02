@@ -96,3 +96,8 @@ std::vector<Platform*> Map::getPlatforms() {
 }
 
 glm::fvec4 Map::getWorldBounds() { return this->worldBounds; }
+
+glm::fvec2 Map::getWorldSize() {
+    return {this->worldBounds[1] - this->worldBounds[0],
+            this->worldBounds[3] - this->worldBounds[2]};
+}

@@ -60,7 +60,7 @@ void Platform::draw() {
             glm::fvec3(this->width, this->height, 0),
             glm::fvec3(this->width, 0, 0),
         };
-        drawCubeFromExtrude(10, this->color, vecs);
+        drawCubeFromExtrude(this->depth, this->color, vecs);
     }
 
     glPopMatrix();
