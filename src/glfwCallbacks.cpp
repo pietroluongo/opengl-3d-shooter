@@ -111,6 +111,7 @@ void init() {
         printf("Error initializing GLFW\n");
         exit(1);
     }
+
     GLFWwindow* mainWindow =
         glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "2D Shooter", NULL, NULL);
     if (mainWindow == NULL) {
@@ -119,7 +120,7 @@ void init() {
 
     context->setWindow(mainWindow);
 
-    glfwSetWindowPos(mainWindow, 10, 10);
+    glfwSetWindowPos(mainWindow, -1920 + 500, 40);
 
     glfwMakeContextCurrent(mainWindow);
     glfwSwapInterval(1);

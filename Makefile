@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := dev
 
 ifndef $(RENDERER)
 RENDERER = GLFW
@@ -67,7 +67,7 @@ TINYXML_OBJS := $(TINYXML_SOURCES:%=$(BUILD_DIR)/tinyxml/%.o)
 all: trabalhocg
 
 dev: trabalhocg
-	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
+	./trabalhocg.exe /home/pietroluongo/ufes/arena_teste.svg
 
 slow: remake dev
 
