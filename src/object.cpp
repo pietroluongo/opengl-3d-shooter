@@ -1,6 +1,7 @@
 #include "../include/object.h"
 #include "../include/constants.h"
 #include "../include/globalCtx.h"
+#include "../libs/glm/gtx/rotate_vector.hpp"
 
 extern GlobalCtx* context;
 
@@ -15,8 +16,8 @@ Object::Object() {}
 Object::~Object() {}
 
 void Object::moveForward(float distance) {
-    const glm::fvec3 forward = glm::normalize(this->rotation);
-    const glm::fvec3 delta = distance * forward;
+    // const glm::fvec3 forward = glm::normalize(this->rotation);
+    const glm::fvec3 delta = distance * this->rotation;
     this->positionDelta += delta * (float)context->getDeltaTime();
 }
 
@@ -37,8 +38,12 @@ void Object::rotateX(double angle) {
     //     this->rotation.x = -180;
     // if (this->rotation.x < -180)
     //     this->rotation.x = 180;
-    this->rotation.x =
-        glm::clamp(this->rotation.x + (float)angle, -180.0f, 180.0f);
+    float actualAngle = angle * context->getDeltaTime();
+    this->rotation = glm::rotateX(this->rotation, actualAngle);
+    this->visualRotation.x += angle;
+    // this->rotation = glm::rotateX(this->rotation, glm::radians(angle),
+    // this->) this->rotation.x =
+    //     glm::clamp(this->rotation.x + (float)angle, -180.0f, 180.0f);
 }
 
 void Object::rotateY(double angle) {
@@ -46,13 +51,21 @@ void Object::rotateY(double angle) {
     //     this->rotation.y = -180;
     // if (this->rotation.y < -180)
     //     this->rotation.y = 180;
-    this->rotation.y =
-        glm::clamp(this->rotation.y + (float)angle, -180.0f, 180.0f);
+
+    float actualAngle = angle * context->getDeltaTime();
+    this->rotation = glm::rotateY(this->rotation, actualAngle);
+    this->visualRotation.y += angle;
+    // this->rotation.y =
+    //     glm::clamp(this->rotation.y + (float)angle, -180.0f, 180.0f);
 }
 
 void Object::rotateZ(double angle) {
-    this->rotation.z =
-        glm::clamp(this->rotation.z + (float)angle, -180.0f, 180.0f);
+
+    float actualAngle = angle * context->getDeltaTime();
+    this->rotation = glm::rotateZ(this->rotation, actualAngle);
+    this->visualRotation.z += angle;
+    // this->rotation.z =
+    //     glm::clamp(this->rotation.z + (float)angle, -180.0f, 180.0f);
     // if (this->rotation.z > 180)
     //     this->rotation.z = -180;
     // if (this->rotation.z < -180)

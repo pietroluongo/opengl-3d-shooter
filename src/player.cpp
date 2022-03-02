@@ -30,7 +30,10 @@ void Player::draw() {
     glfvec3 position = this->getPosition();
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
-    glRotatef(this->getRotation().y, 0, 1, 0);
+    glRotatef(this->visualRotation.x, 1, 0, 0);
+    glRotatef(this->visualRotation.y, 0, 1, 0);
+    glRotatef(this->visualRotation.z, 0, 0, 1);
+    drawCoordinateSystem();
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);

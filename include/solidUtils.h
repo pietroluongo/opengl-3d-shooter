@@ -25,6 +25,8 @@ void drawCubePure(glm::vec3 size = glm::vec3(1, 1, 1),
 
 void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]);
 
+void drawCoordinateSystem();
+
 class Sphere {
   private:
     std::unique_ptr<VertexData> vertices;

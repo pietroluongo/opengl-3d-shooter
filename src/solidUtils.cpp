@@ -199,3 +199,30 @@ void Sphere::draw() {
 }
 
 Sphere::~Sphere() {}
+
+void drawCoordinateSystem() {
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_QUADS);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(1.0, 0.0, 0.0);
+    glVertex3f(1.0, 1.0, 0.0);
+    glVertex3f(0.0, 1.0, 0.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glEnd();
+    glColor3f(0.0, 1.0, 0.0);
+    glBegin(GL_QUADS);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 1.0, 0.0);
+    glVertex3f(0.0, 1.0, 1.0);
+    glVertex3f(0.0, 0.0, 1.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glEnd();
+    glColor3f(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 0.0, 1.0);
+    glVertex3f(1.0, 0.0, 1.0);
+    glVertex3f(1.0, 0.0, 0.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glEnd();
+}

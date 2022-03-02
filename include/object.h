@@ -20,6 +20,7 @@ class Object {
     std::unique_ptr<Collider> collider;
     bool isGrounded = false;
     double fallTimer = 0;
+    glfvec3 visualRotation = {1, 0, 0};
 
   public:
     Object();

@@ -86,7 +86,6 @@ void Camera::moveSidesFromForward(float amount) {
 void Camera::moveZ(float z) { this->position.z += z * context->getDeltaTime(); }
 
 void Camera::rotateX(float x) {
-    printf("Rotating x...\n");
     float angle = x * context->getDeltaTime();
     this->forward = glm::rotateX(this->forward, angle);
 }
