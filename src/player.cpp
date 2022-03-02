@@ -13,12 +13,13 @@ extern GlobalCtx* context;
 
 float limitArmMovement(float angle);
 
-Player::Player(GLfloat x, GLfloat y, GLfloat size, CharacterDrawMode mode)
-    : Character(x, y, size) {
+Player::Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
+               CharacterDrawMode mode)
+    : Character(x, y, z, size) {
     this->armPosition = 0.2 * size;
     this->armWidth = 0.04 * size;
     this->armHeight = 0.4 * size;
-    this->collider->resize(size * 0.2, size);
+    this->collider->resize(size * 0.2, size, size);
     this->drawMode = mode;
     this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
 }
@@ -29,6 +30,7 @@ void Player::draw() {
     glfvec2 position = this->getPosition();
     glPushMatrix();
     glTranslatef(position.x, position.y, 0.0f);
+    glRotatef(this->getRotation().z, 0, 1, 0);
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -69,18 +71,29 @@ void Player::idle() {
 void Player::handleMovementKeys() {
     if (context->isKeyPressed(keymap::MOVE_RIGHT_BUTTON)) {
         this->isRequestingMove = true;
-        this->moveX(2.5 * this->size);
+        // this->moveX(2.5 * this->size);
+        this->rotateZ(1 * this->size);
     }
     if (context->isKeyPressed(keymap::MOVE_LEFT_BUTTON)) {
         this->isRequestingMove = true;
-        this->moveX(-2.5 * this->size);
+        // this->moveX(-2.5 * this->size);
+        this->rotateZ(-1 * this->size);
     }
 
-    if (context->isKeyPressed(keymap::MOVE_UP_BUTTON) ||
+    if (context->isKeyPressed(keymap::JUMP_BUTTON) ||
         context->getIsPressingRMB()) {
         this->isRequestingJump = true;
     } else {
         this->isRequestingJump = false;
+    }
+
+    if (context->isKeyPressed(keymap::MOVE_FORWARD_BUTTON)) {
+        this->isRequestingMove = true;
+        this->moveForward(2.5 * this->size);
+    }
+    if (context->isKeyPressed(keymap::MOVE_BACKWARD_BUTTON)) {
+        this->isRequestingMove = true;
+        this->moveForward(-2.5 * this->size);
     }
 
     if (context->getIsPressingLMB()) {

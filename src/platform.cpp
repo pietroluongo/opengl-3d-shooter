@@ -16,8 +16,8 @@ Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
     this->width = w;
     this->height = h;
     this->pivot = pivot;
-    this->collider =
-        std::unique_ptr<Collider>(new Collider(x, y, w, h, nullptr, pivot));
+    this->collider = std::unique_ptr<Collider>(
+        new Collider(x, y, 0, w, h, 1, nullptr, pivot));
 }
 
 Platform::~Platform() {}
@@ -95,3 +95,8 @@ void Platform::drawAxis() {
 Collider* Platform::getCollider() { return this->collider.get(); }
 
 void Platform::setColor(glfvec3 color) { this->color = color; }
+
+void Platform::setDepth(float depth) {
+    this->depth = depth;
+    this->collider->resize(this->width, this->height, depth);
+}

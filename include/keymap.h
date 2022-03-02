@@ -10,6 +10,11 @@ constexpr const int MOVE_DOWN_BUTTON = GLFW_KEY_S;
 constexpr const int MOVE_LEFT_BUTTON = GLFW_KEY_A;
 constexpr const int MOVE_RIGHT_BUTTON = GLFW_KEY_D;
 
+constexpr const int JUMP_BUTTON = GLFW_KEY_SPACE;
+
+constexpr const int MOVE_FORWARD_BUTTON = GLFW_KEY_W;
+constexpr const int MOVE_BACKWARD_BUTTON = GLFW_KEY_S;
+
 constexpr const int TOGGLE_DEBUG_INFO_BUTTON = GLFW_KEY_F1;
 constexpr const int TOGGLE_CAMERA_INFO_BUTTON = GLFW_KEY_F2;
 constexpr const int TOGGLE_PHYSICS_INFO_BUTTON = GLFW_KEY_F3;

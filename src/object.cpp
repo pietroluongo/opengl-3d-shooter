@@ -4,15 +4,23 @@
 
 extern GlobalCtx* context;
 
-Object::Object(GLfloat x, GLfloat y, GLfloat size) {
-    this->position = {x, y, 0};
+Object::Object(GLfloat x, GLfloat y, GLfloat z, GLfloat size) {
+    this->position = {x, y, z};
     this->size = size;
     this->collider = std::unique_ptr<Collider>(
-        new Collider(x, y, size, size, this, pivotPosition::CENTER));
+        new Collider(x, y, z, size, size, size, this, pivotPosition::CENTER));
 }
 
 Object::Object() {}
 Object::~Object() {}
+
+void Object::moveForward(float distance) {
+    const glm::fvec3 delta = distance * this->rotation;
+    this->moveX(delta.x);
+    this->moveY(delta.y);
+    this->moveZ(delta.z);
+    // this->positionDelta += delta * (float)context->getDeltaTime();
+}
 
 void Object::moveX(double amount) {
     this->positionDelta.x += (amount * context->getDeltaTime());
@@ -21,6 +29,34 @@ void Object::moveX(double amount) {
 void Object::moveY(double amount) {
     this->positionDelta.y += (amount * context->getDeltaTime());
 };
+
+void Object::moveZ(double amount) {
+    this->positionDelta.z += (amount * context->getDeltaTime());
+}
+
+void Object::rotateX(double angle) {
+    this->rotation.x += angle;
+    if (this->rotation.x > 180)
+        this->rotation.x = -180;
+    if (this->rotation.x < -180)
+        this->rotation.x = 180;
+}
+
+void Object::rotateY(double angle) {
+    this->rotation.y += angle;
+    if (this->rotation.y > 180)
+        this->rotation.y = -180;
+    if (this->rotation.y < -180)
+        this->rotation.y = 180;
+}
+
+void Object::rotateZ(double angle) {
+    this->rotation.z += angle;
+    if (this->rotation.z > 180)
+        this->rotation.z = -180;
+    if (this->rotation.z < -180)
+        this->rotation.z = 180;
+}
 
 void Object::setPosition(glfvec2 position) {
     this->position = {position.x, position.y, 0};

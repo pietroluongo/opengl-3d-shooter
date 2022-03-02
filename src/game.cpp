@@ -16,7 +16,7 @@ Game::Game() {
 
 Game::~Game() {}
 
-glfvec2 Game::getPlayerPosition() { return this->player->getPosition(); }
+glfvec3 Game::getPlayerPosition() { return this->player->getPosition(); }
 
 void Game::draw() {
     this->map->draw();
@@ -69,14 +69,14 @@ void Game::idle() {
 
 void Game::createPlayer(double x, double y, double size) {
     this->player =
-        std::unique_ptr<Player>(new Player(x, y, size, CHARACTER_3D));
+        std::unique_ptr<Player>(new Player(x, y, 0, size, CHARACTER_3D));
     player->setShirtColor({0.0f, .5f, .0f});
     this->cam->setFollowTarget(this->player.get());
     this->playersColliders.push_back(this->player.get()->getCollider());
 }
 
 void Game::createEnemy(double x, double y, double size) {
-    auto enemy = std::unique_ptr<Enemy>(new Enemy(x, y, size));
+    auto enemy = std::unique_ptr<Enemy>(new Enemy(x, y, 0, size));
     enemy->setShirtColor({1.0f, 0.0f, 0.0f});
     this->enemyColliders.push_back(enemy->getCollider());
     this->enemies.push_back(std::move(enemy));
@@ -97,7 +97,7 @@ std::vector<Enemy*> Game::getEnemies() {
 void Game::createProjectile(float x, float y, float size, float angle,
                             ProjectileType type, float speed) {
     auto proj = std::unique_ptr<Projectile>(
-        new Projectile(x, y, size, angle, type, speed));
+        new Projectile(x, y, 0, size, angle, type, speed));
     this->projectilesColliders.push_back(proj->getCollider());
     this->projectiles.push_back(std::move(proj));
 }

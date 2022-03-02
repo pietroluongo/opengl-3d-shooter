@@ -8,11 +8,11 @@
 
 extern GlobalCtx* context;
 
-Projectile::Projectile(float x, float y, float size, float angle,
+Projectile::Projectile(float x, float y, float z, float size, float angle,
                        ProjectileType type, float speed)
-    : Object(x, y, size) {
+    : Object(x, y, z, size) {
     this->angle = angle;
-    this->getCollider()->resize(size, size / 2);
+    this->getCollider()->resize(size, size / 2, size / 2);
     this->setIsAffectedByGravity(false);
     this->speed = speed;
     this->type = type;

@@ -2,11 +2,12 @@
 #include <cstdio>
 #include <cstdlib>
 
-Collider::Collider(float x, float y, float w, float h, Object* owner,
-                   pivotPosition pivot) {
-    this->position = glfvec2(x, y);
+Collider::Collider(float x, float y, float z, float w, float h, float d,
+                   Object* owner, pivotPosition pivot) {
+    this->position = glfvec3(x, y, z);
     this->width = w;
     this->height = h;
+    this->depth = d;
     this->pivot = pivot;
     this->owner = owner;
 }
@@ -72,17 +73,19 @@ glm::fvec4 Collider::getBoundingBox() {
     }
 }
 
-glm::fvec2 Collider::getCenter() {
+glm::fvec3 Collider::getCenter() {
     switch (this->pivot) {
     case pivotPosition::CENTER:
-        return glm::fvec2(this->position.x, this->position.y);
+        return glm::fvec3(this->position.x, this->position.y, this->position.z);
     case pivotPosition::BOT_LEFT:
-        return glm::fvec2(this->position.x + this->width / 2,
-                          this->position.y - this->height / 2);
+        return glm::fvec3(this->position.x + this->width / 2,
+                          this->position.y - this->height / 2,
+                          this->position.z - this->depth / 2);
     case pivotPosition::TOP_LEFT:
     default:
-        return glm::fvec2(this->position.x + this->width / 2,
-                          this->position.y + this->height / 2);
+        return glm::fvec3(this->position.x + this->width / 2,
+                          this->position.y + this->height / 2,
+                          this->position.z + this->depth / 2);
     }
 }
 
@@ -117,7 +120,8 @@ glm::bvec4 Collider::getOverlapDirection(Collider* other,
     return overlapDirection;
 }
 
-void Collider::resize(float width, float height) {
+void Collider::resize(float width, float height, float depth) {
     this->width = width;
     this->height = height;
+    this->depth = depth;
 }

@@ -59,7 +59,8 @@ class Character : public Object {
     float armAngle = 0.0f;
     double animTimer = 0;
 
-    Character(GLfloat x, GLfloat y, GLfloat size) : Object(x, y, size){};
+    Character(GLfloat x, GLfloat y, GLfloat z, GLfloat size)
+        : Object(x, y, z, size){};
     virtual void draw() = 0;
     virtual void idle() = 0;
     virtual void applyDamage(int damage) { health -= damage; }

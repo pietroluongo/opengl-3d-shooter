@@ -10,12 +10,13 @@
 
 extern GlobalCtx* context;
 
-Enemy::Enemy(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
+Enemy::Enemy(GLfloat x, GLfloat y, GLfloat z, GLfloat size)
+    : Character(x, y, z, size) {
     this->setSize(size);
     this->armPosition = 0.2 * size;
     this->armWidth = 0.04 * size;
     this->armHeight = 0.4 * size;
-    this->getCollider()->resize(size * 0.2, size);
+    this->getCollider()->resize(size * 0.2, size, size);
     this->targetShootTimer = rand() % 1000 / 100;
     this->currentAnimState = AnimState::WALKING;
 }

@@ -12,7 +12,7 @@ class Enemy : public Character {
     int targetShootTimer = 0;
 
   public:
-    Enemy(GLfloat x, GLfloat y, GLfloat size);
+    Enemy(GLfloat x, GLfloat y, GLfloat z, GLfloat size);
     virtual ~Enemy();
     virtual void draw();
     virtual void idle();

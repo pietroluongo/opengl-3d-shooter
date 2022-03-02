@@ -34,7 +34,7 @@ class Game {
   public:
     Game();
     ~Game();
-    glfvec2 getPlayerPosition();
+    glfvec3 getPlayerPosition();
     void draw();
     Player* getPlayer();
     void idle();

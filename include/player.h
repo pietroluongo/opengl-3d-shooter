@@ -21,7 +21,7 @@ class Player : public Character {
   public:
     bool isInvincible = false;
 
-    Player(GLfloat x, GLfloat y, GLfloat size,
+    Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
            CharacterDrawMode mode = CHARACTER_2D);
     virtual ~Player();
     void draw();

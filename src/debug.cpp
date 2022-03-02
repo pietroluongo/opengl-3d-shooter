@@ -52,8 +52,8 @@ void drawUI() {
 }
 
 void imgui_display() {
-    glfvec2 playerPos = context->getGameRef()->getPlayerPosition();
-    glfvec2 colliderPos =
+    glfvec3 playerPos = context->getGameRef()->getPlayerPosition();
+    glfvec3 colliderPos =
         context->getGameRef()->getPlayer()->getCollider()->getCenter();
     glm::ivec2 mousePos = context->getScreenSpaceMousePos();
     glm::fvec2 mousePosN = context->getNormalizedMousePos();
@@ -208,9 +208,10 @@ void imgui_display() {
 
     if (context->shouldDrawPlayerInfo) {
         ImGui::Begin("Player [F12]", &context->shouldDrawPlayerInfo);
-        ImGui::Text("Player pos: %.2f, %.2f", playerPos.x, playerPos.y);
-        ImGui::Text("Player collider pos: %.2f, %.2f", colliderPos.x,
-                    colliderPos.y);
+        ImGui::Text("Player pos: %.2f, %.2f, %.2f", playerPos.x, playerPos.y,
+                    playerPos.z);
+        ImGui::Text("Player collider pos: %.2f, %.2f, %.2f", colliderPos.x,
+                    colliderPos.y, colliderPos.z);
         ImGui::SliderFloat("Arm angle",
                            &context->getGameRef()->getPlayer()->armAngle, 45.0f,
                            135.0f);
@@ -247,8 +248,12 @@ void imgui_display() {
         ImGui::SliderFloat4(
             "Player leg rotation",
             context->getGameRef()->getPlayer()->getLegRotation(), -90, 90);
+        const glm::fvec3 playerRotation =
+            context->getGameRef()->getPlayer()->getRotation();
         ImGui::Text("Player heading: %s",
                     context->getGameRef()->getPlayer()->getHeading());
+        ImGui::Text("Player angle: %.2f, %.2f, %.2f", playerRotation.x,
+                    playerRotation.y, playerRotation.z);
         ImGui::Text("Player jump time: %.2f",
                     context->getGameRef()->getPlayer()->getJumpTime());
         ImGui::Text("Player fall timer: %.2f",

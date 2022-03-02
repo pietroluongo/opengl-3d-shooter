@@ -15,8 +15,8 @@ class Projectile : public Object {
     float speed;
 
   public:
-    Projectile(float x, float y, float size, float angle, ProjectileType type,
-               float speed);
+    Projectile(float x, float y, float z, float size, float angle,
+               ProjectileType type, float speed);
     virtual ~Projectile();
     virtual void draw();
     virtual void idle();

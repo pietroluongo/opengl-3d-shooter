@@ -21,7 +21,7 @@ class Platform {
     void draw();
     Collider* getCollider();
     void setColor(glfvec3 color);
-    void setDepth(float depth) { this->depth = depth; };
+    void setDepth(float depth);
 };
 
 #endif
