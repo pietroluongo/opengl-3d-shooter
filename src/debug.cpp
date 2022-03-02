@@ -80,14 +80,6 @@ void imgui_display() {
     int millis = (int)(context->getTotalPlaytime() * 1000) % 1000;
 
     if (context->shouldDrawDebugInfo) {
-        ImGui::Begin("Console");
-        for (int i = 0; i < context->consoleText.size(); i++) {
-            ImGui::Text("%s", context->consoleText.at(i).c_str());
-        }
-        ImGui::End();
-    }
-
-    if (context->shouldDrawDebugInfo) {
         ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
                     1000.0f / ImGui::GetIO().Framerate,
@@ -104,6 +96,9 @@ void imgui_display() {
                     context->getGameRef()->getMap()->getWorldBounds()[2],
                     context->getGameRef()->getMap()->getWorldBounds()[3]);
         ImGui::Text("Game State: %s", context->getGameRef()->getState());
+        if (ImGui::Button("Toggle Dimensionality")) {
+            context->getGameRef()->toggleDimensions();
+        }
         ImGui::BeginDisabled();
         for (int i = 0; i < context->nAxes; i++) {
             ImGui::SliderFloat("Axis %d", (float*)&context->axes[i], -1.0f,

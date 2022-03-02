@@ -12,6 +12,8 @@
 
 enum GameState { PLAYING, PAUSED, OVER, WON };
 
+enum RenderMode { D2, D3 };
+
 class Game {
     std::unique_ptr<Player> player = nullptr;
     std::unique_ptr<Camera> cam = nullptr;
@@ -26,6 +28,8 @@ class Game {
     std::vector<Collider*> colliders;
 
     GameState state = PLAYING;
+
+    RenderMode renderMode = D2;
 
   public:
     Game();
@@ -60,6 +64,8 @@ class Game {
         return &this->playersColliders;
     }
     unsigned long getProjectileCount() { return projectiles.size(); }
+    void toggleDimensions();
+    RenderMode getCurrentRenderMode() { return this->renderMode; }
 };
 
 #endif

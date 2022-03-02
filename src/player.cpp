@@ -13,11 +13,13 @@ extern GlobalCtx* context;
 
 float limitArmMovement(float angle);
 
-Player::Player(GLfloat x, GLfloat y, GLfloat size) : Character(x, y, size) {
+Player::Player(GLfloat x, GLfloat y, GLfloat size, CharacterDrawMode mode)
+    : Character(x, y, size) {
     this->armPosition = 0.2 * size;
     this->armWidth = 0.04 * size;
     this->armHeight = 0.4 * size;
     this->collider->resize(size * 0.2, size);
+    this->drawMode = mode;
 }
 
 Player::~Player() {}

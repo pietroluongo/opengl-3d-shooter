@@ -8,6 +8,8 @@ enum AnimState { IDLE, WALKING, JUMPING, DEAD };
 
 enum Heading { LEFT, RIGHT };
 
+enum CharacterDrawMode { CHARACTER_2D, CHARACTER_3D };
+
 class Character : public Object {
   protected:
     float armHeight;
@@ -17,6 +19,8 @@ class Character : public Object {
     Heading currentHeading = RIGHT;
     AnimState currentAnimState = AnimState::IDLE;
     const double animDelta = 0.1;
+
+    CharacterDrawMode drawMode = CHARACTER_2D;
 
     glfvec3 shirtColor = {0.0f, 0.0f, 0.0f};
 
@@ -95,6 +99,7 @@ class Character : public Object {
     float* tmp_getSize() { return &this->size; };
     virtual void kill() = 0;
     void setShirtColor(glfvec3 color) { this->shirtColor = color; };
+    void toggleDimensionality();
 };
 
 #endif

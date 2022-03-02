@@ -136,6 +136,7 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/collider.o \
 	$(BUILD_DIR)/projectile.o \
 	$(BUILD_DIR)/character.o \
+	$(BUILD_DIR)/solidUtils.o \
 	$(CALLBACK_DEPS)
 
 
@@ -182,4 +183,7 @@ $(BUILD_DIR)/character.o: src/character.cpp include/character.h include/constant
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/glfwCallbacks.o: src/glfwCallbacks.cpp include/glfwCallbacks.h include/constants.h | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/solidUtils.o: src/solidUtils.cpp include/solidUtils.h include/constants.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<

@@ -68,7 +68,8 @@ void Game::idle() {
 }
 
 void Game::createPlayer(double x, double y, double size) {
-    this->player = std::unique_ptr<Player>(new Player(x, y, size));
+    this->player =
+        std::unique_ptr<Player>(new Player(x, y, size, CHARACTER_3D));
     player->setShirtColor({0.0f, .5f, .0f});
     this->cam->setFollowTarget(this->player.get());
     this->playersColliders.push_back(this->player.get()->getCollider());
@@ -261,4 +262,13 @@ const char* Game::getState() {
         return "Won";
     }
     return "";
+}
+
+void Game::toggleDimensions() {
+    if (this->renderMode == RenderMode::D2) {
+        this->renderMode = RenderMode::D3;
+    } else {
+        this->renderMode = RenderMode::D2;
+    }
+    this->player->toggleDimensionality();
 }
