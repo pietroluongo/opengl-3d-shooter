@@ -79,6 +79,7 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
     context->getGameRef()->draw();
     debug::drawUI();
@@ -140,6 +141,7 @@ void init() {
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
 
     int hasJoystick = glfwJoystickPresent(GLFW_JOYSTICK_1);
     if (hasJoystick) {

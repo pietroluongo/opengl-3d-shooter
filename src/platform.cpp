@@ -1,7 +1,9 @@
 #include "../include/platform.h"
 #include "../include/constants.h"
 #include "../include/globalCtx.h"
+#include "../include/solidUtils.h"
 #include <cstdio>
+
 extern GlobalCtx* context;
 
 enum PlatformType {
@@ -24,30 +26,41 @@ void Platform::draw() {
     glPushMatrix();
     glTranslatef(this->position.x, this->position.y, 0);
     glColor3f(this->color.r, this->color.g, this->color.b);
-    glBegin(GL_QUADS);
-    switch (this->pivot) {
-    case pivotPosition::CENTER:
-        glVertex2f(-this->width / 2, -this->height / 2);
-        glVertex2f(this->width / 2, -this->height / 2);
-        glVertex2f(this->width / 2, this->height / 2);
-        glVertex2f(-this->width / 2, this->height / 2);
-        break;
-    case pivotPosition::BOT_LEFT:
-        glVertex2f(0, -this->height);
-        glVertex2f(this->width, -this->height);
-        glVertex2f(this->width, 0);
-        glVertex2f(0, 0);
-        break;
-    case pivotPosition::TOP_LEFT:
-        glVertex2f(0, 0);
-        glVertex2f(0, this->height);
-        glVertex2f(this->width, this->height);
-        glVertex2f(this->width, 0);
-    }
-    glEnd();
+    if (context->getGameRef()->getCurrentRenderMode() == RenderMode::D2) {
+        glBegin(GL_QUADS);
+        switch (this->pivot) {
+        case pivotPosition::CENTER:
+            glVertex2f(-this->width / 2, -this->height / 2);
+            glVertex2f(this->width / 2, -this->height / 2);
+            glVertex2f(this->width / 2, this->height / 2);
+            glVertex2f(-this->width / 2, this->height / 2);
+            break;
+        case pivotPosition::BOT_LEFT:
+            glVertex2f(0, -this->height);
+            glVertex2f(this->width, -this->height);
+            glVertex2f(this->width, 0);
+            glVertex2f(0, 0);
+            break;
+        case pivotPosition::TOP_LEFT:
+            glVertex2f(0, 0);
+            glVertex2f(0, this->height);
+            glVertex2f(this->width, this->height);
+            glVertex2f(this->width, 0);
+        }
+        glEnd();
 
-    if (context->shouldObjectsDrawCoordinateSystem) {
-        this->drawAxis();
+        if (context->shouldObjectsDrawCoordinateSystem) {
+            this->drawAxis();
+        }
+    } else {
+        // top left
+        glm::fvec3 vecs[4] = {
+            glm::fvec3(0, 0, 0),
+            glm::fvec3(0, this->height, 0),
+            glm::fvec3(this->width, this->height, 0),
+            glm::fvec3(this->width, 0, 0),
+        };
+        drawCubeFromExtrude(10, this->color, vecs);
     }
 
     glPopMatrix();

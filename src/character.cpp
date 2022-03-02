@@ -81,6 +81,13 @@ void Character::drawGun() {
         }
         glEnd();
     } else {
+        drawCubePure({gunSizeSmall, gunSizeBig, gunSizeSmall},
+                     {0.2f, 0.2f, 0.2f});
+        // glm::vec3 vecs[4] = {glm::vec3(-gunSizeSmall, 0, 0),
+        //                      glm::vec3(2 * gunSizeBig, 0, 0),
+        //                      glm::vec3(2 * gunSizeBig, 2 * gunSizeSmall, 0),
+        //                      glm::vec3(-gunSizeSmall, 2 * gunSizeSmall, 0)};
+        // drawCubeFromExtrude(gunSizeSmall, {0.2f, 0.2f, 0.2f}, vecs);
     }
 
     glPopMatrix();

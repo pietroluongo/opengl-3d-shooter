@@ -56,3 +56,47 @@ void drawCube(glm::vec3 pos, glm::vec3 size, glm::vec3 color) {
     drawCubePure(size, color);
     glPopMatrix();
 }
+
+void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
+    glColor3f(color.r, color.g, color.b);
+
+    glBegin(GL_QUADS);
+
+    // front
+    glVertex3f(points[0].x, points[0].y, points[0].z);
+    glVertex3f(points[1].x, points[1].y, points[1].z);
+    glVertex3f(points[2].x, points[2].y, points[2].z);
+    glVertex3f(points[3].x, points[3].y, points[3].z);
+
+    // back
+    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+
+    // left
+    glVertex3f(points[0].x, points[0].y, points[0].z);
+    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+    glVertex3f(points[1].x, points[1].y, points[1].z);
+
+    // right
+    glVertex3f(points[2].x, points[2].y, points[2].z);
+    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    glVertex3f(points[3].x, points[3].y, points[3].z);
+
+    // top
+    glVertex3f(points[0].x, points[0].y, points[0].z);
+    glVertex3f(points[3].x, points[3].y, points[3].z);
+    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+
+    // bottom
+    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+
+    glEnd();
+}

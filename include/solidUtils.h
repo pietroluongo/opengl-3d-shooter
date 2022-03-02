@@ -16,4 +16,6 @@ void drawCubePure(glm::vec3 size = glm::vec3(1, 1, 1),
                   glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f),
                   PivotPoint pivot = PIVOT_CENTER);
 
+void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]);
+
 #endif

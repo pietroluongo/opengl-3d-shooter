@@ -29,7 +29,7 @@ class Game {
 
     GameState state = PLAYING;
 
-    RenderMode renderMode = D2;
+    RenderMode renderMode = D3;
 
   public:
     Game();
