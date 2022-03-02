@@ -95,6 +95,8 @@ void idle() {
     double framerate = 1.0 / deltaTime * 1000;
     context->updateTiming(framerate, deltaTime);
 
+    context->axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &context->nAxes);
+
     processInput(context->getWindow());
     context->idle();
 }
@@ -138,6 +140,13 @@ void init() {
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+
+    int hasJoystick = glfwJoystickPresent(GLFW_JOYSTICK_1);
+    if (hasJoystick) {
+        printf("Joystick detected\n");
+    } else {
+        printf("No joystick detected\n");
+    }
 }
 
 void mainLoop() {

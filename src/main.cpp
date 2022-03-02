@@ -44,7 +44,6 @@ void checkParams(int argc, char** argv) {
     if (argc != 2) {
         printf("Usage: %s <arena file>\n", argv[0]);
 #if defined(_WIN32) || defined(WIN32)
-        AllocConsole();
         MessageBox(
             NULL,
             (LPCWSTR)L"Drag a .svg map file on to the executable to load it.",

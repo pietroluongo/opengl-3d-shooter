@@ -49,7 +49,7 @@ class GlobalCtx {
   public:
     std::deque<double> enemyIdleTimerQueue;
 
-    bool shouldDrawDebugInfo = false;
+    bool shouldDrawDebugInfo = true;
     bool shouldDrawCameraInfo = true;
     bool shouldDrawPhysicsInfo = false;
     bool shouldDrawPlayerInfo = false;
@@ -65,6 +65,13 @@ class GlobalCtx {
     bool enemiesCanMove = true;
 
     bool imguiHasMouseFocus = false;
+
+    bool userHasJoystick = false;
+
+    int nAxes = 0;
+    const float* axes;
+
+    std::vector<std::string> consoleText = std::vector<std::string>(100);
 
 #ifdef USE_GLUT
     void* font = GLUT_BITMAP_9_BY_15;

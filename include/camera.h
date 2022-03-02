@@ -57,6 +57,7 @@ class Camera {
     void setFollowTarget(Object* target);
     void setFollowMode(CameraFollowMode mode);
     void setTargetYCoordinates(float y);
+    void moveSidesFromForward(float amount);
     void setDesiredSize(glm::fvec2 size);
     glm::fvec2 getSize() { return this->size; };
     glm::mat4 getProjectionMatrix() { return this->projectionMatrix; };
