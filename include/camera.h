@@ -9,9 +9,12 @@ enum CameraFollowMode {
     CAMERA_FOLLOW_MODE_DUAL_AXIS
 };
 
+enum CameraMode { CAMERA_2D, CAMERA_3D };
+
 class Camera {
     glm::fvec4 bounds = {0, 0, 0, 0};
-    glm::fvec2 center = {0, 0};
+    glm::fvec3 center = {0, 0, 0};
+    glm::fvec3 position = {0, 0, 0};
 
     glm::fvec2 size = {0, 0};
 
@@ -24,6 +27,9 @@ class Camera {
     void handleInput();
 
     CameraFollowMode followMode = CAMERA_FOLLOW_MODE_NONE;
+    CameraMode mode = CAMERA_2D;
+
+    glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
   public:
     bool shouldFollowTarget = false;
@@ -31,17 +37,32 @@ class Camera {
     float zoomLevel = .5f;
 
     Camera();
+    Camera(CameraMode mode);
     void idle();
     glm::fvec4 getBounds();
-    glm::fvec2 getPosition();
+    glm::fvec3 getCenter();
+    glm::fvec3 getPosition();
     void moveX(float x);
     void moveY(float y);
-    void setCenter(glm::fvec2 focus);
+    void moveZ(float z);
+    void rotateX(float x);
+    void rotateY(float y);
+    void rotateZ(float z);
+    void setCenter(glm::fvec3 focus);
+    void setPosition(glm::fvec3 pos);
     void setFollowTarget(Object* target);
     void setFollowMode(CameraFollowMode mode);
     void setTargetYCoordinates(float y);
     void setDesiredSize(glm::fvec2 size);
     glm::fvec2 getSize() { return this->size; };
+    glm::mat4 getProjectionMatrix() { return this->projectionMatrix; };
+    const char* getCameraMode() {
+        if (this->mode == CAMERA_2D) {
+            return "2D";
+        } else {
+            return "3D";
+        }
+    };
 };
 
 #endif

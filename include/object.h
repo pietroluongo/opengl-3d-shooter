@@ -8,8 +8,8 @@
 class Collider;
 class Object {
   private:
-    glfvec2 position = {0, 0};
-    glfvec2 positionDelta = {0, 0};
+    glfvec3 position = {0, 0, 0};
+    glfvec3 positionDelta = {0, 0, 0};
     glm::bvec4 collisionDirections = {false, false, false, false};
     double currentTime = 0;
     bool isAffectedByGravity = true;
@@ -24,21 +24,22 @@ class Object {
     Object();
     Object(GLfloat x, GLfloat y, GLfloat size);
     virtual ~Object();
+    Collider* getCollider();
+    double getFallTimer() { return this->fallTimer; };
+    glfvec3 getPosition();
+    glm::bvec4 getCollisionArr() { return this->collisionDirections; };
+    virtual std::vector<std::vector<Collider*>*> colliders() = 0;
     virtual void draw() = 0;
     virtual void idle();
-    glfvec2 getPosition();
     virtual void moveX(double amount);
     virtual void moveY(double amount);
+    virtual void setPosition(GLfloat x = 0, GLfloat y = 0, GLfloat z = 0);
     virtual void setPosition(glfvec2 position);
-    virtual void setPosition(GLfloat x, GLfloat y);
+    virtual void setPosition(glfvec3 position);
     void drawAxis();
-    Collider* getCollider();
-    glm::bvec4 getCollisionArr() { return this->collisionDirections; };
-    void teleport(float x, float y);
-    void teleportToGround();
     void setIsAffectedByGravity(bool isAffectedByGravity);
-    double getFallTimer() { return this->fallTimer; };
-    virtual std::vector<std::vector<Collider*>*> colliders() = 0;
+    void teleport(float x = 0, float y = 0, float z = 0);
+    void teleportToGround();
 };
 
 #endif

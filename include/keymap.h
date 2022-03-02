@@ -26,6 +26,10 @@ constexpr const int MOVE_CAMERA_LEFT_BUTTON = GLFW_KEY_J;
 constexpr const int MOVE_CAMERA_RIGHT_BUTTON = GLFW_KEY_L;
 constexpr const int MOVE_CAMERA_UP_BUTTON = GLFW_KEY_I;
 constexpr const int MOVE_CAMERA_DOWN_BUTTON = GLFW_KEY_K;
+constexpr const int MOVE_CAMERA_IN_BUTTON = GLFW_KEY_I;
+constexpr const int MOVE_CAMERA_OUT_BUTTON = GLFW_KEY_K;
+constexpr const int MOVE_CAMERA_HIGH_BUTTON = GLFW_KEY_O;
+constexpr const int MOVE_CAMERA_LOW_BUTTON = GLFW_KEY_U;
 
 } // namespace keymap
 

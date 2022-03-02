@@ -5,7 +5,7 @@
 extern GlobalCtx* context;
 
 Object::Object(GLfloat x, GLfloat y, GLfloat size) {
-    this->position = {x, y};
+    this->position = {x, y, 0};
     this->size = size;
     this->collider = std::unique_ptr<Collider>(
         new Collider(x, y, size, size, this, pivotPosition::CENTER));
@@ -22,11 +22,17 @@ void Object::moveY(double amount) {
     this->positionDelta.y += (amount * context->getDeltaTime());
 };
 
-void Object::setPosition(glfvec2 position) { this->position = position; }
+void Object::setPosition(glfvec2 position) {
+    this->position = {position.x, position.y, 0};
+}
 
-void Object::setPosition(float x, float y) { this->position = {x, y}; }
+void Object::setPosition(glfvec3 position) { this->position = position; }
 
-glfvec2 Object::getPosition() { return this->position; }
+void Object::setPosition(float x, float y, float z) {
+    this->position = {x, y, z};
+}
+
+glfvec3 Object::getPosition() { return this->position; }
 
 void Object::drawAxis() {
 
@@ -92,13 +98,13 @@ void Object::idle() {
     }
 
     this->position += this->positionDelta;
-    this->positionDelta = {0, 0};
+    this->positionDelta = {0, 0, 0};
 }
 
 Collider* Object::getCollider() { return this->collider.get(); }
 
-void Object::teleport(float x, float y) {
-    this->position = {x, y};
+void Object::teleport(float x, float y, float z) {
+    this->position = {x, y, z};
     this->collider->idle();
 }
 
@@ -109,7 +115,7 @@ void Object::teleportToGround() {
             printf("[ERROR] Could not teleport object to ground.\n");
             return;
         }
-        glfvec2 oldPosition = this->position;
+        glfvec3 oldPosition = this->position;
         this->position.y += 1;
         this->collider->idle();
         for (auto colliderList : this->colliders()) {

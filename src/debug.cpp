@@ -60,12 +60,20 @@ void imgui_display() {
     glm::fvec2 mousePosW = context->getWorldSpaceMousePos();
     glm::fvec4 cameraBounds =
         context->getGameRef()->getMainCamera()->getBounds();
-    glm::fvec2 cameraPosition =
+    glm::fvec3 cameraPosition =
         context->getGameRef()->getMainCamera()->getPosition();
+    glm::fvec2 cameraCenter =
+        context->getGameRef()->getMainCamera()->getCenter();
     glm::bvec4 playerCollisionData =
         context->getGameRef()->getPlayer()->getCollisionArr();
 
     std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+
+    glm::mat4 cameraProjectionMatrix =
+        context->getGameRef()->getMainCamera()->getProjectionMatrix();
+
+    GLfloat model[16];
+    glGetFloatv(GL_MODELVIEW_MATRIX, model);
 
     int minutes = (int)context->getTotalPlaytime() / 60;
     int seconds = (int)context->getTotalPlaytime() % 60;
@@ -92,19 +100,44 @@ void imgui_display() {
     }
     if (context->shouldDrawCameraInfo) {
         ImGui::Begin("Camera [F2]", &context->shouldDrawCameraInfo);
-        ImGui::Text("Camera bounds: %.2f, %.2f, %.2f, %.2f", cameraBounds.x,
-                    cameraBounds.y, cameraBounds.z, cameraBounds.w);
-        ImGui::Text("Camera position: %.2f, %.2f", cameraPosition.x,
-                    cameraPosition.y);
-        ImGui::SliderFloat("Zoom level",
+        ImGui::Text("Camera Mode: %s",
+                    context->getGameRef()->getMainCamera()->getCameraMode());
+        ImGui::Text("[2D] Camera bounds: %.2f, %.2f, %.2f, %.2f",
+                    cameraBounds.x, cameraBounds.y, cameraBounds.z,
+                    cameraBounds.w);
+        ImGui::Text("[2D] Camera center: %.2f, %.2f", cameraCenter.x,
+                    cameraCenter.y);
+        ImGui::Text("[3D] Camera Position: %.2f, %.2f, %.2f", cameraPosition.x,
+                    cameraPosition.y, cameraPosition.z);
+        ImGui::SliderFloat("[?D] Zoom level",
                            &context->getGameRef()->getMainCamera()->zoomLevel,
                            0.1f, 10.0f);
         ImGui::Checkbox(
-            "Toggle Free Camera (control w/ IJKL)",
+            "Toggle Free Camera (control w/ IJKLUO)",
             &context->getGameRef()->getMainCamera()->freeCamEnabled);
         ImGui::Checkbox(
             "Toggle Chase Camera",
             &context->getGameRef()->getMainCamera()->shouldFollowTarget);
+        ImGui::Text("[3D] Camera Projection Matrix:");
+        ImGui::Text("%.2f, %.2f, %.2f, %.2f", cameraProjectionMatrix[0][0],
+                    cameraProjectionMatrix[0][1], cameraProjectionMatrix[0][2],
+                    cameraProjectionMatrix[0][3]);
+        ImGui::Text("%.2f, %.2f, %.2f, %.2f", cameraProjectionMatrix[1][0],
+                    cameraProjectionMatrix[1][1], cameraProjectionMatrix[1][2],
+                    cameraProjectionMatrix[1][3]);
+        ImGui::Text("%.2f, %.2f, %.2f, %.2f", cameraProjectionMatrix[2][0],
+                    cameraProjectionMatrix[2][1], cameraProjectionMatrix[2][2],
+                    cameraProjectionMatrix[2][3]);
+        ImGui::Text("%.2f, %.2f, %.2f, %.2f", cameraProjectionMatrix[3][0],
+                    cameraProjectionMatrix[3][1], cameraProjectionMatrix[3][2],
+                    cameraProjectionMatrix[3][3]);
+        ImGui::Text(
+            "Global Model Matrix:\n\t%.2f, %.2f, %.2f, %.2f\n\t%.2f, %.2f, "
+            "%.2f, %.2f\n\t%.2f, "
+            "%.2f, %.2f, %.2f\n\t%.2f, %.2f, %.2f, %.2f",
+            model[0], model[1], model[2], model[3], model[4], model[5],
+            model[6], model[7], model[8], model[9], model[10], model[11],
+            model[12], model[13], model[14], model[15]);
         ImGui::End();
     }
     if (context->shouldDrawPhysicsInfo) {

@@ -1,6 +1,9 @@
 #include "../include/camera.h"
 #include "../include/globalCtx.h"
 #include "../include/keymap.h"
+#include "../libs/glm/ext/matrix_clip_space.hpp"
+#include "../libs/glm/glm.hpp"
+#include "../libs/glm/gtc/type_ptr.hpp"
 
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
@@ -24,54 +27,79 @@ constexpr float DEFAULT_CAMERA_HEIGHT = BASE_CAMERA_HEIGHT / 2;
 extern GlobalCtx* context;
 
 Camera::Camera() {}
+Camera::Camera(CameraMode mode) { this->mode = mode; }
 
 void Camera::idle() {
     this->handleInput();
-    if (this->shouldFollowTarget) {
-        this->setCenter(this->followTarget->getPosition());
-    }
-    this->shouldFollowTarget = !this->freeCamEnabled;
-    this->updateBounds();
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION);
-    glOrtho(this->bounds[0], this->bounds[1], this->bounds[2], this->bounds[3],
-            -1, 1);
+
+    if (this->mode == CAMERA_2D) {
+        if (this->shouldFollowTarget) {
+            this->setCenter(this->followTarget->getPosition());
+        }
+        this->shouldFollowTarget = !this->freeCamEnabled;
+        this->updateBounds();
+        glOrtho(this->bounds[0], this->bounds[1], this->bounds[2],
+                this->bounds[3], -1, 1);
+    } else {
+        this->setCenter(context->getGameRef()->getPlayer()->getPosition());
+        // TODO: remove this! This is just for testing. It breaks the camera on
+        // game restart
+        static int flag = 0;
+        if (flag == 0) {
+            this->position = {this->center.x, this->center.y, -100};
+            flag = 1;
+        }
+        glm::ivec2 windowSize = context->getWindowSize();
+        this->projectionMatrix = glm::perspective(
+            45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 1000.0f);
+        this->projectionMatrix *= glm::lookAt(
+            glm::vec3(this->position.x, this->position.y, this->position.z),
+            glm::vec3(this->center.x, this->center.y, 0), glm::vec3(0, -1, 0));
+        glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+    }
 }
 
 glm::fvec4 Camera::getBounds() { return this->bounds; }
 
-void Camera::moveX(float x) { this->center.x += x * context->getDeltaTime(); }
-void Camera::moveY(float y) { this->center.y += y * context->getDeltaTime(); }
+void Camera::moveX(float x) {
+    this->center.x += x * context->getDeltaTime();
+    this->position.x += x * context->getDeltaTime();
+}
+void Camera::moveY(float y) {
+    this->center.y += y * context->getDeltaTime();
+    this->position.y += y * context->getDeltaTime();
+}
 
-void Camera::setCenter(glm::fvec2 focus) {
+void Camera::moveZ(float z) { this->position.z += z * context->getDeltaTime(); }
+
+void Camera::rotateX(float x) {
+    this->position.x += x * context->getDeltaTime();
+    this->center.x += x * context->getDeltaTime();
+}
+
+void Camera::rotateY(float y) {
+    this->position.y += y * context->getDeltaTime();
+    this->center.y += y * context->getDeltaTime();
+}
+
+void Camera::rotateZ(float z) {
+    this->position.z += z * context->getDeltaTime();
+    this->center.z += z * context->getDeltaTime();
+}
+
+void Camera::setCenter(glm::fvec3 focus) {
     this->center = focus;
     this->updateBounds();
 }
+
+void Camera::setPosition(glm::fvec3 pos) { this->position = pos; }
 
 void Camera::updateBounds() {
     float camHeight, camWidth;
     camHeight = this->size.y;
     this->center.y = this->targetYCoordinate;
-    // if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
-    //     camHeight = this->size.y;
-    //     this->center.y = this->targetYCoordinate;
-    // } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
-    //     camHeight = DEFAULT_CAMERA_HEIGHT;
-    // } else {
-    //     camHeight = DEFAULT_CAMERA_HEIGHT;
-    // }
-    // if (this->followMode == CAMERA_FOLLOW_MODE_SINGLE_AXIS) {
-    //     camWidth = camHeight;
-    // } else if (this->followMode == CAMERA_FOLLOW_MODE_DUAL_AXIS) {
-    //     camWidth = DEFAULT_CAMERA_WIDTH;
-    // } else {
-    //     camWidth = DEFAULT_CAMERA_WIDTH;
-    // }
-    // if (context->getWindowSize().x <= 500) {
-    //     camWidth = context->getWindowSize().x / 5;
-    // } else {
-    //     camWidth = context->getWindowSize().x / 15;
-    // }
     if (context->getWindowSize().x >= context->getWindowSize().y) {
         camWidth =
             camHeight * context->getWindowSize().x / context->getWindowSize().y;
@@ -87,7 +115,11 @@ void Camera::updateBounds() {
     this->bounds[3] = center.y - (camHeight * this->zoomLevel);
 }
 
-glm::fvec2 Camera::getPosition() { return glm::fvec2(center.x, center.y); }
+glm::fvec3 Camera::getPosition() {
+    return glm::fvec3(position.x, position.y, position.z);
+}
+
+glm::fvec3 Camera::getCenter() { return this->center; }
 
 void Camera::setFollowTarget(Object* target) {
     this->followTarget = target;
@@ -96,17 +128,38 @@ void Camera::setFollowTarget(Object* target) {
 
 void Camera::handleInput() {
     if (this->freeCamEnabled) {
-        if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
-            this->moveX(CAMERA_SPEED);
-        }
-        if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
-            this->moveX(-CAMERA_SPEED);
-        }
-        if (context->isKeyPressed(keymap::MOVE_CAMERA_UP_BUTTON)) {
-            this->moveY(-CAMERA_SPEED);
-        }
-        if (context->isKeyPressed(keymap::MOVE_CAMERA_DOWN_BUTTON)) {
-            this->moveY(CAMERA_SPEED);
+        if (this->mode == CAMERA_2D) {
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
+                this->moveX(CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
+                this->moveX(-CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_UP_BUTTON)) {
+                this->moveY(-CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_DOWN_BUTTON)) {
+                this->moveY(CAMERA_SPEED);
+            }
+        } else {
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
+                this->moveX(CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
+                this->moveX(-CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_HIGH_BUTTON)) {
+                this->moveY(-CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_LOW_BUTTON)) {
+                this->moveY(CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_IN_BUTTON)) {
+                this->moveZ(CAMERA_SPEED);
+            }
+            if (context->isKeyPressed(keymap::MOVE_CAMERA_OUT_BUTTON)) {
+                this->moveZ(-CAMERA_SPEED);
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ extern GlobalCtx* context;
 Game::Game() {
     this->player = nullptr;
     this->map = std::unique_ptr<Map>(new Map());
-    this->cam = std::unique_ptr<Camera>(new Camera());
+    this->cam = std::unique_ptr<Camera>(new Camera(CameraMode::CAMERA_3D));
     this->cam->setFollowMode(CAMERA_FOLLOW_MODE_SINGLE_AXIS);
 }
 
