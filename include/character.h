@@ -1,8 +1,10 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include "../include/solidUtils.h"
 #include "collider.h"
 #include "object.h"
+#include <memory>
 
 enum AnimState { IDLE, WALKING, JUMPING, DEAD };
 
@@ -38,6 +40,8 @@ class Character : public Object {
 
     int currentAnimFrame = 0;
     int curAnimCounter = 0;
+
+    std::unique_ptr<Sphere> head;
 
     /**
      * @brief Controls the player's leg rotation

@@ -1,6 +1,10 @@
 #include "../include/solidUtils.h"
 #include <GL/gl.h>
 
+#if defined(_WIN32) || defined(WIN32)
+#define M_PI 3.14159265358979323846
+#endif
+
 void drawCubePure(glm::vec3 size, glm::vec3 color, PivotPoint pivot) {
     glPushMatrix();
     glColor3f(color.r, color.g, color.b);
@@ -100,3 +104,98 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
 
     glEnd();
 }
+
+void buildSphere(double R, double space) {}
+
+Sphere::Sphere(double R, double space) {
+    int numVtx, radius;
+    numVtx = (180 / space) * (2 + 360 / (2 * space)) * 4;
+    this->vertices = std::unique_ptr<VertexData>(new VertexData[numVtx]);
+
+    VertexData* vtx = this->vertices.get();
+    radius = R;
+
+    int n;
+    double vR, lVR;
+    double hR, lHR;
+    double norm;
+    n = 0;
+    for (vR = 0; vR <= 180 - space; vR += space) {
+        for (hR = 0; hR <= 360 + 2 * space; hR += 2 * space) {
+            lVR = vR;
+            lHR = hR;
+            vtx[n].pos.x = R * sin(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
+            vtx[n].txC.x = lVR / 180;
+            vtx[n].txC.y = lHR / 360;
+            norm =
+                sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
+                     vtx[n].pos.z * vtx[n].pos.z);
+            vtx[n].nrm.x = vtx[n].pos.x / norm;
+            vtx[n].nrm.y = vtx[n].pos.y / norm;
+            vtx[n].nrm.z = vtx[n].pos.z / norm;
+            n++;
+
+            lVR = vR + space;
+            lHR = hR;
+            vtx[n].pos.x = R * sin(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
+            vtx[n].txC.y = lVR / 180;
+            vtx[n].txC.y = lHR / 360;
+            norm =
+                sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
+                     vtx[n].pos.z * vtx[n].pos.z);
+            vtx[n].nrm.x = vtx[n].pos.x / norm;
+            vtx[n].nrm.y = vtx[n].pos.y / norm;
+            vtx[n].nrm.z = vtx[n].pos.z / norm;
+            n++;
+
+            lVR = vR;
+            lHR = hR + space;
+            vtx[n].pos.x = R * sin(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
+            vtx[n].txC.y = lVR / 180;
+            vtx[n].txC.y = lHR / 360;
+            norm =
+                sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
+                     vtx[n].pos.z * vtx[n].pos.z);
+            vtx[n].nrm.x = vtx[n].pos.x / norm;
+            vtx[n].nrm.y = vtx[n].pos.y / norm;
+            vtx[n].nrm.z = vtx[n].pos.z / norm;
+            n++;
+
+            lVR = vR + space;
+            lHR = hR + space;
+            vtx[n].pos.x = R * sin(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
+            vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
+            vtx[n].txC.y = lVR / 180;
+            vtx[n].txC.y = lHR / 360;
+            norm =
+                sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
+                     vtx[n].pos.z * vtx[n].pos.z);
+            vtx[n].nrm.x = vtx[n].pos.x / norm;
+            vtx[n].nrm.y = vtx[n].pos.y / norm;
+            vtx[n].nrm.z = vtx[n].pos.z / norm;
+            n++;
+        }
+    }
+    this->vertexCount = numVtx;
+    this->radius = radius;
+}
+
+void Sphere::draw() {
+    VertexData* vtx = this->vertices.get();
+    glBegin(GL_TRIANGLE_STRIP);
+    for (int i = 0; i < this->vertexCount; i++) {
+        glNormal3f(vtx[i].nrm.x, vtx[i].nrm.y, vtx[i].nrm.z);
+        glTexCoord2f(vtx[i].txC.x, vtx[i].txC.y);
+        glVertex3f(vtx[i].pos.x, vtx[i].pos.y, vtx[i].pos.z);
+    }
+    glEnd();
+}
+
+Sphere::~Sphere() {}

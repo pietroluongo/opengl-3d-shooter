@@ -20,6 +20,7 @@ Player::Player(GLfloat x, GLfloat y, GLfloat size, CharacterDrawMode mode)
     this->armHeight = 0.4 * size;
     this->collider->resize(size * 0.2, size);
     this->drawMode = mode;
+    this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
 }
 
 Player::~Player() {}

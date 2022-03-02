@@ -1,6 +1,5 @@
 #include "../include/character.h"
 #include "../include/globalCtx.h"
-#include "../include/solidUtils.h"
 
 #if defined(_WIN32) || defined(WIN32)
 #define M_PI 3.14159265358979323846
@@ -95,14 +94,20 @@ void Character::drawGun() {
 
 void Character::drawHead() {
     glTranslatef(0, -this->size * 0.3f, 0);
-    glBegin(GL_POLYGON);
-    {
-        for (int i = 0; i < 360; i += 10) {
-            glVertex2f(this->size * 0.1f * cos(i * M_PI / 180),
-                       this->size * 0.1f * sin(i * M_PI / 180));
+    if (context->getGameRef()->getCurrentRenderMode() == RenderMode::D2) {
+        glBegin(GL_POLYGON);
+        {
+            for (int i = 0; i < 360; i += 10) {
+                glVertex2f(this->size * 0.1f * cos(i * M_PI / 180),
+                           this->size * 0.1f * sin(i * M_PI / 180));
+            }
         }
+        glEnd();
+
+    } else {
+        if (this->head)
+            this->head->draw();
     }
-    glEnd();
 }
 
 void Character::drawLegs() {
