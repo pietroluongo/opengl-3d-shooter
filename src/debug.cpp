@@ -122,6 +122,12 @@ void imgui_display() {
         ImGui::SliderFloat("[?D] Zoom level",
                            &context->getGameRef()->getMainCamera()->zoomLevel,
                            0.1f, 10.0f);
+        ImGui::SliderFloat("[3D] camera xz angle",
+                           &context->getGameRef()->getMainCamera()->xzAngle,
+                           -180.0f, 180.0f);
+        ImGui::SliderFloat("[3D] camera xy angle",
+                           &context->getGameRef()->getMainCamera()->xyAngle,
+                           -180.0f, 180.0f);
         ImGui::Checkbox(
             "Toggle Free Camera (control w/ IJKLUO)",
             &context->getGameRef()->getMainCamera()->freeCamEnabled);

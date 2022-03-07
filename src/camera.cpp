@@ -7,6 +7,7 @@
 
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
+#define M_PI 3.14159265358979323846
 #endif
 
 #include <GL/gl.h>
@@ -33,7 +34,9 @@ Camera::Camera(CameraMode mode) { this->mode = mode; }
 void Camera::idle() {
     this->handleInput();
     glLoadIdentity();
+    this->projectionMatrix = glm::mat4(1.0f);
     glMatrixMode(GL_PROJECTION);
+    glm::ivec2 windowSize = context->getWindowSize();
 
     if (this->mode == CAMERA_2D) {
         if (this->shouldFollowTarget) {
@@ -61,7 +64,27 @@ void Camera::idle() {
             return;
         }
 
-        glm::ivec2 windowSize = context->getWindowSize();
+        if (this->behaviour == CAMERA_ORBIT) {
+            this->projectionMatrix = glm::perspective(
+                45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f,
+                1000.0f);
+            float cameraZoom = this->zoomLevel * 100.0f;
+            glm::fvec3 playerPosition =
+                context->getGameRef()->getPlayer()->getPosition();
+            glm::fvec3 spherePosition = {0, 0, 0};
+            spherePosition.x = cameraZoom * sin(xzAngle * M_PI / 180) *
+                               cos((xyAngle * M_PI / 180));
+            spherePosition.y = cameraZoom * sin((-xyAngle * M_PI / 180));
+            spherePosition.z = cameraZoom * cos(xzAngle * M_PI / 180) *
+                               cos((xyAngle * M_PI / 180));
+            spherePosition += this->position;
+            this->position = playerPosition;
+            this->projectionMatrix *= glm::lookAt(
+                spherePosition, playerPosition, glm::fvec3(0, -1, 0));
+            glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+            return;
+        }
+
         this->projectionMatrix = glm::perspective(
             45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 1000.0f);
         this->projectionMatrix *= glm::lookAt(
@@ -149,6 +172,12 @@ void Camera::setFollowTarget(Object* target) {
 }
 
 void Camera::handleInput() {
+    glm::fvec2 mousePos = context->getNormalizedMousePos();
+    mousePos.x *= 100;
+    mousePos.y *= 100;
+    this->xzAngle -= mousePos.x - this->lastMousePosition.x;
+    this->xyAngle += mousePos.y - this->lastMousePosition.y;
+    this->lastMousePosition = mousePos;
     if (this->freeCamEnabled) {
         if (this->mode == CAMERA_2D) {
             if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
