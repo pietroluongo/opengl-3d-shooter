@@ -61,15 +61,6 @@ void Camera::idle() {
             return;
         }
 
-        // TODO: remove this! This is just for testing. It breaks the camera on
-        // game restart
-        static int flag = 0;
-        if (flag == 0) {
-            this->setCenter(context->getGameRef()->getPlayer()->getPosition());
-            this->position = {this->center.x, this->center.y, -100};
-            flag = 1;
-            this->forward = {0, 0, 1};
-        }
         glm::ivec2 windowSize = context->getWindowSize();
         this->projectionMatrix = glm::perspective(
             45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 1000.0f);
@@ -104,6 +95,9 @@ void Camera::moveZ(float z) { this->position.z += z * context->getDeltaTime(); }
 
 void Camera::rotateX(float x) {
     float angle = x * context->getDeltaTime();
+    if (this->position.z > 0) {
+        angle *= -1;
+    }
     this->forward = glm::rotateX(this->forward, angle);
 }
 

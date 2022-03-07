@@ -20,12 +20,13 @@ enum CameraBehaviour {
 };
 
 class Camera {
+  private:
     glm::fvec4 bounds = {0, 0, 0, 0};
     glm::fvec3 center = {0, 0, 0};
     glm::fvec3 position = {0, 0, 0};
 
     glm::fvec3 up = {0, -1, 0};
-    glm::fvec3 forward = {0, 0, 0};
+    glm::fvec3 forward = {0, 0, 1};
 
     glm::fvec2 size = {0, 0};
 

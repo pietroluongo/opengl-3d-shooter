@@ -11,11 +11,11 @@ GlobalCtx::GlobalCtx(GLint w, GLint h, char* arenaFile) {
     this->windowWidth = w;
     this->game = std::unique_ptr<Game>(new Game());
     game->getMap()->loadArena(arenaFile);
+    this->game->setupCamera();
     float platDepth = game->getMap()->getWorldSize().y / 2;
     for (auto plat : this->game->getMap()->getPlatforms()) {
         plat->setDepth(platDepth);
     }
-    this->game->setupCamera();
     for (auto enemy : game->getEnemies()) {
         bool isGrounded = false;
         for (auto platform : game->getMap()->getPlatforms()) {

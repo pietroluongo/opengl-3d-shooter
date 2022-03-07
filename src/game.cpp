@@ -245,10 +245,17 @@ void Game::drawWinScreen() {
 }
 
 void Game::setupCamera() {
-    glm::fvec4 worldBounds = map->getWorldBounds();
-    float deltaY = worldBounds[3] - worldBounds[2];
-    this->cam->setDesiredSize({deltaY, deltaY});
-    this->cam->setTargetYCoordinates(worldBounds[2] + deltaY / 2);
+    if (this->renderMode == D2) {
+        glm::fvec4 worldBounds = map->getWorldBounds();
+        float deltaY = worldBounds[3] - worldBounds[2];
+        this->cam->setDesiredSize({deltaY, deltaY});
+        this->cam->setTargetYCoordinates(worldBounds[2] + deltaY / 2);
+    } else {
+        glm::fvec3 playerPosition = this->player->getPosition();
+        this->cam->setCenter(this->player->getPosition());
+        this->cam->setPosition(
+            glm::fvec3(playerPosition.x, playerPosition.y, -100));
+    }
 }
 
 const char* Game::getState() {
