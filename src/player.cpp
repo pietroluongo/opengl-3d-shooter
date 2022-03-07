@@ -21,6 +21,11 @@ Player::Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
     this->armHeight = 0.4 * size;
     this->collider->resize(size * 0.2, size, size);
     this->drawMode = mode;
+    if (mode == CHARACTER_3D) {
+        this->mouseMode = MOUSE_MODE_SINGLE_AXIS;
+    } else {
+        this->mouseMode = MOUSE_MODE_DUAL_AXIS;
+    }
     this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
 }
 
@@ -123,17 +128,22 @@ float limitArmMovement(float angle) {
 }
 
 void Player::updateArmAngle() {
-    glm::fvec2 mousePos = context->getWorldSpaceMousePos();
-    glfvec2 position = this->getPosition();
-    float dy = position.y - mousePos.y;
-    float dx = position.x - mousePos.x;
-    this->armAngle = atan2(-dy, -dx) * 180 / M_PI - 90;
-    this->armAngle = limitArmMovement(this->armAngle);
-    if ((this->armAngle >= 45 && this->armAngle <= 90) ||
-        this->armAngle <= -225) {
-        this->setHeading(LEFT);
+    if (this->mouseMode == MOUSE_MODE_DUAL_AXIS) {
+        glm::fvec2 mousePos = context->getWorldSpaceMousePos();
+        glfvec2 position = this->getPosition();
+        float dy = position.y - mousePos.y;
+        float dx = position.x - mousePos.x;
+        this->armAngle = atan2(-dy, -dx) * 180 / M_PI - 90;
+        this->armAngle = limitArmMovement(this->armAngle);
+        if ((this->armAngle >= 45 && this->armAngle <= 90) ||
+            this->armAngle <= -225) {
+            this->setHeading(LEFT);
+        } else {
+            this->setHeading(RIGHT);
+        }
     } else {
-        this->setHeading(RIGHT);
+        glm::fvec2 mousePos = context->getNormalizedMousePos();
+        this->armAngle = -90 + (90 / 2 * mousePos.y);
     }
 }
 

@@ -4,6 +4,11 @@
 #include "../include/platform.h"
 #include "character.h"
 
+enum MouseMode {
+    MOUSE_MODE_DUAL_AXIS,
+    MOUSE_MODE_SINGLE_AXIS,
+};
+
 class Player : public Character {
   private:
     void handleMovementKeys();
@@ -17,6 +22,8 @@ class Player : public Character {
     bool isRequestingFire = false;
 
     bool hasHitHead = false;
+
+    MouseMode mouseMode;
 
   public:
     bool isInvincible = false;
