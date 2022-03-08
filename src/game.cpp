@@ -114,6 +114,15 @@ void Game::deleteProjectile(Projectile& projectile) {
 }
 
 void Game::deleteEnemy(Enemy& enemy) {
+    Collider* enemyCollider = enemy.getCollider();
+    for (auto it = this->enemyColliders.begin();
+         it != this->enemyColliders.end(); ++it) {
+        Collider* curCollider = *it;
+        if (enemyCollider == curCollider) {
+            this->enemyColliders.erase(it);
+            break;
+        }
+    }
     for (auto it = this->enemies.begin(); it != this->enemies.end(); ++it) {
         auto curEnemy = (*it).get();
         if (&enemy == curEnemy) {
