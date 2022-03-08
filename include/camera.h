@@ -83,6 +83,7 @@ class Camera {
             return "3D";
         }
     };
+    const char* getCameraBehaviour();
 };
 
 #endif
