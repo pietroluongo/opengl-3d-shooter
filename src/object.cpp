@@ -3,6 +3,10 @@
 #include "../include/globalCtx.h"
 #include "../libs/glm/gtx/rotate_vector.hpp"
 
+#if defined(_WIN32) || defined(WIN32)
+#define M_PI 3.14159265358979323846
+#endif
+
 extern GlobalCtx* context;
 
 Object::Object(GLfloat x, GLfloat y, GLfloat z, GLfloat size) {
@@ -34,42 +38,22 @@ void Object::moveZ(double amount) {
 }
 
 void Object::rotateX(double angle) {
-    // if (this->rotation.x > 180)
-    //     this->rotation.x = -180;
-    // if (this->rotation.x < -180)
-    //     this->rotation.x = 180;
     float actualAngle = angle * context->getDeltaTime();
     this->rotation = glm::rotateX(this->rotation, actualAngle);
-    this->visualRotation.x += angle;
-    // this->rotation = glm::rotateX(this->rotation, glm::radians(angle),
-    // this->) this->rotation.x =
-    //     glm::clamp(this->rotation.x + (float)angle, -180.0f, 180.0f);
+    this->visualRotation.x += actualAngle * 180 / M_PI;
 }
 
 void Object::rotateY(double angle) {
-    // if (this->rotation.y > 180)
-    //     this->rotation.y = -180;
-    // if (this->rotation.y < -180)
-    //     this->rotation.y = 180;
-
     float actualAngle = angle * context->getDeltaTime();
     this->rotation = glm::rotateY(this->rotation, actualAngle);
-    this->visualRotation.y += angle;
-    // this->rotation.y =
-    //     glm::clamp(this->rotation.y + (float)angle, -180.0f, 180.0f);
+    this->visualRotation.y += actualAngle * 180 / M_PI;
 }
 
 void Object::rotateZ(double angle) {
 
     float actualAngle = angle * context->getDeltaTime();
     this->rotation = glm::rotateZ(this->rotation, actualAngle);
-    this->visualRotation.z += angle;
-    // this->rotation.z =
-    //     glm::clamp(this->rotation.z + (float)angle, -180.0f, 180.0f);
-    // if (this->rotation.z > 180)
-    //     this->rotation.z = -180;
-    // if (this->rotation.z < -180)
-    //     this->rotation.z = 180;
+    this->visualRotation.z += actualAngle * 180 / M_PI;
 }
 
 void Object::setPosition(glfvec2 position) {
