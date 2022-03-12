@@ -215,6 +215,21 @@ void imgui_display() {
         ImGui::End();
     }
 
+    if (context->shouldDrawLightingInfo) {
+        GLfloat val[10];
+
+        glGetLightfv(GL_LIGHT0, GL_POSITION, val);
+
+        printf("light pos: \n\t%.2f, \n\t%.2f, \n\t%.2f\n", val[0], val[1],
+               val[2]);
+        ImGui::Begin("Lighting [F6]", &context->shouldDrawLightingInfo);
+        ImGui::Text("Light position: [%.2f, %.2f, %.2f]", val[0], val[1],
+                    val[2]);
+        // ImGui::Checkbox("Toggle Lighting",
+        // &context->shouldLightingBeEnabled);
+        ImGui::End();
+    }
+
     if (context->shouldDrawPlayerInfo) {
         ImGui::Begin("Player [F12]", &context->shouldDrawPlayerInfo);
         ImGui::Text("Player pos: %.2f, %.2f, %.2f", playerPos.x, playerPos.y,

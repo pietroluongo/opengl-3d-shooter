@@ -55,6 +55,7 @@ class GlobalCtx {
     bool shouldDrawPlayerInfo = true;
     bool shouldDrawEnemyInfo = false;
     bool shouldDrawMemoryInfo = false;
+    bool shouldDrawLightingInfo = true;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;

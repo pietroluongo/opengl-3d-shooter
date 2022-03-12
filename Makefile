@@ -145,6 +145,7 @@ trabalhocgDeps: \
 	$(BUILD_DIR)/projectile.o \
 	$(BUILD_DIR)/character.o \
 	$(BUILD_DIR)/solidUtils.o \
+	$(BUILD_DIR)/lightSrc.o \
 	$(CALLBACK_DEPS)
 
 
@@ -194,4 +195,7 @@ $(BUILD_DIR)/glfwCallbacks.o: src/glfwCallbacks.cpp include/glfwCallbacks.h incl
 	$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/solidUtils.o: src/solidUtils.cpp include/solidUtils.h include/constants.h | build
+	$(CXX) $(CFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/lightSrc.o: src/lightSrc.cpp include/lightSrc.h include/constants.h | build
 	$(CXX) $(CFLAGS) -o $@ -c $<
