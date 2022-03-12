@@ -69,7 +69,7 @@ void specialDown(int key, int x, int y) {
     if (key == GLUT_KEY_F4) {
         context->toggleEnemyInfo();
     }
-    if(key == GLUT_KEY_F5) {
+    if (key == GLUT_KEY_F5) {
         context->toggleMemoryInfo();
     }
     glutPostRedisplay();
@@ -104,7 +104,14 @@ void setupGlut(int argc, char** argv) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glDepthFunc(GL_LEQUAL);
+    glShadeModel(GL_SMOOTH);
+
+    glEnable(GL_LIGHT0);
 
     glutDisplayFunc(display);
     glutPassiveMotionFunc(passiveMotion);

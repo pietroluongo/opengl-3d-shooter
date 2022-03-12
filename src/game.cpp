@@ -1,5 +1,6 @@
 #include "../include/game.h"
 #include "../include/globalCtx.h"
+#include "../libs/glm/gtc/type_ptr.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cstring>
@@ -31,6 +32,28 @@ void Game::draw() {
         this->drawGameOverScreen();
     } else if (this->state == GameState::WON) {
         this->drawWinScreen();
+    }
+    {
+        glPushMatrix();
+        glLoadIdentity();
+        glm::fvec3 playerPos = this->map->getWorldCenter();
+        glLightfv(GL_LIGHT0, GL_SPECULAR,
+                  glm::value_ptr(glm::fvec3(1.0f, .5f, .5f)));
+        glLightfv(GL_LIGHT0, GL_DIFFUSE,
+                  glm::value_ptr(glm::fvec3(1.0f, .0f, .0f)));
+        glLightfv(GL_LIGHT0, GL_POSITION,
+                  glm::value_ptr(glm::fvec4(0, 0, 0, 1.0)));
+        glLightfv(GL_LIGHT0, GL_POSITION,
+                  glm::value_ptr(
+                      glm::fvec4(playerPos.x, playerPos.y, playerPos.z, 1.0)));
+        glPopMatrix();
+
+        GLfloat val[10];
+
+        glGetLightfv(GL_LIGHT0, GL_POSITION, val);
+
+        printf("light pos: \n\t%.2f, \n\t%.2f, \n\t%.2f\n", val[0], val[1],
+               val[2]);
     }
 }
 

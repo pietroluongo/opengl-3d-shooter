@@ -62,46 +62,71 @@ void drawCube(glm::vec3 pos, glm::vec3 size, glm::vec3 color) {
 }
 
 void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
+
+    // GLfloat materialEmission[] = {1.0, 1.0, 1.0, 1};
+    // GLfloat materialColorA[] = {0.2, 0.2, 0.2, 1};
+    // GLfloat materialColorD[] = {1.0, 1.0, 1.0, 1};
+    // GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1};
+    // GLfloat mat_shininess[] = {100.0};
     glColor3f(color.r, color.g, color.b);
 
-    glBegin(GL_QUADS);
+    // glMaterialfv(GL_FRONT, GL_EMISSION, materialEmission);
+    // glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
+    // glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
+    // glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    // glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // X
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Y
 
     // front
+    glBegin(GL_QUADS);
+    glNormal3f(0, 0, 1);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[2].x, points[2].y, points[2].z);
     glVertex3f(points[3].x, points[3].y, points[3].z);
     glEnd();
+
     // back
     glBegin(GL_QUADS);
+    glNormal3f(0, 0, -1);
     glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z + depth);
     glEnd();
+
     // left
     glBegin(GL_QUADS);
+    glNormal3f(-1, 0, 0);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z);
     glEnd();
+
     // right
     glBegin(GL_QUADS);
+    glNormal3f(1, 0, 0);
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
     glVertex3f(points[2].x, points[2].y, points[2].z);
     glEnd();
+
     // top
     glBegin(GL_QUADS);
+    glNormal3f(0, -1, 0);
     glVertex3f(points[3].x, points[3].y, points[3].z);
     glVertex3f(points[2].x, points[2].y, points[2].z);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z + depth);
     glEnd();
+
     // bottom
     glBegin(GL_QUADS);
+    glNormal3f(0, 1, 0);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);

@@ -33,9 +33,11 @@ Camera::Camera(CameraMode mode) { this->mode = mode; }
 
 void Camera::idle() {
     this->handleInput();
-    glLoadIdentity();
     this->projectionMatrix = glm::mat4(1.0f);
-    glMatrixMode(GL_PROJECTION);
+    // glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glm::ivec2 windowSize = context->getWindowSize();
 
     if (this->mode == CAMERA_2D) {

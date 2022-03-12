@@ -42,9 +42,9 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
         context->updateKeyStatus(key, KEY_DOWN_STATUS);
 
         switch (key) {
-        case keymap::CLOSE_PROGRAM_BUTTON:
-            glfwSetWindowShouldClose(window, true);
-            break;
+        // case keymap::CLOSE_PROGRAM_BUTTON:
+        //     glfwSetWindowShouldClose(window, true);
+        //     break;
         case keymap::TOGGLE_DEBUG_INFO_BUTTON:
             context->toggleDebugInfo();
             break;
@@ -80,6 +80,7 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
+    glClear(GL_LIGHTING_BIT);
 
     context->getGameRef()->draw();
     debug::drawUI();
@@ -109,6 +110,11 @@ void resizeCallback(GLFWwindow* window, int x, int y) {
 }
 
 void init() {
+    glClearColor(0.f, 0.f, 1.f, 1.f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit()) {
         printf("Error initializing GLFW\n");
@@ -137,11 +143,17 @@ void init() {
 
     debug::imgui_init();
 
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(0.0, 0.0, 1.0, 0.0);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glDepthFunc(GL_LEQUAL);
+    glShadeModel(GL_SMOOTH);
+
+    glEnable(GL_LIGHT0);
 
     int hasJoystick = glfwJoystickPresent(GLFW_JOYSTICK_1);
     if (hasJoystick) {

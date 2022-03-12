@@ -22,6 +22,7 @@ class Map {
         return &this->platformColliders;
     };
     glm::fvec2 getWorldSize();
+    glm::fvec3 getWorldCenter();
 };
 
 #endif

@@ -101,3 +101,8 @@ glm::fvec2 Map::getWorldSize() {
     return {this->worldBounds[1] - this->worldBounds[0],
             this->worldBounds[3] - this->worldBounds[2]};
 }
+
+glm::fvec3 Map::getWorldCenter() {
+    return {(this->worldBounds[1] - this->worldBounds[0]) / 2,
+            (this->worldBounds[3] - this->worldBounds[2]) / 2, 0};
+}
