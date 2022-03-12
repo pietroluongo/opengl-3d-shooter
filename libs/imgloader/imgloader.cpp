@@ -5,6 +5,8 @@
 
 using namespace std;
 
+namespace ImgLoader {
+
 Image::Image(char* ps, int w, int h) : pixels(ps), width(w), height(h) {}
 
 Image::~Image() { delete[] pixels; }
@@ -157,3 +159,5 @@ Image* loadBMP(const char* filename) {
     input.close();
     return new Image(pixels2.release(), width, height);
 }
+
+} // namespace ImgLoader
