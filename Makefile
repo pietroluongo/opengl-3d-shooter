@@ -1,11 +1,10 @@
 .DEFAULT_GOAL := dev
 
-ifndef $(RENDERER)
-RENDERER = GLFW
+ifndef $(TARGET)
+TARGET = GLFW
 endif
 
 GIT_HASH = `git rev-parse HEAD`
-# GIT_HASH = ""
 COMPILE_TIME=`date +'%Y-%m-%d %H:%M:%S GMT+3'`
 
 # the compiler: gcc for C program, define as g++ for C++
@@ -20,6 +19,7 @@ endif
 BUILD_DIR = build
 IMGUI_DIR = libs/imgui
 TINYXML_DIR = libs/tinyxml2
+IMGLOADER_DIR = libs/imgloader
 
 COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 
@@ -29,20 +29,20 @@ COMPILE_VARS = -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 CFLAGS  = -std=c++11 -g -Wall $(COMPILE_VARS) $(LINKING)
 
 ifeq ($(ARCH), WIN)
-ifeq ($(RENDERER), GLUT)
+ifeq ($(TARGET), GLUT)
 LINKING=-static -lfreeglut -lopengl32 -Wl,--subsystem,windows -Ilibs/win/freeglut/include -Llibs/win/freeglut/lib/x64
 else
 LINKING=-static -lglfw3 -lopengl32 -lgdi32 -Wl,--subsystem,windows -Ilibs/win/glfw/include -Llibs/win/glfw/lib/
 endif
 else
-ifeq ($(RENDERER), GLUT)
+ifeq ($(TARGET), GLUT)
 LINKING = -lglut -lGL -lGLU
 else
 LINKING = -lglfw -lGL -lGLU
 endif
 endif
 
-ifeq ($(RENDERER), GLFW)
+ifeq ($(TARGET), GLFW)
 CFLAGS := $(CFLAGS) -DUSE_GLFW
 else
 CFLAGS := $(CFLAGS) -DUSE_GLUT
@@ -53,7 +53,7 @@ IMGUI_SOURCES_NO_PREFIX := $(subst $(IMGUI_DIR)/,,$(IMGUI_SOURCES_DIRTY))
 IMGUI_SOURCES := $(IMGUI_SOURCES_NO_PREFIX:.cpp=)
 IMGUI_OBJS := $(IMGUI_SOURCES:%=$(BUILD_DIR)/imgui/%.o)
 
-ifeq ($(RENDERER), GLUT)
+ifeq ($(TARGET), GLUT)
 IMGUI_OBJS := $(IMGUI_OBJS) $(BUILD_DIR)/imgui/imgui_impl_glut.o
 else
 IMGUI_OBJS := $(IMGUI_OBJS) $(BUILD_DIR)/imgui/imgui_impl_glfw.o
@@ -71,8 +71,8 @@ dev: trabalhocg
 
 slow: remake dev
 
-trabalhocg: trabalhocgDeps imgui tinyxml
-	$(CXX) $(CFLAGS) -o $@ $(BUILD_DIR)/*.o $(BUILD_DIR)/imgui/*.o $(BUILD_DIR)/tinyxml/*.o $(LINKING)
+trabalhocg: trabalhocgDeps imgui tinyxml imgloader
+	$(CXX) $(CFLAGS) -o $@ $(BUILD_DIR)/*.o $(BUILD_DIR)/imgui/*.o $(BUILD_DIR)/tinyxml/*.o $(BUILD_DIR)/imgloader/*.o $(LINKING)
 
 run: trabalhocg
 	./trabalhocg
@@ -81,7 +81,12 @@ imgui: $(IMGUI_OBJS)
 
 tinyxml: $(TINYXML_OBJS)
 
+imgloader: $(BUILD_DIR)/imgloader/imgloader.o
+
 $(BUILD_DIR)/tinyxml/%.o: $(TINYXML_DIR)/%.cpp | build_tinyxml
+	$(CXX) $(CFLAGS) -c -o $@ $<
+
+$(BUILD_DIR)/imgloader/%.o: $(IMGLOADER_DIR)/%.cpp | build_imgloader
 	$(CXX) $(CFLAGS) -c -o $@ $<
 
 $(BUILD_DIR)/imgui/%.o: $(IMGUI_DIR)/%.cpp | build_imgui
@@ -98,6 +103,9 @@ build_imgui: build
 
 build_tinyxml: build
 	mkdir build/tinyxml -p
+
+build_imgloader: build
+	mkdir build/imgloader -p
 
 build:
 	mkdir build -p
@@ -116,7 +124,7 @@ remake: clean all
 
 CALLBACK_DEPS = ""
 
-ifeq ($(RENDERER), GLUT)
+ifeq ($(TARGET), GLUT)
 	CALLBACK_DEPS = $(BUILD_DIR)/glutCallbacks.o
 else
 	CALLBACK_DEPS = $(BUILD_DIR)/glfwCallbacks.o
