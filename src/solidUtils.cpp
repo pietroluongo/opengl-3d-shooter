@@ -71,37 +71,41 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[2].x, points[2].y, points[2].z);
     glVertex3f(points[3].x, points[3].y, points[3].z);
-
+    glEnd();
     // back
+    glBegin(GL_QUADS);
     glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z + depth);
-
+    glEnd();
     // left
+    glBegin(GL_QUADS);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[0].x, points[0].y, points[0].z + depth);
-    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
-    glVertex3f(points[1].x, points[1].y, points[1].z);
-
+    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    glVertex3f(points[3].x, points[3].y, points[3].z);
+    glEnd();
     // right
+    glBegin(GL_QUADS);
+    glVertex3f(points[1].x, points[1].y, points[1].z);
+    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+    glVertex3f(points[2].x, points[2].y, points[2].z);
+    glEnd();
+    // top
+    glBegin(GL_QUADS);
+    glVertex3f(points[3].x, points[3].y, points[3].z);
     glVertex3f(points[2].x, points[2].y, points[2].z);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z + depth);
-    glVertex3f(points[3].x, points[3].y, points[3].z);
-
-    // top
-    glVertex3f(points[0].x, points[0].y, points[0].z);
-    glVertex3f(points[3].x, points[3].y, points[3].z);
-    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
-    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
-
+    glEnd();
     // bottom
-    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+    glBegin(GL_QUADS);
+    glVertex3f(points[0].x, points[0].y, points[0].z);
+    glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
-    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
-    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
-
+    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glEnd();
 }
 

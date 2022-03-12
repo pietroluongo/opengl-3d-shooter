@@ -21,9 +21,12 @@ void Character::drawChest() {
         glVertex2f(-chestXSize, chestYSize);
         glEnd();
     } else {
-        drawCubePure(
-            {chestXSize, chestYSize, chestXSize},
-            {this->shirtColor.r, this->shirtColor.g, this->shirtColor.b});
+        float offset = -chestXSize / 2;
+        glm::fvec3 points[4] = {glm::fvec3(-chestXSize, -chestYSize, offset),
+                                glm::fvec3(chestXSize, -chestYSize, offset),
+                                glm::fvec3(chestXSize, chestYSize, offset),
+                                glm::fvec3(-chestXSize, chestYSize, offset)};
+        drawCubeFromExtrude(chestXSize, this->shirtColor, points);
     }
 
     glPopMatrix();
@@ -44,8 +47,13 @@ void Character::drawArm() {
         }
         glEnd();
     } else {
-        drawCubePure({this->armWidth, this->armHeight / 2, this->armWidth},
-                     {1.0f, 1.0f, 1.0f}, PivotPoint::PIVOT_CENTER_BOTTOM);
+        float offset = -this->armWidth / 2;
+        glm::fvec3 points[4] = {
+            glm::fvec3(-this->armWidth, 0, offset),
+            glm::fvec3(this->armWidth, 0, offset),
+            glm::fvec3(this->armWidth, this->armHeight, offset),
+            glm::fvec3(-this->armWidth, this->armHeight, offset)};
+        drawCubeFromExtrude(this->armWidth, glm::fvec3(1, 1, 1), points);
     }
     this->drawGun();
     glPopMatrix();
@@ -80,13 +88,19 @@ void Character::drawGun() {
         }
         glEnd();
     } else {
-        drawCubePure({gunSizeSmall, gunSizeBig, gunSizeSmall},
-                     {0.2f, 0.2f, 0.2f});
-        // glm::vec3 vecs[4] = {glm::vec3(-gunSizeSmall, 0, 0),
-        //                      glm::vec3(2 * gunSizeBig, 0, 0),
-        //                      glm::vec3(2 * gunSizeBig, 2 * gunSizeSmall, 0),
-        //                      glm::vec3(-gunSizeSmall, 2 * gunSizeSmall, 0)};
-        // drawCubeFromExtrude(gunSizeSmall, {0.2f, 0.2f, 0.2f}, vecs);
+        float offset = -gunSizeSmall / 2;
+        glm::fvec3 points[4] = {
+            glm::fvec3(-gunSizeSmall, -gunSizeBig, offset),
+            glm::fvec3(gunSizeSmall, -gunSizeBig, offset),
+            glm::fvec3(gunSizeSmall, gunSizeSmall, offset),
+            glm::fvec3(-gunSizeSmall, gunSizeSmall, offset)};
+        drawCubeFromExtrude(gunSizeSmall, glm::fvec3(.2f, .2f, .2f), points);
+        glm::fvec3 points2[4] = {
+            glm::fvec3(-gunSizeSmall, 0, offset),
+            glm::fvec3(2 * gunSizeBig, 0, offset),
+            glm::fvec3(2 * gunSizeBig, 2 * gunSizeSmall, offset),
+            glm::fvec3(-gunSizeSmall, 2 * gunSizeSmall, offset)};
+        drawCubeFromExtrude(gunSizeSmall, glm::fvec3(.2f, .2f, .2f), points2);
     }
 
     glPopMatrix();
@@ -116,69 +130,125 @@ void Character::drawLegs() {
     float legSizeX = this->size * 0.05f;
     float legSizeY = this->size * 0.2f;
     glColor3f(0.1f, .1f, .2f);
-    glTranslatef(0, this->size * 0.4f, 0);
-    {
-        glPushMatrix();
-        glRotatef(-legRotation[0], 0, 0, 1);
-        glBegin(GL_POLYGON);
+    if (context->getGameRef()->getCurrentRenderMode() == RenderMode::D2) {
+        glTranslatef(0, this->size * 0.4f, 0);
         {
-            glVertex2f(-legSizeX, 0);
-            glVertex2f(legSizeX, 0);
-            glVertex2f(legSizeX, legSizeY);
-            glVertex2f(-legSizeX, legSizeY);
-        }
-        glEnd();
-        glTranslatef(0, legSizeY, 0);
-        glBegin(GL_POLYGON);
-        {
-            for (int i = 0; i < 360; i += 10) {
-                glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
-                           0.05 * this->size * sin(i * M_PI / 180));
+            glPushMatrix();
+            glRotatef(-legRotation[0], 0, 0, 1);
+            glBegin(GL_POLYGON);
+            {
+                glVertex2f(-legSizeX, 0);
+                glVertex2f(legSizeX, 0);
+                glVertex2f(legSizeX, legSizeY);
+                glVertex2f(-legSizeX, legSizeY);
             }
-        }
-        glEnd();
-        glRotatef(legRotation[1], 0, 0, 1);
-        glBegin(GL_POLYGON);
-        {
-            glVertex2f(-legSizeX, 0);
-            glVertex2f(legSizeX, 0);
-            glVertex2f(legSizeX, legSizeY);
-            glVertex2f(-legSizeX, legSizeY);
-        }
-        glEnd();
-        glPopMatrix();
-    }
-    {
-        glPushMatrix();
-        glRotatef(legRotation[2], 0, 0, 1);
-        glBegin(GL_POLYGON);
-        {
-            glVertex2f(-legSizeX, 0);
-            glVertex2f(legSizeX, 0);
-            glVertex2f(legSizeX, legSizeY);
-            glVertex2f(-legSizeX, legSizeY);
-        }
-        glEnd();
-        glTranslatef(0, legSizeY, 0);
-        glBegin(GL_POLYGON);
-        {
-            for (int i = 0; i < 360; i += 10) {
-                glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
-                           0.05 * this->size * sin(i * M_PI / 180));
+            glEnd();
+            glTranslatef(0, legSizeY, 0);
+            glBegin(GL_POLYGON);
+            {
+                for (int i = 0; i < 360; i += 10) {
+                    glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
+                               0.05 * this->size * sin(i * M_PI / 180));
+                }
             }
+            glEnd();
+            glRotatef(legRotation[1], 0, 0, 1);
+            glBegin(GL_POLYGON);
+            {
+                glVertex2f(-legSizeX, 0);
+                glVertex2f(legSizeX, 0);
+                glVertex2f(legSizeX, legSizeY);
+                glVertex2f(-legSizeX, legSizeY);
+            }
+            glEnd();
+            glPopMatrix();
         }
-        glEnd();
-        glRotatef(legRotation[3], 0, 0, 1);
-        glBegin(GL_POLYGON);
         {
-            glVertex2f(-legSizeX, 0);
-            glVertex2f(legSizeX, 0);
-            glVertex2f(legSizeX, legSizeY);
-            glVertex2f(-legSizeX, legSizeY);
+            glPushMatrix();
+            glRotatef(legRotation[2], 0, 0, 1);
+            glBegin(GL_POLYGON);
+            {
+                glVertex2f(-legSizeX, 0);
+                glVertex2f(legSizeX, 0);
+                glVertex2f(legSizeX, legSizeY);
+                glVertex2f(-legSizeX, legSizeY);
+            }
+            glEnd();
+            glTranslatef(0, legSizeY, 0);
+            glBegin(GL_POLYGON);
+            {
+                for (int i = 0; i < 360; i += 10) {
+                    glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
+                               0.05 * this->size * sin(i * M_PI / 180));
+                }
+            }
+            glEnd();
+            glRotatef(legRotation[3], 0, 0, 1);
+            glBegin(GL_POLYGON);
+            {
+                glVertex2f(-legSizeX, 0);
+                glVertex2f(legSizeX, 0);
+                glVertex2f(legSizeX, legSizeY);
+                glVertex2f(-legSizeX, legSizeY);
+            }
+            glEnd();
+            glPopMatrix();
         }
-        glEnd();
-        glPopMatrix();
+    } else {
+        float offset = -legSizeX / 2;
+        glTranslatef(0, this->size * 0.4f, 0);
+        {
+            glPushMatrix();
+            glRotatef(-legRotation[0], 0, 0, 1);
+            glm::fvec3 points[4] = {glm::fvec3(-legSizeX, 0, offset),
+                                    glm::fvec3(legSizeX, 0, offset),
+                                    glm::fvec3(legSizeX, legSizeY, offset),
+                                    glm::fvec3(-legSizeX, legSizeY, offset)};
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points);
+            glTranslatef(0, legSizeY, 0);
+            // glBegin(GL_POLYGON);
+            // {
+            //     for (int i = 0; i < 360; i += 10) {
+            //         glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
+            //                    0.05 * this->size * sin(i * M_PI / 180));
+            //     }
+            // }
+            // glEnd();
+            glRotatef(legRotation[1], 0, 0, 1);
+            glm::fvec3 points2[4] = {glm::fvec3(-legSizeX, 0, offset),
+                                     glm::fvec3(legSizeX, 0, offset),
+                                     glm::fvec3(legSizeX, legSizeY, offset),
+                                     glm::fvec3(-legSizeX, legSizeY, offset)};
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points2);
+            glPopMatrix();
+        }
+        {
+            glPushMatrix();
+            glRotatef(legRotation[2], 0, 0, 1);
+            glm::fvec3 points3[4] = {glm::fvec3(-legSizeX, 0, offset),
+                                     glm::fvec3(legSizeX, 0, offset),
+                                     glm::fvec3(legSizeX, legSizeY, offset),
+                                     glm::fvec3(-legSizeX, legSizeY, offset)};
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points3);
+            glTranslatef(0, legSizeY, 0);
+            // glBegin(GL_POLYGON);
+            // {
+            //     for (int i = 0; i < 360; i += 10) {
+            //         glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
+            //                    0.05 * this->size * sin(i * M_PI / 180));
+            //     }
+            // }
+            // glEnd();
+            glRotatef(legRotation[3], 0, 0, 1);
+            glm::fvec3 points4[4] = {glm::fvec3(-legSizeX, 0, offset),
+                                     glm::fvec3(legSizeX, 0, offset),
+                                     glm::fvec3(legSizeX, legSizeY, offset),
+                                     glm::fvec3(-legSizeX, legSizeY, offset)};
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points4);
+            glPopMatrix();
+        }
     }
+
     glPopMatrix();
 }
 
