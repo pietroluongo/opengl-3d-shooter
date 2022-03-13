@@ -208,20 +208,29 @@ void Camera::handleInput() {
     this->xzAngle += mousePos.x - this->lastMousePosition.x;
     this->xyAngle += mousePos.y - this->lastMousePosition.y;
     this->lastMousePosition = mousePos;
-    if (context->isKeyPressed(keymap::CAMERA_SET_THIRD_PERSON)) {
-        this->behaviour = CameraBehaviour::CAMERA_TPS;
-    }
-    if (context->isKeyPressed(keymap::CAMERA_TOGGLE_ORBIT)) {
-        this->behaviour = CAMERA_ORBIT;
+//     if (context->isKeyPressed(keymap::CAMERA_SET_THIRD_PERSON)) {
+//         this->behaviour = CameraBehaviour::CAMERA_TPS;
+//     }
+//     if (context->isKeyPressed(keymap::CAMERA_TOGGLE_ORBIT)) {
+//         this->behaviour = CAMERA_ORBIT;
+// #ifdef USE_GLFW
+//         glfwSetInputMode(context->getWindow(), GLFW_CURSOR,
+//                          GLFW_CURSOR_DISABLED);
+// #endif
+//     } else {
+// #ifdef USE_GLFW
+//         glfwSetInputMode(context->getWindow(), GLFW_CURSOR,
+//         GLFW_CURSOR_NORMAL);
+// #endif
+//     }
 #ifdef USE_GLFW
+    if (this->behaviour == CAMERA_ORBIT) {
         glfwSetInputMode(context->getWindow(), GLFW_CURSOR,
                          GLFW_CURSOR_DISABLED);
-#endif
     } else {
-#ifdef USE_GLFW
         glfwSetInputMode(context->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-#endif
     }
+#endif
     if (this->freeCamEnabled) {
         this->behaviour = CAMERA_FREE;
         if (this->mode == CAMERA_2D) {

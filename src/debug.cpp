@@ -129,6 +129,19 @@ void drawCameraInfo() {
         ImGui::Text(
             "Camera Behaviour: %s",
             context->getGameRef()->getMainCamera()->getCameraBehaviour());
+        if (ImGui::Button("Orbital camera")) {
+            context->getGameRef()->getMainCamera()->setCameraBehaviour(
+                CAMERA_ORBIT);
+        }
+        if (ImGui::Button("Free camera")) {
+            context->getGameRef()->getMainCamera()->setCameraBehaviour(
+                CAMERA_FREE);
+        }
+        if (ImGui::Button("Third person camera")) {
+            context->getGameRef()->getMainCamera()->setCameraBehaviour(
+                CAMERA_TPS);
+        }
+
         ImGui::Checkbox(
             "Toggle Free Camera (control w/ IJKLUO)",
             &context->getGameRef()->getMainCamera()->freeCamEnabled);
