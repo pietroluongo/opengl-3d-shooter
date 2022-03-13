@@ -52,40 +52,18 @@ void Camera::idle() {
         glOrtho(this->bounds[0], this->bounds[1], this->bounds[2],
                 this->bounds[3], -1, 1);
     } else {
+        this->projectionMatrix = glm::perspective(
+            45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 1000.0f);
         if (freeCamEnabled) {
-            this->projectionMatrix = glm::perspective(
-                45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f,
-                1000.0f);
             this->projectionMatrix *= glm::lookAt(
                 this->position, this->position + this->forward, this->up);
-            glMultMatrixf(glm::value_ptr(this->projectionMatrix));
-            glMatrixMode(GL_MODELVIEW);
-
-            return;
-        }
-
-        if (this->behaviour == CAMERA_FPS) {
-
+        } else if (this->behaviour == CAMERA_FPS) {
             glm::ivec2 windowSize = context->getWindowSize();
-            glm::fvec3 playerDollyPosition =
-                context->getGameRef()->getPlayer()->getDollyPosition();
             glm::fvec3 playerPosition =
                 context->getGameRef()->getPlayer()->getPosition();
-            this->position = playerDollyPosition;
-            this->projectionMatrix = glm::perspective(
-                45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f,
-                1000.0f);
             this->projectionMatrix *=
                 glm::lookAt(this->position, playerPosition, this->up);
-            glMultMatrixf(glm::value_ptr(this->projectionMatrix));
-            glMatrixMode(GL_MODELVIEW);
-            return;
-        }
-
-        if (this->behaviour == CAMERA_TPS) {
-            this->projectionMatrix = glm::perspective(
-                45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f,
-                1000.0f);
+        } else if (this->behaviour == CAMERA_TPS) {
             glm::fvec3 playerPosition =
                 context->getGameRef()->getPlayer()->getPosition();
             glm::fvec3 playerDollyPosition =
@@ -93,16 +71,9 @@ void Camera::idle() {
             this->position = playerDollyPosition;
             this->projectionMatrix *=
                 glm::lookAt(this->position, playerPosition, this->up);
-            glMultMatrixf(glm::value_ptr(this->projectionMatrix));
-            glMatrixMode(GL_MODELVIEW);
 
-            return;
-        }
+        } else if (this->behaviour == CAMERA_ORBIT) {
 
-        if (this->behaviour == CAMERA_ORBIT) {
-            this->projectionMatrix = glm::perspective(
-                45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f,
-                1000.0f);
             float cameraZoom = this->zoomLevel * 100.0f;
             glm::fvec3 playerPosition =
                 context->getGameRef()->getPlayer()->getPosition();
@@ -116,10 +87,9 @@ void Camera::idle() {
             this->position = playerPosition;
             this->projectionMatrix *= glm::lookAt(
                 spherePosition, playerPosition, glm::fvec3(0, -1, 0));
-            glMultMatrixf(glm::value_ptr(this->projectionMatrix));
-            glMatrixMode(GL_MODELVIEW);
-            return;
         }
+        glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+        glMatrixMode(GL_MODELVIEW);
     }
 }
 
@@ -231,8 +201,9 @@ void Camera::handleInput() {
         glfwSetInputMode(context->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 #endif
-    if (this->freeCamEnabled) {
-        this->behaviour = CAMERA_FREE;
+    // if (this->freeCamEnabled) {
+    if (true) {
+        // this->behaviour = CAMERA_FREE;
         if (this->mode == CAMERA_2D) {
             if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
                 this->moveX(CAMERA_SPEED);
