@@ -4,6 +4,7 @@
 #include "../libs/glm/glm.hpp"
 #include "customTypes.h"
 #include <deque>
+#include <map>
 
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
@@ -41,6 +42,8 @@ class GlobalCtx {
     // timers
     double playerIdleTime;
     double projectileIdleTime;
+
+    std::map<std::string, GLuint> textureMap;
 
 #ifdef USE_GLFW
     GLFWwindow* window;
@@ -110,6 +113,9 @@ class GlobalCtx {
     bool getIsPressingRMB() const { return this->isPressingRMB; }
     void addEnemyIdleTimer(double time);
     double getAveragedEnemyIdleTimer();
+    void loadTexture(char* path);
+    GLuint getTexture(char* id) { return this->textureMap[id]; }
+    void debugTextures();
 #ifdef USE_GLFW
     GLFWwindow* getWindow() { return this->window; }
     void setWindow(GLFWwindow* window) { this->window = window; }

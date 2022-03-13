@@ -1,6 +1,8 @@
 #include "../include/globalCtx.h"
 #include "../include/constants.h"
+#include "../libs/imgloader/imgloader.h"
 #include <cstring>
+#include <iostream>
 
 extern GlobalCtx* context;
 
@@ -160,4 +162,36 @@ double GlobalCtx::getAveragedEnemyIdleTimer() {
         sum += time;
     }
     return sum / this->enemyIdleTimerQueue.size();
+}
+
+void GlobalCtx::loadTexture(char* path) {
+    GLuint tex;
+    ImgLoader::Image* image = ImgLoader::loadBMP(path);
+
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    //    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_REPLACE );
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D,               // Always GL_TEXTURE_2D
+                 0,                           // 0 for now
+                 GL_RGB,                      // Format OpenGL uses for image
+                 image->width, image->height, // Width and height
+                 0,                           // The border of the image
+                 GL_RGB, // GL_RGB, because pixels are stored in RGB format
+                 GL_UNSIGNED_BYTE, // GL_UNSIGNED_BYTE, because pixels are
+                                   // stored as unsigned numbers
+                 image->pixels);   // The actual pixel data
+    delete image;
+
+    // std::string s = path;
+    // std::string name = s.substr(s.find_last_of("/") + 1);
+    // this->textureMap[name] = tex;
+}
+
+void GlobalCtx::debugTextures() {
+    for (auto pair : this->textureMap) {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
 }

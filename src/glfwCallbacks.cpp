@@ -78,9 +78,7 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
 }
 
 void display() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glClear(GL_LIGHTING_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     context->getGameRef()->draw();
     debug::drawUI();
@@ -101,6 +99,11 @@ void idle() {
 
     processInput(context->getWindow());
     context->idle();
+    auto error = glGetError();
+    while (error != GL_NO_ERROR) {
+        printf("OpenGL Error: %d\n", error);
+        error = glGetError();
+    }
 }
 
 void processInput(GLFWwindow* window) {}
@@ -160,6 +163,12 @@ void init() {
         printf("Joystick detected\n");
     } else {
         printf("No joystick detected\n");
+    }
+
+    auto error = glGetError();
+    if (error != GL_NO_ERROR) {
+        printf("Error initializing OpenGL! %d\n", error);
+        exit(1);
     }
 }
 

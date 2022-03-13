@@ -219,9 +219,6 @@ void imgui_display() {
         GLfloat val[10];
 
         glGetLightfv(GL_LIGHT0, GL_POSITION, val);
-
-        printf("light pos: \n\t%.2f, \n\t%.2f, \n\t%.2f\n", val[0], val[1],
-               val[2]);
         ImGui::Begin("Lighting [F6]", &context->shouldDrawLightingInfo);
         ImGui::Text("Light position: [%.2f, %.2f, %.2f]", val[0], val[1],
                     val[2]);

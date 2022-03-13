@@ -27,6 +27,9 @@ Player::Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
         this->mouseMode = MOUSE_MODE_DUAL_AXIS;
     }
     this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
+    this->head->setTexture(context->getTexture("earth"));
+    context->debugTextures();
+    printf("debug: %d\n", context->getTexture("earth"));
 }
 
 Player::~Player() {}

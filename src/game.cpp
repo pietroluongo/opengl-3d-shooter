@@ -21,6 +21,7 @@ Game::~Game() {}
 glfvec3 Game::getPlayerPosition() { return this->player->getPosition(); }
 
 void Game::draw() {
+    this->cam->idle();
     this->map->draw();
     this->player->draw();
     for (auto& enemy : this->enemies) {
@@ -35,26 +36,21 @@ void Game::draw() {
         this->drawWinScreen();
     }
 
-    auto l = LightSource(0);
-    l.setPosition(this->player->getPosition());
-    l.enable();
-    l.draw();
-
-    // {
-
-    //     glPushMatrix();
-    //     glLoadIdentity();
-    //     glm::fvec3 playerPos = this->map->getWorldCenter();
-    //     glLightfv(GL_LIGHT0, GL_DIFFUSE,
-    //               glm::value_ptr(glm::fvec3(1.0f, .5f, 1.5f)));
-    //     glLightfv(GL_LIGHT0, GL_POSITION,
-    //               glm::value_ptr(glm::fvec4(0, 0, 0, 1.0)));
-    //     glLightfv(GL_LIGHT0, GL_POSITION,
-    //               glm::value_ptr(
-    //                   glm::fvec4(playerPos.x, playerPos.y,
-    //                   playerPos.z, 1.0)));
-    //     glPopMatrix();
-    // }
+    {
+        // glPushMatrix();
+        // glPushMatrix();
+        // glLoadIdentity();
+        glm::fvec3 playerPos = this->map->getWorldCenter();
+        // glm::fvec3 playerPos = this->player->getPosition();
+        // // glLightfv(GL_LIGHT0, GL_DIFFUSE,
+        // //           glm::value_ptr(glm::fvec3(.5f, .5f, .5f)));
+        glLightfv(GL_LIGHT0, GL_POSITION,
+                  glm::value_ptr(
+                      glm::fvec4(playerPos.x, playerPos.y, playerPos.z, 1.0)));
+        // GLfloat light_position[] = {0.0, 0.0, 0.0, 1.0};
+        // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+        // glPopMatrix();
+    }
 }
 
 Player* Game::getPlayer() { return this->player.get(); }
@@ -87,7 +83,6 @@ void Game::idle() {
         elapsed = std::chrono::high_resolution_clock::now() - measurementStart;
         // context->projectileIdleTime = elapsed.count();
     }
-    this->cam->idle();
 }
 
 void Game::createPlayer(double x, double y, double size) {

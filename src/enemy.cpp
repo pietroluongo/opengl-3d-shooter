@@ -19,6 +19,7 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat z, GLfloat size)
     this->getCollider()->resize(size * 0.2, size, size);
     this->targetShootTimer = rand() % 1000 / 100;
     this->currentAnimState = AnimState::WALKING;
+    this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
 }
 
 Enemy::~Enemy() {}

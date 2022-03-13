@@ -32,12 +32,15 @@ Camera::Camera() {}
 Camera::Camera(CameraMode mode) { this->mode = mode; }
 
 void Camera::idle() {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
     this->handleInput();
     this->projectionMatrix = glm::mat4(1.0f);
-    // glMatrixMode(GL_PROJECTION);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     glm::ivec2 windowSize = context->getWindowSize();
 
     if (this->mode == CAMERA_2D) {
@@ -56,6 +59,8 @@ void Camera::idle() {
             this->projectionMatrix *= glm::lookAt(
                 this->position, this->position + this->forward, this->up);
             glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+            glMatrixMode(GL_MODELVIEW);
+
             return;
         }
 
@@ -73,6 +78,7 @@ void Camera::idle() {
             this->projectionMatrix *=
                 glm::lookAt(this->position, playerPosition, this->up);
             glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+            glMatrixMode(GL_MODELVIEW);
             return;
         }
 
@@ -88,6 +94,8 @@ void Camera::idle() {
             this->projectionMatrix *=
                 glm::lookAt(this->position, playerPosition, this->up);
             glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+            glMatrixMode(GL_MODELVIEW);
+
             return;
         }
 
@@ -109,6 +117,7 @@ void Camera::idle() {
             this->projectionMatrix *= glm::lookAt(
                 spherePosition, playerPosition, glm::fvec3(0, -1, 0));
             glMultMatrixf(glm::value_ptr(this->projectionMatrix));
+            glMatrixMode(GL_MODELVIEW);
             return;
         }
     }

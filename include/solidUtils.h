@@ -32,10 +32,12 @@ class Sphere {
     std::unique_ptr<VertexData> vertices;
     int vertexCount;
     double radius;
+    unsigned int tex = -1;
 
   public:
     Sphere(double radius, double space);
     ~Sphere();
+    void setTexture(unsigned int tex) { this->tex = tex; }
     void draw();
 };
 
