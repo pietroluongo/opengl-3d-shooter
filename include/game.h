@@ -66,6 +66,7 @@ class Game {
     unsigned long getProjectileCount() { return projectiles.size(); }
     void toggleDimensions();
     RenderMode getCurrentRenderMode() { return this->renderMode; }
+    void postInit();
 };
 
 #endif

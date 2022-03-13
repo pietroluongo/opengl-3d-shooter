@@ -37,19 +37,10 @@ void Game::draw() {
     }
 
     {
-        // glPushMatrix();
-        // glPushMatrix();
-        // glLoadIdentity();
         glm::fvec3 playerPos = this->map->getWorldCenter();
-        // glm::fvec3 playerPos = this->player->getPosition();
-        // // glLightfv(GL_LIGHT0, GL_DIFFUSE,
-        // //           glm::value_ptr(glm::fvec3(.5f, .5f, .5f)));
         glLightfv(GL_LIGHT0, GL_POSITION,
                   glm::value_ptr(
                       glm::fvec4(playerPos.x, playerPos.y, playerPos.z, 1.0)));
-        // GLfloat light_position[] = {0.0, 0.0, 0.0, 1.0};
-        // glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-        // glPopMatrix();
     }
 }
 
@@ -305,4 +296,24 @@ void Game::toggleDimensions() {
         this->renderMode = RenderMode::D2;
     }
     this->player->toggleDimensionality();
+}
+
+void Game::postInit() {
+    setupCamera();
+    float platDepth = map->getWorldSize().y / 2;
+    for (auto plat : map->getPlatforms()) {
+        plat->setDepth(platDepth);
+    }
+    for (auto enemy : this->getEnemies()) {
+        bool isGrounded = false;
+        for (auto platform : this->map->getPlatforms()) {
+            if (platform->getCollider()->overlaps(enemy->getCollider())) {
+                isGrounded = true;
+                break;
+            }
+        }
+        if (!isGrounded) {
+            enemy->teleportToGround();
+        }
+    }
 }

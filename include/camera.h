@@ -40,14 +40,13 @@ class Camera {
 
     CameraFollowMode followMode = CAMERA_FOLLOW_MODE_NONE;
     CameraMode mode = CAMERA_2D;
-    // CameraBehaviour behaviour = CAMERA_FPS;
     CameraBehaviour behaviour = CAMERA_ORBIT;
 
     glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
   public:
     bool shouldFollowTarget = false;
-    bool freeCamEnabled = true;
+    bool freeCamEnabled = false;
     float zoomLevel = .5f;
     float xzAngle = 0;
     float xyAngle = 0;
