@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
 #else
     glfw::init();
     context->loadTexture("./assets/earth.bmp");
+    context->loadTexture("./assets/floor.bmp");
     context->debugTextures();
 
     glfw::mainLoop();

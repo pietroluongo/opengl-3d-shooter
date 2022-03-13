@@ -150,7 +150,7 @@ void init() {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
+    // glEnable(GL_LIGHTING);
     glDepthFunc(GL_LEQUAL);
     glShadeModel(GL_SMOOTH);
 

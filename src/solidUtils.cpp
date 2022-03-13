@@ -63,12 +63,15 @@ void drawCube(glm::vec3 pos, glm::vec3 size, glm::vec3 color) {
 
 void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
 
-    GLfloat materialEmission[] = {1.0, 1.0, 1.0, 1};
+    GLfloat materialEmission[] = {.0, .0, .0, 1};
     GLfloat materialColorA[] = {0.2, 0.2, 0.2, 1};
-    GLfloat materialColorD[] = {color.r, color.g, color.b, 1};
+    // GLfloat materialColorD[] = {color.r, color.g, color.b, 1};
+    GLfloat materialColorD[] = {1.0f, 0.0f, 0.0f, 1};
     GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1};
     GLfloat mat_shininess[] = {100.0};
+    glColor3f(1, 1, 1);
 
+    glMaterialfv(GL_FRONT, GL_EMISSION, materialEmission);
     glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -77,66 +80,112 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // X
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Y
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(GL_TEXTURE_2D, 2);
 
-    // front
+    double textureS = 0.2; // Bigger than 1, repeat
+
+    // front - ok
     glBegin(GL_QUADS);
-    glNormal3f(0, 0, -1);
-    glTexCoord2f(0, 0);
-    glVertex3f(points[0].x, points[0].y, points[0].z);
-    glVertex3f(points[1].x, points[1].y, points[1].z);
-    glVertex3f(points[2].x, points[2].y, points[2].z);
-    glVertex3f(points[3].x, points[3].y, points[3].z);
+    {
+        glNormal3f(0, 0, -1);
+        glTexCoord2f(points[0].x * textureS, points[0].y * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z);
+        glTexCoord2f(points[1].x * textureS, points[1].y * textureS);
+        glVertex3f(points[1].x, points[1].y, points[1].z);
+        glTexCoord2f(points[2].x * textureS, points[2].y * textureS);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
+        glTexCoord2f(points[3].x * textureS, points[3].y * textureS);
+        glVertex3f(points[3].x, points[3].y, points[3].z);
+    }
+
     glEnd();
 
-    // back
+    // back - ok
     glBegin(GL_QUADS);
-    glNormal3f(0, 0, 1);
-    glTexCoord2f(0, 0);
-    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
-    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
-    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
-    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    {
+        glNormal3f(0, 0, 1);
+        glTexCoord2f(points[0].x * textureS, points[0].y * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+        glTexCoord2f(points[1].x * textureS, points[1].y * textureS);
+        glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+        glTexCoord2f(points[2].x * textureS, points[2].y * textureS);
+        glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+        glTexCoord2f(points[3].x * textureS, points[3].y * textureS);
+        glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    }
+
     glEnd();
 
-    // left
+    // left ! top
+
     glBegin(GL_QUADS);
-    glNormal3f(1, 0, 0);
-    glTexCoord2f(0, 0);
-    glVertex3f(points[0].x, points[0].y, points[0].z);
-    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
-    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
-    glVertex3f(points[3].x, points[3].y, points[3].z);
+    {
+        float textureS = 0.2;
+        glNormal3f(1, 0, 0);
+        glTexCoord2f(points[0].x * textureS, points[0].z * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z);
+
+        glTexCoord2f(points[0].x * textureS, points[0].z + depth * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+
+        glTexCoord2f(points[3].x * textureS, points[3].z + depth * textureS);
+        glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+
+        glTexCoord2f(points[3].x * textureS, points[3].z * textureS);
+        glVertex3f(points[3].x, points[3].y, points[3].z);
+    }
     glEnd();
 
-    // right
+    // right ! bottom
     glBegin(GL_QUADS);
-    glNormal3f(-1, 0, 0);
-    glTexCoord2f(0, 0);
-    glVertex3f(points[1].x, points[1].y, points[1].z);
-    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
-    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
-    glVertex3f(points[2].x, points[2].y, points[2].z);
+    {
+        glNormal3f(-1, 0, 0);
+        glTexCoord2f(points[1].x * textureS, points[1].z * textureS);
+        glVertex3f(points[1].x, points[1].y, points[1].z);
+        glTexCoord2f(points[1].x * textureS, (points[1].z + depth) * textureS);
+        glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+        glTexCoord2f(points[2].x * textureS, (points[2].z + depth) * textureS);
+        glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+        glTexCoord2f(points[2].x * textureS, points[2].z * textureS);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
+        glEnd();
+    }
+
+    // top ! right
+    glBegin(GL_QUADS);
+    {
+        float textureS = 0.2;
+        glNormal3f(0, 1, 0);
+
+        glTexCoord2f(points[3].z * textureS, points[3].y * textureS);
+        glVertex3f(points[3].x, points[3].y, points[3].z);
+
+        glTexCoord2f(points[2].z * textureS, points[2].y * textureS);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
+
+        glTexCoord2f((points[2].z + depth) * textureS, points[2].y * textureS);
+        glVertex3f(points[2].x, points[2].y, (points[2].z + depth));
+
+        glTexCoord2f((points[3].z + depth) * textureS, points[3].y * textureS);
+        glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    }
+
     glEnd();
 
-    // top
+    // bottom ! left
     glBegin(GL_QUADS);
-    glNormal3f(0, 1, 0);
-    glTexCoord2f(0, 0);
-    glVertex3f(points[3].x, points[3].y, points[3].z);
-    glVertex3f(points[2].x, points[2].y, points[2].z);
-    glVertex3f(points[2].x, points[2].y, points[2].z + depth);
-    glVertex3f(points[3].x, points[3].y, points[3].z + depth);
-    glEnd();
+    {
+        glNormal3f(0, -1, 0);
+        glTexCoord2f(points[0].z * textureS, points[0].y * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z);
+        glTexCoord2f(points[1].z * textureS, points[1].y * textureS);
+        glVertex3f(points[1].x, points[1].y, points[1].z);
+        glTexCoord2f((points[1].z + depth) * textureS, points[1].y * textureS);
+        glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+        glTexCoord2f((points[0].z + depth) * textureS, points[0].y * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+    }
 
-    // bottom
-    glBegin(GL_QUADS);
-    glNormal3f(0, -1, 0);
-    glTexCoord2f(0, 0);
-    glVertex3f(points[0].x, points[0].y, points[0].z);
-    glVertex3f(points[1].x, points[1].y, points[1].z);
-    glVertex3f(points[1].x, points[1].y, points[1].z + depth);
-    glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glEnd();
 }
 
