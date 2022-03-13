@@ -42,6 +42,7 @@ class Player : public Character {
     double getJumpTime() { return this->jumpTime; };
     glm::fvec3 getEyePosition();
     glm::fvec3 getDollyPosition();
+    glm::fvec3 getGunPosition();
     virtual void kill();
     virtual std::vector<std::vector<Collider*>*> colliders();
 };

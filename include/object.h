@@ -48,6 +48,7 @@ class Object {
     void teleport(float x = 0, float y = 0, float z = 0);
     void teleportToGround();
     glfvec3 getRotation() { return this->rotation; };
+    glfvec3 getVisualRotation() { return this->visualRotation; };
 };
 
 #endif

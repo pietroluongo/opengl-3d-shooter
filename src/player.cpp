@@ -216,20 +216,29 @@ std::vector<std::vector<Collider*>*> Player::colliders() {
 }
 
 glm::fvec3 Player::getEyePosition() {
-    glPushMatrix();
-    glColor3f(1, 0, 0);
-    glBegin(GL_POLYGON);
-    glVertex3f(-1, -1, 0);
-    glVertex3f(1, -1, 0);
-    glVertex3f(1, 1, 0);
-    glVertex3f(-1, 1, 0);
+    // glPushMatrix();
+    // glColor3f(1, 0, 0);
+    // glBegin(GL_POLYGON);
+    // glVertex3f(-1, -1, 0);
+    // glVertex3f(1, -1, 0);
+    // glVertex3f(1, 1, 0);
+    // glVertex3f(-1, 1, 0);
 
-    glEnd();
-    glPopMatrix();
-    return glm::fvec3(1, 0.3 * this->size, 0);
+    // glEnd();
+    // glPopMatrix();
+    // return glm::fvec3(1, 0.3 * this->size, 0);
+    return glm::fvec3(this->getPosition().x,
+                      this->getPosition().y - 0.3 * this->size,
+                      this->getPosition().z);
 }
 
 glm::fvec3 Player::getDollyPosition() {
+    return glm::fvec3(this->getPosition().x - 10,
+                      this->getPosition().y - this->size,
+                      this->getPosition().z - 10);
+}
+
+glm::fvec3 Player::getGunPosition() {
     return glm::fvec3(this->getPosition().x - 10,
                       this->getPosition().y - this->size,
                       this->getPosition().z - 10);

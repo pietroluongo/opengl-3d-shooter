@@ -119,8 +119,9 @@ void Character::drawHead() {
         glEnd();
 
     } else {
-        if (this->head)
-            this->head->draw();
+        if (this->head) {
+        }
+        // this->head->draw();
     }
 }
 
