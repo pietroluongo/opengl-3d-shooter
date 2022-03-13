@@ -72,12 +72,13 @@ int main(int argc, char** argv) {
 #endif
 
     init();
-    context->loadTexture("./assets/earth.bmp");
 
 #ifdef USE_GLUT
     glutMainLoop();
 #else
     glfw::init();
+    context->loadTexture("./assets/earth.bmp");
+    context->debugTextures();
 
     glfw::mainLoop();
 

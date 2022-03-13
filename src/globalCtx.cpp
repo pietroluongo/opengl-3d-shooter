@@ -171,9 +171,9 @@ void GlobalCtx::loadTexture(char* path) {
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    //    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_REPLACE );
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     glTexImage2D(GL_TEXTURE_2D,               // Always GL_TEXTURE_2D
                  0,                           // 0 for now
                  GL_RGB,                      // Format OpenGL uses for image
@@ -185,13 +185,15 @@ void GlobalCtx::loadTexture(char* path) {
                  image->pixels);   // The actual pixel data
     delete image;
 
-    // std::string s = path;
-    // std::string name = s.substr(s.find_last_of("/") + 1);
-    // this->textureMap[name] = tex;
+    std::string s = path;
+    std::string name = s.substr(s.find_last_of("/") + 1);
+    this->textureMap[name] = tex;
 }
 
 void GlobalCtx::debugTextures() {
+    printf("Textures:\n{\n");
     for (auto pair : this->textureMap) {
-        std::cout << pair.first << ": " << pair.second << std::endl;
+        std::cout << "\t" << pair.first << ": " << pair.second << std::endl;
     }
+    printf("}\n");
 }

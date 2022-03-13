@@ -68,7 +68,6 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     GLfloat materialColorD[] = {color.r, color.g, color.b, 1};
     GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1};
     GLfloat mat_shininess[] = {100.0};
-    // glColor3f(color.r, color.g, color.b);
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
@@ -78,9 +77,12 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // X
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Y
 
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     // front
     glBegin(GL_QUADS);
     glNormal3f(0, 0, -1);
+    glTexCoord2f(0, 0);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[2].x, points[2].y, points[2].z);
@@ -90,6 +92,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     // back
     glBegin(GL_QUADS);
     glNormal3f(0, 0, 1);
+    glTexCoord2f(0, 0);
     glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
@@ -99,6 +102,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     // left
     glBegin(GL_QUADS);
     glNormal3f(1, 0, 0);
+    glTexCoord2f(0, 0);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     glVertex3f(points[3].x, points[3].y, points[3].z + depth);
@@ -108,6 +112,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     // right
     glBegin(GL_QUADS);
     glNormal3f(-1, 0, 0);
+    glTexCoord2f(0, 0);
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
@@ -117,6 +122,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     // top
     glBegin(GL_QUADS);
     glNormal3f(0, 1, 0);
+    glTexCoord2f(0, 0);
     glVertex3f(points[3].x, points[3].y, points[3].z);
     glVertex3f(points[2].x, points[2].y, points[2].z);
     glVertex3f(points[2].x, points[2].y, points[2].z + depth);
@@ -126,6 +132,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     // bottom
     glBegin(GL_QUADS);
     glNormal3f(0, -1, 0);
+    glTexCoord2f(0, 0);
     glVertex3f(points[0].x, points[0].y, points[0].z);
     glVertex3f(points[1].x, points[1].y, points[1].z);
     glVertex3f(points[1].x, points[1].y, points[1].z + depth);
@@ -155,8 +162,8 @@ Sphere::Sphere(double R, double space) {
             vtx[n].pos.x = R * sin(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
             vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
             vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
-            vtx[n].txC.x = lVR / 180;
-            vtx[n].txC.y = lHR / 360;
+            vtx[n].txC.y = lVR / 180;
+            vtx[n].txC.x = lHR / 360;
             norm =
                 sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
                      vtx[n].pos.z * vtx[n].pos.z);
@@ -171,7 +178,7 @@ Sphere::Sphere(double R, double space) {
             vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
             vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
             vtx[n].txC.y = lVR / 180;
-            vtx[n].txC.y = lHR / 360;
+            vtx[n].txC.x = lHR / 360;
             norm =
                 sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
                      vtx[n].pos.z * vtx[n].pos.z);
@@ -186,7 +193,7 @@ Sphere::Sphere(double R, double space) {
             vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
             vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
             vtx[n].txC.y = lVR / 180;
-            vtx[n].txC.y = lHR / 360;
+            vtx[n].txC.x = lHR / 360;
             norm =
                 sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
                      vtx[n].pos.z * vtx[n].pos.z);
@@ -201,7 +208,7 @@ Sphere::Sphere(double R, double space) {
             vtx[n].pos.y = R * cos(lHR / 180 * M_PI) * sin(lVR / 180 * M_PI);
             vtx[n].pos.z = R * cos(lVR / 180 * M_PI);
             vtx[n].txC.y = lVR / 180;
-            vtx[n].txC.y = lHR / 360;
+            vtx[n].txC.x = lHR / 360;
             norm =
                 sqrt(vtx[n].pos.x * vtx[n].pos.x + vtx[n].pos.y * vtx[n].pos.y +
                      vtx[n].pos.z * vtx[n].pos.z);
@@ -216,19 +223,23 @@ Sphere::Sphere(double R, double space) {
 }
 
 void Sphere::draw() {
+    GLfloat materialEmission[] = {0.10, 0.10, 0.10, 1};
+    GLfloat materialColorA[] = {0.2, 0.2, 0.2, 1};
     GLfloat materialColorD[] = {1.0, 1.0, 1.0, 1};
     GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1};
-    GLfloat mat_shininess[] = {0.0};
+    GLfloat mat_shininess[] = {100.0};
     glColor3f(1, 1, 1);
 
+    glMaterialfv(GL_FRONT, GL_EMISSION, materialEmission);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, materialColorA);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialColorD);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    auto error = glGetError();
-    if (error != GL_NO_ERROR) {
-        printf("err:%d\n", error);
-    }
+    glBindTexture(GL_TEXTURE_2D, this->tex);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP); // X
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP); // Y
+
     VertexData* vtx = this->vertices.get();
 
     glBegin(GL_TRIANGLE_STRIP);

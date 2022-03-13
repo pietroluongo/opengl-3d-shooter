@@ -27,14 +27,12 @@ Player::Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
         this->mouseMode = MOUSE_MODE_DUAL_AXIS;
     }
     this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
-    this->head->setTexture(context->getTexture("earth"));
-    context->debugTextures();
-    printf("debug: %d\n", context->getTexture("earth"));
 }
 
 Player::~Player() {}
 
 void Player::draw() {
+    this->head->setTexture(context->getTexture("earth.bmp"));
     glfvec3 position = this->getPosition();
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
