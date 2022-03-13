@@ -1,6 +1,7 @@
 #include "../include/player.h"
 #include "../include/globalCtx.h"
 #include "../include/keymap.h"
+#include "../libs/glm/gtc/matrix_transform.hpp"
 #include <cmath>
 #include <string>
 #include <vector>
@@ -41,9 +42,9 @@ void Player::draw() {
     glRotatef(this->visualRotation.z, 0, 0, 1);
     drawCoordinateSystem();
     glColor3f(0.0f, 1.0f, 1.0f);
-    // this->drawChest();
+    this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
-    // this->drawHead();
+    this->drawHead();
     this->drawLegs();
     glColor3f(1.0f, 0.0f, 0.0f);
     this->drawArm();
@@ -177,14 +178,15 @@ void Player::handleJump() {
 void Player::shoot() {
     glfvec2 position = this->getPosition();
 
-    glfvec2 firePosition = {0, 0};
+    glfvec3 firePosition = {0, 0, 0};
     firePosition.x = position.x - ((this->armHeight + 0.2 * this->size) *
                                    sin(this->armAngle * M_PI / 180));
     firePosition.y = (position.y - 0.2 * this->size) +
                      ((this->armHeight + 0.2 * this->size) *
                       cos(this->armAngle * M_PI / 180));
+    firePosition.z = this->getPosition().z;
     context->getGameRef()->createProjectile(
-        firePosition.x, firePosition.y, 0.1 * this->size,
+        firePosition.x, firePosition.y, firePosition.z, 0.1 * this->size,
         (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER,
         5 * this->size);
 }
@@ -233,9 +235,13 @@ glm::fvec3 Player::getEyePosition() {
 }
 
 glm::fvec3 Player::getDollyPosition() {
-    return glm::fvec3(this->getPosition().x - 10,
-                      this->getPosition().y - this->size,
-                      this->getPosition().z - 10);
+    glm::mat4 t(1.0);
+    glm::fvec3 rot = this->getVisualRotation();
+    rot *= M_PI / 180;
+    t = glm::translate(t, this->getPosition());
+    t = glm::rotate(t, rot.y, glm::fvec3(0, 1, 0));
+    t = glm::translate(t, glm::fvec3(-20, -this->size, 0));
+    return t * glm::fvec4(1, 1, 1, 1.0);
 }
 
 glm::fvec3 Player::getGunPosition() {

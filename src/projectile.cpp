@@ -43,6 +43,7 @@ void Projectile::idle() {
     }
     this->moveX(cos(this->angle) * this->speed);
     this->moveY(sin(this->angle) * this->speed);
+    this->moveZ(10);
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();

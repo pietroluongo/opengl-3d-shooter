@@ -103,10 +103,10 @@ std::vector<Enemy*> Game::getEnemies() {
     return enemies;
 }
 
-void Game::createProjectile(float x, float y, float size, float angle,
+void Game::createProjectile(float x, float y, float z, float size, float angle,
                             ProjectileType type, float speed) {
     auto proj = std::unique_ptr<Projectile>(
-        new Projectile(x, y, 0, size, angle, type, speed));
+        new Projectile(x, y, z, size, angle, type, speed));
     this->projectilesColliders.push_back(proj->getCollider());
     this->projectiles.push_back(std::move(proj));
 }
