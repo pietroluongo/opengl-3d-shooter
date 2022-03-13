@@ -51,36 +51,17 @@ void drawUI() {
 #endif
 }
 
-void imgui_display() {
-    glfvec3 playerPos = context->getGameRef()->getPlayerPosition();
-    glfvec3 colliderPos =
-        context->getGameRef()->getPlayer()->getCollider()->getCenter();
-    glm::ivec2 mousePos = context->getScreenSpaceMousePos();
-    glm::fvec2 mousePosN = context->getNormalizedMousePos();
-    glm::fvec2 mousePosW = context->getWorldSpaceMousePos();
-    glm::fvec4 cameraBounds =
-        context->getGameRef()->getMainCamera()->getBounds();
-    glm::fvec3 cameraPosition =
-        context->getGameRef()->getMainCamera()->getPosition();
-    glm::fvec2 cameraCenter =
-        context->getGameRef()->getMainCamera()->getCenter();
-    glm::bvec4 playerCollisionData =
-        context->getGameRef()->getPlayer()->getCollisionArr();
-
-    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
-
-    glm::mat4 cameraProjectionMatrix =
-        context->getGameRef()->getMainCamera()->getProjectionMatrix();
-
-    GLfloat model[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, model);
-
+void drawDebugInfo() {
     int minutes = (int)context->getTotalPlaytime() / 60;
     int seconds = (int)context->getTotalPlaytime() % 60;
     int millis = (int)(context->getTotalPlaytime() * 1000) % 1000;
 
-    if (context->shouldDrawDebugInfo) {
-        ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
+    glm::ivec2 mousePos = context->getScreenSpaceMousePos();
+    glm::fvec2 mousePosN = context->getNormalizedMousePos();
+    glm::fvec2 mousePosW = context->getWorldSpaceMousePos();
+
+    ImGui::Begin("Debug [F1]", &context->shouldDrawDebugInfo);
+    {
         ImGui::Text("Application average %.3f ms/frame (%.3f FPS)",
                     1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
@@ -105,11 +86,28 @@ void imgui_display() {
                                1.0f);
         }
         ImGui::EndDisabled();
-        ImGui::End();
     }
+    ImGui::End();
+}
 
-    if (context->shouldDrawCameraInfo) {
-        ImGui::Begin("Camera [F2]", &context->shouldDrawCameraInfo);
+void drawCameraInfo() {
+    glm::fvec4 cameraBounds =
+        context->getGameRef()->getMainCamera()->getBounds();
+
+    GLfloat model[16];
+    glGetFloatv(GL_MODELVIEW_MATRIX, model);
+
+    glm::fvec2 cameraCenter =
+        context->getGameRef()->getMainCamera()->getCenter();
+
+    glm::mat4 cameraProjectionMatrix =
+        context->getGameRef()->getMainCamera()->getProjectionMatrix();
+
+    glm::fvec3 cameraPosition =
+        context->getGameRef()->getMainCamera()->getPosition();
+
+    ImGui::Begin("Camera [F2]", &context->shouldDrawCameraInfo);
+    {
         ImGui::Text("Camera Mode: %s",
                     context->getGameRef()->getMainCamera()->getCameraMode());
         ImGui::Text("[2D] Camera bounds: %.2f, %.2f, %.2f, %.2f",
@@ -157,20 +155,28 @@ void imgui_display() {
             model[0], model[1], model[2], model[3], model[4], model[5],
             model[6], model[7], model[8], model[9], model[10], model[11],
             model[12], model[13], model[14], model[15]);
-        ImGui::End();
     }
-    if (context->shouldDrawPhysicsInfo) {
-        ImGui::Begin("Physics [F3]", &context->shouldDrawPhysicsInfo);
+    ImGui::End();
+}
+
+void drawPhysicsInfo() {
+    ImGui::Begin("Physics [F3]", &context->shouldDrawPhysicsInfo);
+    {
         ImGui::Checkbox("Toggle Coordinate Systems",
                         &context->shouldObjectsDrawCoordinateSystem);
         ImGui::Checkbox("Toggle object colliders",
                         &context->shouldObjectsDrawColliders);
         ImGui::Checkbox("Should platform draw collision",
                         &context->shouldPlatformsShowCollisions);
-        ImGui::End();
     }
-    if (context->shouldDrawEnemyInfo) {
-        ImGui::Begin("Enemy [F4]", &context->shouldDrawEnemyInfo);
+    ImGui::End();
+}
+
+void drawEnemyInfo() {
+    std::vector<Enemy*> enemies = context->getGameRef()->getEnemies();
+
+    ImGui::Begin("Enemy [F4]", &context->shouldDrawEnemyInfo);
+    {
         ImGui::Checkbox("Toggle Enemy Debug Info",
                         &context->shouldEnemiesDrawInfo);
         ImGui::Checkbox("Toggle shooting", &context->enemiesCanShoot);
@@ -192,11 +198,13 @@ void imgui_display() {
                     enemyCollisionData[1], enemyCollisionData[3]);
             }
         }
-        ImGui::End();
     }
+    ImGui::End();
+}
 
-    if (context->shouldDrawMemoryInfo) {
-        ImGui::Begin("Memory [F5]");
+void drawMemoryInfo() {
+    ImGui::Begin("Memory [F5]");
+    {
         float values[100];
         for (int i = 0; i < 100; i++) {
             if (i >= context->enemyIdleTimerQueue.size())
@@ -211,24 +219,34 @@ void imgui_display() {
         ImGui::PlotLines("Enemy process time", values, 100, 0, "", 0, 16,
                          ImVec2(800, 100));
         // ImGui::Text("Projectile process time: %02.2f",
-        //             context->projectileIdleTime);
+        //             context->projectileIdleTime);}
         ImGui::End();
     }
+}
 
-    if (context->shouldDrawLightingInfo) {
-        GLfloat val[10];
-
-        glGetLightfv(GL_LIGHT0, GL_POSITION, val);
-        ImGui::Begin("Lighting [F6]", &context->shouldDrawLightingInfo);
+void drawLightingInfo() {
+    GLfloat val[10];
+    glGetLightfv(GL_LIGHT0, GL_POSITION, val);
+    ImGui::Begin("Lighting [F6]", &context->shouldDrawLightingInfo);
+    {
         ImGui::Text("Light position: [%.2f, %.2f, %.2f]", val[0], val[1],
                     val[2]);
         // ImGui::Checkbox("Toggle Lighting",
         // &context->shouldLightingBeEnabled);
         ImGui::End();
     }
+}
 
-    if (context->shouldDrawPlayerInfo) {
-        ImGui::Begin("Player [F12]", &context->shouldDrawPlayerInfo);
+void drawPlayerInfo() {
+    glfvec3 playerPos = context->getGameRef()->getPlayerPosition();
+    glfvec3 colliderPos =
+        context->getGameRef()->getPlayer()->getCollider()->getCenter();
+
+    glm::bvec4 playerCollisionData =
+        context->getGameRef()->getPlayer()->getCollisionArr();
+
+    ImGui::Begin("Player [F12]", &context->shouldDrawPlayerInfo);
+    {
         ImGui::Text("Player pos: %.2f, %.2f, %.2f", playerPos.x, playerPos.y,
                     playerPos.z);
         ImGui::Text("Player collider pos: %.2f, %.2f, %.2f", colliderPos.x,
@@ -283,7 +301,36 @@ void imgui_display() {
                     context->getGameRef()->getPlayer()->animTimer);
         ImGui::Checkbox("Player invincible",
                         &context->getGameRef()->getPlayer()->isInvincible);
-        ImGui::End();
+    }
+    ImGui::End();
+}
+
+void imgui_display() {
+
+    if (context->shouldDrawDebugInfo) {
+        drawDebugInfo();
+    }
+
+    if (context->shouldDrawCameraInfo) {
+        drawCameraInfo();
+    }
+    if (context->shouldDrawPhysicsInfo) {
+        drawPhysicsInfo();
+    }
+    if (context->shouldDrawEnemyInfo) {
+        drawEnemyInfo();
+    }
+
+    if (context->shouldDrawMemoryInfo) {
+        drawMemoryInfo();
+    }
+
+    if (context->shouldDrawLightingInfo) {
+        drawLightingInfo();
+    }
+
+    if (context->shouldDrawPlayerInfo) {
+        drawPlayerInfo();
     }
 }
 

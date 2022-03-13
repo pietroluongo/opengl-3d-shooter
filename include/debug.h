@@ -19,6 +19,15 @@ namespace debug {
 void imgui_init();
 void drawUI();
 void imgui_display();
+
+void drawPlayerInfo();
+void drawLightingInfo();
+void drawMemoryInfo();
+void drawCameraInfo();
+void drawPhysicsInfo();
+void drawEnemyInfo();
+void drawDebugInfo();
+
 } // namespace debug
 
 #endif

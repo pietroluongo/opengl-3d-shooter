@@ -84,6 +84,7 @@ class Camera {
         }
     };
     const char* getCameraBehaviour();
+    void setCameraBehaviour(CameraBehaviour behaviour);
 };
 
 #endif

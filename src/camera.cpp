@@ -323,3 +323,19 @@ const char* Camera::getCameraBehaviour() {
         return "CAMERA_UNKNOWN";
     }
 }
+
+void Camera::setCameraBehaviour(CameraBehaviour behaviour) {
+    switch (behaviour) {
+    case CAMERA_FREE:
+        this->behaviour = CAMERA_FREE;
+        break;
+    case CAMERA_ORBIT:
+        this->behaviour = CAMERA_ORBIT;
+        break;
+    case CAMERA_TPS:
+        this->behaviour = CAMERA_TPS;
+        break;
+    default:
+        break;
+    }
+}
