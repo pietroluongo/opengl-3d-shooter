@@ -41,9 +41,9 @@ void Player::draw() {
     glRotatef(this->visualRotation.z, 0, 0, 1);
     drawCoordinateSystem();
     glColor3f(0.0f, 1.0f, 1.0f);
-    this->drawChest();
+    // this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
-    this->drawHead();
+    // this->drawHead();
     this->drawLegs();
     glColor3f(1.0f, 0.0f, 0.0f);
     this->drawArm();

@@ -121,7 +121,7 @@ void Character::drawHead() {
     } else {
         if (this->head) {
         }
-        // this->head->draw();
+        this->head->draw();
     }
 }
 
