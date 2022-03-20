@@ -37,10 +37,7 @@ void Projectile::draw() {
     // glVertex2f(this->size, this->size / 2);
     // glVertex2f(0, this->size / 2);
     unsigned int tex = context->getTexture("earth.bmp");
-    CubeTextureData texData{
-        tex, tex, tex, tex, tex, tex,
-
-    };
+    CubeTextureData texData = CubeTextureData(tex, tex, tex, tex, tex, tex);
 
     drawCubeFromExtrude(this->size / 2, glm::fvec3(1, 0, 0), points, texData);
 

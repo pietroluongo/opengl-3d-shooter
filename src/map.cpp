@@ -59,10 +59,12 @@ void Map::loadArena(char* fileName) {
                 y = currentNode->FloatAttribute("y");
                 w = currentNode->FloatAttribute("width");
                 h = currentNode->FloatAttribute("height");
-                Platform* p0 = new Platform(x, y - 1, w, 1);
-                Platform* p1 = new Platform(x - 1, y - 1, 1, h + 1);
-                Platform* p2 = new Platform(x, y + h, w, 1);
-                Platform* p3 = new Platform(x + w, y - 1, 1, h + 1);
+                Platform* p0 = new Platform(x, y - 1, w, 1, PLATFORM_TOP);
+                Platform* p1 =
+                    new Platform(x - 1, y - 1, 1, h + 1, PLATFORM_LEFT);
+                Platform* p2 = new Platform(x, y + h, w, 1, PLATFORM_BOTTOM);
+                Platform* p3 =
+                    new Platform(x + w, y - 1, 1, h + 1, PLATFORM_RIGHT);
                 this->addPlatform(p0);
                 this->addPlatform(p1);
                 this->addPlatform(p2);

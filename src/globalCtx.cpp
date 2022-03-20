@@ -169,3 +169,5 @@ void GlobalCtx::debugTextures() {
     }
     printf("}\n");
 }
+
+void GlobalCtx::postInit() { this->game->postInit(); }

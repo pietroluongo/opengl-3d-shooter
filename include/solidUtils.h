@@ -3,6 +3,9 @@
 #include "../libs/glm/glm.hpp"
 #include <memory>
 
+#define DEFAULT_TEX_SCALE 0.2
+#define DEFAULT_TEX_VAL 1
+
 enum PivotPoint {
     PIVOT_CENTER,
     PIVOT_LEFT_TOP,
@@ -16,12 +19,29 @@ struct VertexData {
 };
 
 struct CubeTextureData {
-    unsigned int top;
-    unsigned int bottom;
-    unsigned int left;
-    unsigned int right;
-    unsigned int front;
-    unsigned int back;
+    unsigned int top = DEFAULT_TEX_VAL;
+    unsigned int bottom = DEFAULT_TEX_VAL;
+    unsigned int left = DEFAULT_TEX_VAL;
+    unsigned int right = DEFAULT_TEX_VAL;
+    unsigned int front = DEFAULT_TEX_VAL;
+    unsigned int back = DEFAULT_TEX_VAL;
+
+    double topScale = DEFAULT_TEX_SCALE;
+    double bottomScale = DEFAULT_TEX_SCALE;
+    double leftScale = DEFAULT_TEX_SCALE;
+    double rightScale = DEFAULT_TEX_SCALE;
+    double frontScale = DEFAULT_TEX_SCALE;
+    double backScale = DEFAULT_TEX_SCALE;
+
+    CubeTextureData(unsigned int top, unsigned int bottom, unsigned int left,
+                    unsigned int right, unsigned int front, unsigned int back) {
+        this->top = top;
+        this->bottom = bottom;
+        this->left = left;
+        this->right = right;
+        this->front = front;
+        this->back = back;
+    }
 };
 
 enum TexTileMode {

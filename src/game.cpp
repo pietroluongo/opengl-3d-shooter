@@ -27,14 +27,13 @@ void Game::draw() {
     {
         glm::fvec3 size = {map->getWorldSize(), map->getWorldSize().y / 2};
         glm::fvec4 bounds = map->getWorldBounds();
-        CubeTextureData texData = {
-            context->getTexture("top_sky.bmp"),
-            context->getTexture("bottom_sky.bmp"),
-            context->getTexture("left_sky.bmp"),
-            context->getTexture("right_sky.bmp"),
-            context->getTexture("front_sky.bmp"),
-            context->getTexture("back_sky.bmp"),
-        };
+        CubeTextureData texData =
+            CubeTextureData(context->getTexture("top_sky.bmp"),
+                            context->getTexture("bottom_sky.bmp"),
+                            context->getTexture("left_sky.bmp"),
+                            context->getTexture("right_sky.bmp"),
+                            context->getTexture("front_sky.bmp"),
+                            context->getTexture("back_sky.bmp"));
         glm::vec3 points[4] = {
             glm::vec3(bounds[0] - size.x, bounds[3] + size.x, -100),
             glm::vec3(bounds[0] - size.x, bounds[2] - size.x, -100),
@@ -330,6 +329,7 @@ void Game::postInit() {
     float platDepth = map->getWorldSize().y / 2;
     for (auto plat : map->getPlatforms()) {
         plat->setDepth(platDepth);
+        plat->updateTextures();
     }
     for (auto enemy : this->getEnemies()) {
         bool isGrounded = false;

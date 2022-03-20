@@ -116,6 +116,7 @@ class GlobalCtx {
     void loadTexture(const char* path);
     GLuint getTexture(const char* id) { return this->textureMap[id]; }
     void debugTextures();
+    void postInit();
 #ifdef USE_GLFW
     GLFWwindow* getWindow() { return this->window; }
     void setWindow(GLFWwindow* window) { this->window = window; }

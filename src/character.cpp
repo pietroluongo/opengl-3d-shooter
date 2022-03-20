@@ -10,15 +10,7 @@ extern GlobalCtx* context;
 void Character::drawChest() {
     glPushMatrix();
     unsigned int tex = context->getTexture("floor.bmp");
-    CubeTextureData data = {
-        top : tex,
-        bottom : tex,
-        left : tex,
-        right : tex,
-        front : tex,
-        back : tex,
-
-    };
+    CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     float chestXSize = this->size * 0.05f;
     float chestYSize = this->size * 0.2f;
     glColor3f(this->shirtColor.r, this->shirtColor.g, this->shirtColor.b);
@@ -44,15 +36,7 @@ void Character::drawChest() {
 
 void Character::drawArm() {
     unsigned int tex = context->getTexture("floor.bmp");
-    CubeTextureData data = {
-        top : tex,
-        bottom : tex,
-        left : tex,
-        right : tex,
-        front : tex,
-        back : tex,
-
-    };
+    CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     glPushMatrix();
     glTranslatef(0.0f, armPosition, 0.0f);
     glRotatef(this->armAngle, 0.0f, 0.0f, 1.0f);
@@ -90,15 +74,7 @@ void Character::drawGun() {
         glRotatef(180, 1.0f, 0, 0);
     }
     unsigned int tex = context->getTexture("floor.bmp");
-    CubeTextureData data = {
-        top : tex,
-        bottom : tex,
-        left : tex,
-        right : tex,
-        front : tex,
-        back : tex,
-
-    };
+    CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     if (this->drawMode == CharacterDrawMode::CHARACTER_2D) {
         glBegin(GL_POLYGON);
         {
@@ -161,15 +137,7 @@ void Character::drawHead() {
 
 void Character::drawLegs() {
     unsigned int tex = context->getTexture("floor.bmp");
-    CubeTextureData data = {
-        top : tex,
-        bottom : tex,
-        left : tex,
-        right : tex,
-        front : tex,
-        back : tex,
-
-    };
+    CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     glPushMatrix();
     this->nextAnimFrame();
     float legSizeX = this->size * 0.05f;

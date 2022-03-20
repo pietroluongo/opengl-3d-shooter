@@ -6,12 +6,8 @@
 
 extern GlobalCtx* context;
 
-enum PlatformType {
-    PLATFORM_VISIBLE,
-    PLATFORM_INVISIBLE,
-};
-
-Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
+Platform::Platform(float x, float y, float w, float h, PlatformType type,
+                   pivotPosition pivot) {
     this->position = glfvec2(x, y);
     this->width = w;
     this->height = h;
@@ -61,18 +57,7 @@ void Platform::draw() {
             glm::fvec3(this->width, this->height, 0),
             glm::fvec3(this->width, 0, 0),
         };
-        unsigned int tex = context->getTexture("floor.bmp");
-        unsigned int wallTex = context->getTexture("wall.bmp");
-        CubeTextureData data = {
-            top : tex,
-            bottom : tex,
-            left : wallTex,
-            right : wallTex,
-            front : wallTex,
-            back : wallTex,
-
-        };
-        drawCubeFromExtrude(this->depth, this->color, vecs, data);
+        drawCubeFromExtrude(this->depth, this->color, vecs, this->textureData);
     }
 
     glPopMatrix();
@@ -111,4 +96,57 @@ void Platform::setColor(glfvec3 color) { this->color = color; }
 void Platform::setDepth(float depth) {
     this->depth = depth;
     this->collider->resize(this->width, this->height, depth);
+}
+
+void Platform::updateTextures() {
+    switch (this->type) {
+    case PlatformType::PLATFORM_BOTTOM:
+        this->textureData.top = context->getTexture("grass.bmp");
+        this->textureData.bottom = context->getTexture("grass.bmp");
+        this->textureData.left = context->getTexture("grass.bmp");
+        this->textureData.right = context->getTexture("grass.bmp");
+        this->textureData.front = context->getTexture("grass.bmp");
+        this->textureData.back = context->getTexture("grass.bmp");
+        this->textureData.topScale = 0.05;
+        this->textureData.bottomScale = 1;
+        this->textureData.leftScale = 1;
+        this->textureData.rightScale = 1;
+        this->textureData.frontScale = 1;
+        this->textureData.backScale = 1;
+        break;
+    case PlatformType::PLATFORM_TOP:
+        this->textureData.top = context->getTexture("grass.bmp");
+        this->textureData.bottom = context->getTexture("grass.bmp");
+        this->textureData.left = context->getTexture("grass.bmp");
+        this->textureData.right = context->getTexture("grass.bmp");
+        this->textureData.front = context->getTexture("grass.bmp");
+        this->textureData.back = context->getTexture("grass.bmp");
+        this->textureData.topScale = 0.05;
+        this->textureData.bottomScale = 1;
+        this->textureData.leftScale = 1;
+        this->textureData.rightScale = 1;
+        this->textureData.frontScale = 1;
+        this->textureData.backScale = 1;
+        break;
+    case PlatformType::PLATFORM_LEFT:
+    case PlatformType::PLATFORM_RIGHT:
+        this->textureData.top = context->getTexture("grass.bmp");
+        this->textureData.topScale = 0.05;
+        this->textureData.bottom = context->getTexture("grass.bmp");
+        this->textureData.left = context->getTexture("wall.bmp");
+        this->textureData.right = context->getTexture("wall.bmp");
+        this->textureData.front = context->getTexture("wall.bmp");
+        this->textureData.back = context->getTexture("wall.bmp");
+        break;
+    case PlatformType::PLATFORM_GENERIC:
+    default:
+        this->textureData.top = context->getTexture("grass.bmp");
+        this->textureData.topScale = 0.05;
+        this->textureData.bottom = context->getTexture("grass.bmp");
+        this->textureData.left = context->getTexture("wall.bmp");
+        this->textureData.right = context->getTexture("wall.bmp");
+        this->textureData.front = context->getTexture("wall.bmp");
+        this->textureData.back = context->getTexture("wall.bmp");
+        break;
+    }
 }
