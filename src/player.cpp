@@ -221,9 +221,11 @@ void Player::shoot() {
 
     position = t * position;
 
+    float selfAngle = this->visualRotation.y * M_PI / 180;
+
     context->getGameRef()->createProjectile(
         position.x, position.y, position.z, 0.1 * this->size,
-        (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER,
+        (90 + this->armAngle) * M_PI / 180, selfAngle, PROJECTILE_TYPE_PLAYER,
         5 * this->size);
 }
 

@@ -145,7 +145,7 @@ void Enemy::shoot() {
     context->getGameRef()->createProjectile(
         position.x + (this->armHeight * sin(-this->armAngle * M_PI / 180)),
         position.y + (this->armHeight * cos(this->armAngle * M_PI / 180)),
-        position.z, 0.1 * this->size, (90 + this->armAngle) * M_PI / 180,
+        position.z, 0.1 * this->size, (90 + this->armAngle) * M_PI / 180, 0,
         PROJECTILE_TYPE_ENEMY, 5 * this->size);
 }
 

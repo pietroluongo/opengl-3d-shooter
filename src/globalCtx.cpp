@@ -136,7 +136,7 @@ double GlobalCtx::getAveragedEnemyIdleTimer() {
     return sum / this->enemyIdleTimerQueue.size();
 }
 
-void GlobalCtx::loadTexture(char* path) {
+void GlobalCtx::loadTexture(const char* path) {
     GLuint tex;
     ImgLoader::Image* image = ImgLoader::loadBMP(path);
 

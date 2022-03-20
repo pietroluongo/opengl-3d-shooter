@@ -10,13 +10,13 @@ enum ProjectileType { PROJECTILE_TYPE_PLAYER, PROJECTILE_TYPE_ENEMY };
 class Projectile : public Object {
 
   private:
-    float angle;
+    float angleY, angleZ;
     ProjectileType type;
     float speed;
 
   public:
-    Projectile(float x, float y, float z, float size, float angle,
-               ProjectileType type, float speed);
+    Projectile(float x, float y, float z, float size, float angleZ,
+               float angleY, ProjectileType type, float speed);
     virtual ~Projectile();
     virtual void draw();
     virtual void idle();

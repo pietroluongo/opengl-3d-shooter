@@ -8,10 +8,11 @@
 
 extern GlobalCtx* context;
 
-Projectile::Projectile(float x, float y, float z, float size, float angle,
-                       ProjectileType type, float speed)
+Projectile::Projectile(float x, float y, float z, float size, float angleZ,
+                       float angleY, ProjectileType type, float speed)
     : Object(x, y, z, size) {
-    this->angle = angle;
+    this->angleZ = angleZ;
+    this->angleY = angleY;
     this->getCollider()->resize(size, size / 2, size / 2);
     this->setIsAffectedByGravity(false);
     this->speed = speed;
@@ -24,7 +25,8 @@ void Projectile::draw() {
     glfvec3 position = this->getPosition();
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
-    glRotatef(this->angle * 180 / M_PI, 0, 0, 1);
+    glRotatef(this->angleZ * 180 / M_PI, 0, 0, 1);
+    glRotatef(this->angleY * 180 / M_PI, 0, 1, 0);
     glColor3f(1.0f, 1.0f, 0.0f);
     glBegin(GL_POLYGON);
     glVertex2f(0, 0);
@@ -41,8 +43,9 @@ void Projectile::idle() {
     if (hasThisBeenDeleted) {
         return;
     }
-    // this->moveX(cos(this->angle) * this->speed);
-    // this->moveY(sin(this->angle) * this->speed);
+    this->moveX(cos(this->angleZ) * this->speed);
+    this->moveY(sin(this->angleZ) * this->speed);
+    this->moveZ(-sin(this->angleY) * this->speed);
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();

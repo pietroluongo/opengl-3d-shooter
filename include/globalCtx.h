@@ -113,8 +113,8 @@ class GlobalCtx {
     bool getIsPressingRMB() const { return this->isPressingRMB; }
     void addEnemyIdleTimer(double time);
     double getAveragedEnemyIdleTimer();
-    void loadTexture(char* path);
-    GLuint getTexture(char* id) { return this->textureMap[id]; }
+    void loadTexture(const char* path);
+    GLuint getTexture(const char* id) { return this->textureMap[id]; }
     void debugTextures();
 #ifdef USE_GLFW
     GLFWwindow* getWindow() { return this->window; }
