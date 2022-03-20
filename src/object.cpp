@@ -131,7 +131,22 @@ void Object::idle() {
         this->fallTimer += context->getDeltaTime();
     }
 
+    glm::fvec4 mapBounds = context->getGameRef()->getMap()->getWorldBounds();
+    glm::fvec2 mapSize = context->getGameRef()->getMap()->getWorldSize();
+    if (this->position.x > mapBounds[1] || this->position.x < mapBounds[0]) {
+        this->positionDelta.x = 0;
+    }
+    if (this->position.y > mapBounds[3] || this->position.y < mapBounds[2]) {
+        this->positionDelta.y = 0;
+    }
+    float depth = mapSize.y / 2;
+    if (this->position.z + this->positionDelta.z < 0 ||
+        this->position.z + this->positionDelta.z > depth) {
+        this->positionDelta.z = 0;
+    }
+
     this->position += this->positionDelta;
+
     this->positionDelta = {0, 0, 0};
 }
 
