@@ -119,15 +119,14 @@ void Camera::idle() {
             }
 
             case CAMERA_AIM:
+                glm::fvec3 playerGunPosition =
+                    context->getGameRef()->getPlayer()->getGunPosition();
+                this->position = playerGunPosition;
+                glm::fvec3 direction = {this->position.x + 10, this->position.y,
+                                        this->position.z};
+                this->projectionMatrix *=
+                    glm::lookAt(this->position, direction, this->up);
                 break;
-
-                // glm::mat4 t(1.0);
-                // glm::fvec3 playerGunPosition;
-                // float playerArmAngle =
-                //     context->getGameRef()->getPlayer()->getArmAngle();
-                // glm::rotate(t, playerArmAngle, glm::fvec3(0, 1, 0));
-                // this->projectionMatrix *=
-                //     glm::lookAt(this->position, playerPosition, this->up);
             }
         }
         glMultMatrixf(glm::value_ptr(this->projectionMatrix));

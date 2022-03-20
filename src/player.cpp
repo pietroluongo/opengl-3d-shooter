@@ -193,9 +193,6 @@ void Player::shoot() {
 
     position = t * position;
 
-    // float rotY = this->visualRotation.y;
-    // float rotZ = this->visualRotation.z;
-
     context->getGameRef()->createProjectile(
         position.x, position.y, position.z, 0.1 * this->size,
         (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER,
@@ -245,14 +242,21 @@ glm::fvec3 Player::getDollyPosition() {
 }
 
 glm::fvec3 Player::getGunPosition() {
-    return {0, 0, 0};
-    // glm::mat4 t = glm::mat4(1.0);
+    glm::mat4 t = glm::mat4(1.0);
+    glm::fvec4 position = glm::fvec4{0, 0, 0, 1};
+    t = glm::translate(
+        t, glm::vec3(this->getPosition().x,
+                     this->getPosition().y - this->size * 0.3 + armPosition,
+                     this->getPosition().z));
+    glm::rotate(t, this->visualRotation.x, glm::vec3(1, 0, 0));
+    glm::rotate(t, this->visualRotation.y, glm::vec3(0, 1, 0));
+    glm::rotate(t, this->visualRotation.z, glm::vec3(0, 0, 1));
 
-    // glm::translate(t, glm::fvec3(0, -this->size * 0.3f, 0));
+    t = glm::rotate(t, (float)(this->armAngle * M_PI / 180),
+                    glm::vec3(0, 0, 1));
 
-    // glm::translate(t, 0, -this->size * 0.3f, 0);
+    t = glm::translate(t, glm::vec3(0, this->armHeight + 0.2 * this->size, 0));
 
-    // return glm::fvec3(this->getPosition().x - 10,
-    //                   this->getPosition().y - this->size,
-    //                   this->getPosition().z - 10);
+    position = t * position;
+    return position;
 }

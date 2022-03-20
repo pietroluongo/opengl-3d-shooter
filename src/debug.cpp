@@ -145,6 +145,14 @@ void drawCameraInfo() {
             context->getGameRef()->getMainCamera()->setCameraBehaviour(
                 CAMERA_FPS);
         }
+        if (ImGui::Button("Camera Aim")) {
+            context->getGameRef()->getMainCamera()->setCameraBehaviour(
+                CAMERA_AIM);
+        }
+        if (ImGui::Button("Camera 2D")) {
+            context->getGameRef()->getMainCamera()->setCameraBehaviour(
+                CAMERA_2D_PERSPECTIVE);
+        }
 
         ImGui::Checkbox(
             "Toggle Free Camera (control w/ IJKLUO)",
