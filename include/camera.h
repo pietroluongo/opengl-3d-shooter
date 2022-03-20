@@ -16,7 +16,8 @@ enum CameraBehaviour {
     CAMERA_TPS,
     CAMERA_AIM,
     CAMERA_FREE,
-    CAMERA_ORBIT
+    CAMERA_ORBIT,
+    CAMERA_2D_PERSPECTIVE
 };
 
 class Camera {
@@ -40,7 +41,7 @@ class Camera {
 
     CameraFollowMode followMode = CAMERA_FOLLOW_MODE_NONE;
     CameraMode mode = CAMERA_2D;
-    CameraBehaviour behaviour = CAMERA_FPS;
+    CameraBehaviour behaviour = CAMERA_2D_PERSPECTIVE;
 
     glm::mat4 projectionMatrix = glm::mat4(1.0f);
 

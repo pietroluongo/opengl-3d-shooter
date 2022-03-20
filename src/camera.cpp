@@ -60,48 +60,75 @@ void Camera::idle() {
         if (freeCamEnabled) {
             this->projectionMatrix *= glm::lookAt(
                 this->position, this->position + this->forward, this->up);
-        } else if (this->behaviour == CAMERA_FPS) {
-            glm::fvec3 eyePosition =
-                context->getGameRef()->getPlayer()->getEyePosition();
+        } else {
+            switch (this->behaviour) {
+            case CAMERA_FREE:
+                break;
+            case CAMERA_FPS: {
+                glm::fvec3 eyePosition =
+                    context->getGameRef()->getPlayer()->getEyePosition();
 
-            this->position = eyePosition;
+                this->position = eyePosition;
 
-            glm::fvec3 rot =
-                context->getGameRef()->getPlayer()->getVisualRotation();
+                glm::fvec3 rot =
+                    context->getGameRef()->getPlayer()->getVisualRotation();
 
-            rot *= M_PI / -180.0f;
+                rot *= M_PI / -180.0f;
 
-            glm::fvec3 lookAt = {10, 0, 0};
+                glm::fvec3 lookAt = {10, 0, 0};
 
-            glm::mat4 t(1.0);
-            t = glm::rotate(t, rot.x, glm::fvec3(1, 0, 0));
-            t = glm::rotate(t, rot.y, glm::fvec3(0, 1, 0));
-            t = glm::rotate(t, rot.z, glm::fvec3(0, 0, 1));
-            lookAt = glm::fvec3(glm::fvec4(lookAt, 0) * t);
+                glm::mat4 t(1.0);
+                t = glm::rotate(t, rot.x, glm::fvec3(1, 0, 0));
+                t = glm::rotate(t, rot.y, glm::fvec3(0, 1, 0));
+                t = glm::rotate(t, rot.z, glm::fvec3(0, 0, 1));
+                lookAt = glm::fvec3(glm::fvec4(lookAt, 0) * t);
 
-            this->projectionMatrix *=
-                glm::lookAt(this->position, this->position + lookAt, this->up);
+                this->projectionMatrix *= glm::lookAt(
+                    this->position, this->position + lookAt, this->up);
+                break;
+            }
+            case CAMERA_TPS: {
+                glm::fvec3 playerDollyPosition =
+                    context->getGameRef()->getPlayer()->getDollyPosition();
+                this->position = playerDollyPosition;
+                this->projectionMatrix *=
+                    glm::lookAt(this->position, playerPosition, this->up);
+                break;
+            }
+            case CAMERA_ORBIT: {
+                float cameraZoom = this->zoomLevel * 100.0f;
+                glm::fvec3 spherePosition = {0, 0, 0};
+                spherePosition.x = cameraZoom * sin(xzAngle * M_PI / 180) *
+                                   cos((xyAngle * M_PI / 180));
+                spherePosition.y = cameraZoom * sin((-xyAngle * M_PI / 180));
+                spherePosition.z = cameraZoom * cos(xzAngle * M_PI / 180) *
+                                   cos((xyAngle * M_PI / 180));
+                spherePosition += this->position;
+                this->position = playerPosition;
+                this->projectionMatrix *= glm::lookAt(
+                    spherePosition, playerPosition, glm::fvec3(0, -1, 0));
+                break;
+            }
+            case CAMERA_2D_PERSPECTIVE: {
+                glm::fvec3 playerPosition =
+                    context->getGameRef()->getPlayer()->getPosition();
+                this->position = {playerPosition.x, playerPosition.y, -100};
+                this->projectionMatrix *= glm::lookAt(
+                    this->position, playerPosition, glm::fvec3(0, -1, 0));
+                break;
+            }
 
-        } else if (this->behaviour == CAMERA_TPS) {
-            glm::fvec3 playerDollyPosition =
-                context->getGameRef()->getPlayer()->getDollyPosition();
-            this->position = playerDollyPosition;
-            this->projectionMatrix *=
-                glm::lookAt(this->position, playerPosition, this->up);
+            case CAMERA_AIM:
+                break;
 
-        } else if (this->behaviour == CAMERA_ORBIT) {
-
-            float cameraZoom = this->zoomLevel * 100.0f;
-            glm::fvec3 spherePosition = {0, 0, 0};
-            spherePosition.x = cameraZoom * sin(xzAngle * M_PI / 180) *
-                               cos((xyAngle * M_PI / 180));
-            spherePosition.y = cameraZoom * sin((-xyAngle * M_PI / 180));
-            spherePosition.z = cameraZoom * cos(xzAngle * M_PI / 180) *
-                               cos((xyAngle * M_PI / 180));
-            spherePosition += this->position;
-            this->position = playerPosition;
-            this->projectionMatrix *= glm::lookAt(
-                spherePosition, playerPosition, glm::fvec3(0, -1, 0));
+                // glm::mat4 t(1.0);
+                // glm::fvec3 playerGunPosition;
+                // float playerArmAngle =
+                //     context->getGameRef()->getPlayer()->getArmAngle();
+                // glm::rotate(t, playerArmAngle, glm::fvec3(0, 1, 0));
+                // this->projectionMatrix *=
+                //     glm::lookAt(this->position, playerPosition, this->up);
+            }
         }
         glMultMatrixf(glm::value_ptr(this->projectionMatrix));
         glMatrixMode(GL_MODELVIEW);
@@ -312,28 +339,17 @@ const char* Camera::getCameraBehaviour() {
         return "CAMERA_FREE";
     case CAMERA_ORBIT:
         return "CAMERA_ORBIT";
+    case CAMERA_FPS:
+        return "CAMERA_FPS";
     case CAMERA_TPS:
         return "CAMERA_TPS";
+    case CAMERA_2D_PERSPECTIVE:
+        return "CAMERA_2D";
     default:
         return "CAMERA_UNKNOWN";
     }
 }
 
 void Camera::setCameraBehaviour(CameraBehaviour behaviour) {
-    switch (behaviour) {
-    case CAMERA_FREE:
-        this->behaviour = CAMERA_FREE;
-        break;
-    case CAMERA_ORBIT:
-        this->behaviour = CAMERA_ORBIT;
-        break;
-    case CAMERA_TPS:
-        this->behaviour = CAMERA_TPS;
-        break;
-    case CAMERA_FPS:
-        this->behaviour = CAMERA_FPS;
-        break;
-    default:
-        break;
-    }
+    this->behaviour = behaviour;
 }

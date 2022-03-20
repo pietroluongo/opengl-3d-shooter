@@ -107,6 +107,7 @@ void Character::drawGun() {
 }
 
 void Character::drawHead() {
+    glPushMatrix();
     glTranslatef(0, -this->size * 0.3f, 0);
     if (context->getGameRef()->getCurrentRenderMode() == RenderMode::D2) {
         glBegin(GL_POLYGON);
@@ -123,6 +124,7 @@ void Character::drawHead() {
         }
         this->head->draw();
     }
+    glPopMatrix();
 }
 
 void Character::drawLegs() {

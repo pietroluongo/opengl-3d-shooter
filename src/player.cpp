@@ -45,6 +45,7 @@ void Player::draw() {
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
     this->drawHead();
+    glTranslatef(0, -this->size * 0.3f, 0);
     this->drawLegs();
     glColor3f(1.0f, 0.0f, 0.0f);
     this->drawArm();
@@ -176,17 +177,23 @@ void Player::handleJump() {
 }
 
 void Player::shoot() {
-    glfvec2 position = this->getPosition();
+    glm::mat4 t = glm::mat4(1.0);
+    glm::fvec4 position = glm::fvec4{this->getPosition(), 1};
+    t = glm::translate(t, glm::vec3(0, -this->size * 0.3f, 0));
+    t = glm::translate(t, glm::vec3(0, armPosition, 0));
+    t = glm::rotate(t, this->visualRotation.x, glm::vec3(1, 0, 0));
+    t = glm::rotate(t, this->visualRotation.y, glm::vec3(0, 1, 0));
+    t = glm::rotate(t, this->visualRotation.z, glm::vec3(0, 0, 1));
 
-    glfvec3 firePosition = {0, 0, 0};
-    firePosition.x = position.x - ((this->armHeight + 0.2 * this->size) *
-                                   sin(this->armAngle * M_PI / 180));
-    firePosition.y = (position.y - 0.2 * this->size) +
-                     ((this->armHeight + 0.2 * this->size) *
-                      cos(this->armAngle * M_PI / 180));
-    firePosition.z = this->getPosition().z;
+    // t = glm::rotate(t, this->armAngle, glm::vec3(0, 0, 1));
+
+    position = t * position;
+
+    float rotY = this->visualRotation.y;
+    float rotZ = this->visualRotation.z;
+
     context->getGameRef()->createProjectile(
-        firePosition.x, firePosition.y, firePosition.z, 0.1 * this->size,
+        position.x, position.y, position.z, 0.1 * this->size,
         (90 + this->armAngle) * M_PI / 180, PROJECTILE_TYPE_PLAYER,
         5 * this->size);
 }
@@ -218,17 +225,6 @@ std::vector<std::vector<Collider*>*> Player::colliders() {
 }
 
 glm::fvec3 Player::getEyePosition() {
-    // glPushMatrix();
-    // glColor3f(1, 0, 0);
-    // glBegin(GL_POLYGON);
-    // glVertex3f(-1, -1, 0);
-    // glVertex3f(1, -1, 0);
-    // glVertex3f(1, 1, 0);
-    // glVertex3f(-1, 1, 0);
-
-    // glEnd();
-    // glPopMatrix();
-    // return glm::fvec3(1, 0.3 * this->size, 0);
     return glm::fvec3(this->getPosition().x,
                       this->getPosition().y - 0.3 * this->size,
                       this->getPosition().z);
@@ -245,7 +241,14 @@ glm::fvec3 Player::getDollyPosition() {
 }
 
 glm::fvec3 Player::getGunPosition() {
-    return glm::fvec3(this->getPosition().x - 10,
-                      this->getPosition().y - this->size,
-                      this->getPosition().z - 10);
+    return {0, 0, 0};
+    // glm::mat4 t = glm::mat4(1.0);
+
+    // glm::translate(t, glm::fvec3(0, -this->size * 0.3f, 0));
+
+    // glm::translate(t, 0, -this->size * 0.3f, 0);
+
+    // return glm::fvec3(this->getPosition().x - 10,
+    //                   this->getPosition().y - this->size,
+    //                   this->getPosition().z - 10);
 }

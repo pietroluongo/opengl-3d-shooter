@@ -105,6 +105,7 @@ class Character : public Object {
     virtual void kill() = 0;
     void setShirtColor(glfvec3 color) { this->shirtColor = color; };
     void toggleDimensionality();
+    float getArmAngle() { return this->armAngle; };
 };
 
 #endif
