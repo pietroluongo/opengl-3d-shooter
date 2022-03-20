@@ -231,7 +231,7 @@ void drawMemoryInfo() {
     ImGui::Begin("Memory [F5]");
     {
         float values[100];
-        for (int i = 0; i < 100; i++) {
+        for (unsigned long long int i = 0; i < 100; i++) {
             if (i >= context->enemyIdleTimerQueue.size())
                 break;
             values[i] = context->enemyIdleTimerQueue.at(i);

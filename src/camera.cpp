@@ -123,8 +123,8 @@ void Camera::idle() {
                     context->getGameRef()->getPlayer()->getGunPosition();
                 glm::fvec3 playerRotation =
                     context->getGameRef()->getPlayer()->getVisualRotation();
-                float armAngle =
-                    context->getGameRef()->getPlayer()->getArmAngle();
+                // float armAngle =
+                //     context->getGameRef()->getPlayer()->getArmAngle();
 
                 this->position = playerGunPosition;
                 glm::fvec3 direction = {1, 0, 0};
@@ -272,8 +272,8 @@ void Camera::handleInput() {
                 // Y rotation: 2
                 // X movement: 0
                 // Y movement: 1
-                float rotX = 0, rotY = 0, rotZ = 0;
-                float movX = 0, movY = 0, movZ = 0;
+                float rotX = 0, rotY = 0;
+                float movX = 0, movY = 0;
                 if (abs(context->axes[2]) < 0.1)
                     rotY = 0;
                 else

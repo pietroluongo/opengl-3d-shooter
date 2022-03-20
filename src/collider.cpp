@@ -42,8 +42,6 @@ bool Collider::overlaps(Collider* other) {
         return false;
     BoundingBox3D thisBoundingBox = this->getBoundingBox();
     BoundingBox3D otherBoundingBox = other->getBoundingBox();
-    glm::fvec3 thisCenter = this->getCenter();
-    glm::fvec3 otherCenter = other->getCenter();
 
     glm::fvec4 selfBox = {thisBoundingBox.min.x, thisBoundingBox.max.x,
                           thisBoundingBox.min.y, thisBoundingBox.max.y};
