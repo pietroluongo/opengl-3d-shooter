@@ -1,6 +1,7 @@
 #include "../include/game.h"
 #include "../include/globalCtx.h"
 #include "../include/lightSrc.h"
+#include "../include/solidUtils.h"
 #include "../libs/glm/gtc/type_ptr.hpp"
 #include <algorithm>
 #include <chrono>
@@ -22,6 +23,30 @@ glfvec3 Game::getPlayerPosition() { return this->player->getPosition(); }
 
 void Game::draw() {
     this->cam->idle();
+    // Draw skybox
+    {
+        glm::fvec3 size = {map->getWorldSize(), map->getWorldSize().y / 2};
+        glm::fvec4 bounds = map->getWorldBounds();
+        CubeTextureData texData = {
+            context->getTexture("top_sky.bmp"),
+            context->getTexture("bottom_sky.bmp"),
+            context->getTexture("left_sky.bmp"),
+            context->getTexture("right_sky.bmp"),
+            context->getTexture("front_sky.bmp"),
+            context->getTexture("back_sky.bmp"),
+        };
+        glm::vec3 points[4] = {
+            glm::vec3(bounds[0] - size.x, bounds[3] + size.x, -100),
+            glm::vec3(bounds[0] - size.x, bounds[2] - size.x, -100),
+            glm::vec3(bounds[1] + size.x, bounds[2] - size.x, -100),
+            glm::vec3(bounds[1] + size.x, bounds[3] + size.x, -100),
+        };
+        glDisable(GL_LIGHTING);
+        drawCubeFromExtrude(size.z * 10, glm::fvec3(1, 1, 1), points, texData,
+                            TEX_TILE_MODE_STRETCH);
+        glEnable(GL_LIGHTING);
+    }
+
     this->map->draw();
     this->player->draw();
     for (auto& enemy : this->enemies) {

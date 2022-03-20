@@ -6,8 +6,7 @@
 #endif
 
 void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
-                         CubeTextureData textures) {
-
+                         CubeTextureData textures, TexTileMode mode) {
     GLfloat materialEmission[] = {.0, .0, .0, 1};
     GLfloat materialColorA[] = {0.2, 0.2, 0.2, 1};
     // GLfloat materialColorD[] = {color.r, color.g, color.b, 1};
@@ -30,8 +29,9 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     // front - ok
     glBindTexture(GL_TEXTURE_2D, textures.front);
     glBegin(GL_QUADS);
-    {
-        glNormal3f(0, 0, -1);
+    glNormal3f(0, 0, -1);
+
+    if (mode == TEX_TILE_MODE_TILE) {
         glTexCoord2f(points[0].x * textureS, points[0].y * textureS);
         glVertex3f(points[0].x, points[0].y, points[0].z);
         glTexCoord2f(points[1].x * textureS, points[1].y * textureS);
@@ -40,6 +40,16 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
         glVertex3f(points[2].x, points[2].y, points[2].z);
         glTexCoord2f(points[3].x * textureS, points[3].y * textureS);
         glVertex3f(points[3].x, points[3].y, points[3].z);
+    } else {
+        glNormal3f(0, 0, -1);
+        glTexCoord2f(0, 0);
+        glVertex3f(points[0].x, points[0].y, points[0].z);
+        glTexCoord2f(0, 1);
+        glVertex3f(points[1].x, points[1].y, points[1].z);
+        glTexCoord2f(1, 0);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
+        glTexCoord2f(1, 1);
+        glVertex3f(points[3].x, points[3].y, points[3].z);
     }
 
     glEnd();
@@ -47,7 +57,8 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     // back - ok
     glBindTexture(GL_TEXTURE_2D, textures.back);
     glBegin(GL_QUADS);
-    {
+
+    if (mode == TEX_TILE_MODE_TILE) {
         glNormal3f(0, 0, 1);
         glTexCoord2f(points[0].x * textureS, points[0].y * textureS);
         glVertex3f(points[0].x, points[0].y, points[0].z + depth);
@@ -57,6 +68,16 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
         glVertex3f(points[2].x, points[2].y, points[2].z + depth);
         glTexCoord2f(points[3].x * textureS, points[3].y * textureS);
         glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    } else {
+        glNormal3f(0, 0, 1);
+        glTexCoord2f(0, 0);
+        glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+        glTexCoord2f(0, 1);
+        glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+        glTexCoord2f(1, 1);
+        glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+        glTexCoord2f(1, 0);
+        glVertex3f(points[3].x, points[3].y, points[3].z + depth);
     }
 
     glEnd();
@@ -64,9 +85,9 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     // left ! top
     glBindTexture(GL_TEXTURE_2D, textures.top);
     glBegin(GL_QUADS);
-    {
-        float textureS = 0.2;
-        glNormal3f(1, 0, 0);
+    glNormal3f(1, 0, 0);
+
+    if (mode == TEX_TILE_MODE_TILE) {
         glTexCoord2f(points[0].x * textureS, points[0].z * textureS);
         glVertex3f(points[0].x, points[0].y, points[0].z);
 
@@ -78,14 +99,27 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
 
         glTexCoord2f(points[3].x * textureS, points[3].z * textureS);
         glVertex3f(points[3].x, points[3].y, points[3].z);
+    } else {
+        glTexCoord2f(0, 0);
+        glVertex3f(points[0].x, points[0].y, points[0].z);
+
+        glTexCoord2f(0, 1);
+        glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+
+        glTexCoord2f(1, 1);
+        glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+
+        glTexCoord2f(1, 0);
+        glVertex3f(points[3].x, points[3].y, points[3].z);
     }
     glEnd();
 
     // right ! bottom
     glBindTexture(GL_TEXTURE_2D, textures.bottom);
     glBegin(GL_QUADS);
-    {
-        glNormal3f(-1, 0, 0);
+    glNormal3f(-1, 0, 0);
+
+    if (mode == TEX_TILE_MODE_TILE) {
         glTexCoord2f(points[1].x * textureS, points[1].z * textureS);
         glVertex3f(points[1].x, points[1].y, points[1].z);
         glTexCoord2f(points[1].x * textureS, (points[1].z + depth) * textureS);
@@ -94,16 +128,23 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
         glVertex3f(points[2].x, points[2].y, points[2].z + depth);
         glTexCoord2f(points[2].x * textureS, points[2].z * textureS);
         glVertex3f(points[2].x, points[2].y, points[2].z);
-        glEnd();
+    } else {
+        glTexCoord2f(0, 0);
+        glVertex3f(points[1].x, points[1].y, points[1].z);
+        glTexCoord2f(0, 1);
+        glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+        glTexCoord2f(1, 1);
+        glVertex3f(points[2].x, points[2].y, points[2].z + depth);
+        glTexCoord2f(1, 0);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
     }
+    glEnd();
 
     // top ! right
     glBindTexture(GL_TEXTURE_2D, textures.right);
     glBegin(GL_QUADS);
-    {
-        float textureS = 0.2;
-        glNormal3f(0, 1, 0);
-
+    glNormal3f(0, 1, 0);
+    if (mode == TEX_TILE_MODE_TILE) {
         glTexCoord2f(points[3].z * textureS, points[3].y * textureS);
         glVertex3f(points[3].x, points[3].y, points[3].z);
 
@@ -115,6 +156,18 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
 
         glTexCoord2f((points[3].z + depth) * textureS, points[3].y * textureS);
         glVertex3f(points[3].x, points[3].y, points[3].z + depth);
+    } else {
+        glTexCoord2f(0, 0);
+        glVertex3f(points[3].x, points[3].y, points[3].z);
+
+        glTexCoord2f(0, 1);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
+
+        glTexCoord2f(1, 1);
+        glVertex3f(points[2].x, points[2].y, (points[2].z + depth));
+
+        glTexCoord2f(1, 0);
+        glVertex3f(points[3].x, points[3].y, points[3].z + depth);
     }
 
     glEnd();
@@ -122,8 +175,9 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     // bottom ! left
     glBindTexture(GL_TEXTURE_2D, textures.left);
     glBegin(GL_QUADS);
-    {
-        glNormal3f(0, -1, 0);
+    glNormal3f(0, -1, 0);
+
+    if (mode == TEX_TILE_MODE_TILE) {
         glTexCoord2f(points[0].z * textureS, points[0].y * textureS);
         glVertex3f(points[0].x, points[0].y, points[0].z);
         glTexCoord2f(points[1].z * textureS, points[1].y * textureS);
@@ -131,6 +185,15 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
         glTexCoord2f((points[1].z + depth) * textureS, points[1].y * textureS);
         glVertex3f(points[1].x, points[1].y, points[1].z + depth);
         glTexCoord2f((points[0].z + depth) * textureS, points[0].y * textureS);
+        glVertex3f(points[0].x, points[0].y, points[0].z + depth);
+    } else {
+        glTexCoord2f(0, 0);
+        glVertex3f(points[0].x, points[0].y, points[0].z);
+        glTexCoord2f(0, 1);
+        glVertex3f(points[1].x, points[1].y, points[1].z);
+        glTexCoord2f(1, 1);
+        glVertex3f(points[1].x, points[1].y, points[1].z + depth);
+        glTexCoord2f(1, 0);
         glVertex3f(points[0].x, points[0].y, points[0].z + depth);
     }
 

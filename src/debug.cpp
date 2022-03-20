@@ -282,19 +282,23 @@ void drawPlayerInfo() {
                     context->getGameRef()
                         ->getPlayer()
                         ->getCollider()
-                        ->getBoundingBox()[2],
+                        ->getBoundingBox()
+                        .min.y,
                     context->getGameRef()
                         ->getPlayer()
                         ->getCollider()
-                        ->getBoundingBox()[0],
+                        ->getBoundingBox()
+                        .min.x,
                     context->getGameRef()
                         ->getPlayer()
                         ->getCollider()
-                        ->getBoundingBox()[1],
+                        ->getBoundingBox()
+                        .max.x,
                     context->getGameRef()
                         ->getPlayer()
                         ->getCollider()
-                        ->getBoundingBox()[3]);
+                        ->getBoundingBox()
+                        .max.y);
         if (ImGui::SliderFloat(
                 "Player Size",
                 context->getGameRef()->getPlayer()->tmp_getSize(), 0.0f,

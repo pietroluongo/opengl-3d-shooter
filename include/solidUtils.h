@@ -24,8 +24,14 @@ struct CubeTextureData {
     unsigned int back;
 };
 
+enum TexTileMode {
+    TEX_TILE_MODE_TILE,
+    TEX_TILE_MODE_STRETCH,
+};
+
 void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
-                         CubeTextureData textures);
+                         CubeTextureData textures,
+                         TexTileMode tileMode = TEX_TILE_MODE_TILE);
 
 void drawCoordinateSystem();
 

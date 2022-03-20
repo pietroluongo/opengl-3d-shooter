@@ -102,6 +102,12 @@ int main(int argc, char** argv) {
     context->loadTexture("./assets/floor.bmp");
     context->loadTexture("./assets/head.bmp");
     context->loadTexture("./assets/wall.bmp");
+    context->loadTexture("./assets/skybox/back_sky.bmp");
+    context->loadTexture("./assets/skybox/front_sky.bmp");
+    context->loadTexture("./assets/skybox/left_sky.bmp");
+    context->loadTexture("./assets/skybox/right_sky.bmp");
+    context->loadTexture("./assets/skybox/top_sky.bmp");
+    context->loadTexture("./assets/skybox/bottom_sky.bmp");
     context->debugTextures();
 
     glfw::mainLoop();
