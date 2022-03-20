@@ -209,14 +209,6 @@ void Character::drawLegs() {
                                     glm::fvec3(-legSizeX, legSizeY, offset)};
             drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points);
             glTranslatef(0, legSizeY, 0);
-            // glBegin(GL_POLYGON);
-            // {
-            //     for (int i = 0; i < 360; i += 10) {
-            //         glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
-            //                    0.05 * this->size * sin(i * M_PI / 180));
-            //     }
-            // }
-            // glEnd();
             glRotatef(legRotation[1], 0, 0, 1);
             glm::fvec3 points2[4] = {glm::fvec3(-legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, 0, offset),
@@ -234,14 +226,6 @@ void Character::drawLegs() {
                                      glm::fvec3(-legSizeX, legSizeY, offset)};
             drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points3);
             glTranslatef(0, legSizeY, 0);
-            // glBegin(GL_POLYGON);
-            // {
-            //     for (int i = 0; i < 360; i += 10) {
-            //         glVertex2f(0.05 * this->size * cos(i * M_PI / 180),
-            //                    0.05 * this->size * sin(i * M_PI / 180));
-            //     }
-            // }
-            // glEnd();
             glRotatef(legRotation[3], 0, 0, 1);
             glm::fvec3 points4[4] = {glm::fvec3(-legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, 0, offset),

@@ -21,9 +21,9 @@ Projectile::Projectile(float x, float y, float z, float size, float angle,
 Projectile::~Projectile() {}
 
 void Projectile::draw() {
-    glfvec2 position = this->getPosition();
+    glfvec3 position = this->getPosition();
     glPushMatrix();
-    glTranslatef(position.x, position.y, 0);
+    glTranslatef(position.x, position.y, position.z);
     glRotatef(this->angle * 180 / M_PI, 0, 0, 1);
     glColor3f(1.0f, 1.0f, 0.0f);
     glBegin(GL_POLYGON);
@@ -41,9 +41,8 @@ void Projectile::idle() {
     if (hasThisBeenDeleted) {
         return;
     }
-    this->moveX(cos(this->angle) * this->speed);
-    this->moveY(sin(this->angle) * this->speed);
-    this->moveZ(10);
+    // this->moveX(cos(this->angle) * this->speed);
+    // this->moveY(sin(this->angle) * this->speed);
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
@@ -55,12 +54,12 @@ void Projectile::idle() {
     }
 }
 
-void Projectile::setPosition(glfvec2 position) {
+void Projectile::setPosition(glfvec3 position) {
     this->Object::setPosition(position);
 }
 
-void Projectile::setPosition(GLfloat x, GLfloat y) {
-    this->Object::setPosition(x, y);
+void Projectile::setPosition(GLfloat x, GLfloat y, GLfloat z) {
+    this->Object::setPosition(x, y, z);
 }
 
 bool Projectile::checkCollisions() {

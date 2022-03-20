@@ -112,7 +112,7 @@ void Camera::idle() {
             case CAMERA_2D_PERSPECTIVE: {
                 glm::fvec3 playerPosition =
                     context->getGameRef()->getPlayer()->getPosition();
-                this->position = {playerPosition.x, playerPosition.y, -100};
+                this->position = {playerPosition.x, playerPosition.y, -50};
                 this->projectionMatrix *= glm::lookAt(
                     this->position, playerPosition, glm::fvec3(0, -1, 0));
                 break;

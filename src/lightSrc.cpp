@@ -15,8 +15,7 @@ void LightSource::draw() {
     glm::fvec4 lightPos = glm::fvec4(this->position, 1.0f);
     glLightfv(GL_LIGHT0 + this->lightId, GL_POSITION, glm::value_ptr(lightPos));
     glLightfv(GL_LIGHT0 + this->lightId, GL_DIFFUSE,
-              glm::value_ptr(glm::fvec3(this->intensity, this->intensity,
-                                        this->intensity)));
+              glm::value_ptr(glm::fvec3(1.0f, 1.0f, 1.0f)));
     glPopMatrix();
 }
 

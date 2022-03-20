@@ -41,6 +41,8 @@ void Game::draw() {
         glLightfv(GL_LIGHT0, GL_POSITION,
                   glm::value_ptr(
                       glm::fvec4(playerPos.x, playerPos.y, playerPos.z, 1.0)));
+        glLightfv(GL_LIGHT0, GL_DIFFUSE,
+                  glm::value_ptr(glm::fvec3(1.0f, 1.0f, 1.0f)));
     }
 }
 

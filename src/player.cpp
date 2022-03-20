@@ -2,6 +2,7 @@
 #include "../include/globalCtx.h"
 #include "../include/keymap.h"
 #include "../libs/glm/gtc/matrix_transform.hpp"
+#include "../libs/glm/gtc/type_ptr.hpp"
 #include <cmath>
 #include <string>
 #include <vector>
@@ -56,6 +57,17 @@ void Player::draw() {
     glPopMatrix();
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
+
+    // glPushMatrix();
+    // glMultMatrixf(glm::value_ptr(t));
+    // glColor3f(0, 1, 1);
+    // glBegin(GL_QUADS);
+    // glVertex3f(-1, -1, 0);
+    // glVertex3f(1, -1, 0);
+    // glVertex3f(1, 1, 0);
+    // glVertex3f(-1, 1, 0);
+    // glEnd();
+    // glPopMatrix();
 }
 
 void Player::idle() {
@@ -82,12 +94,10 @@ void Player::idle() {
 void Player::handleMovementKeys() {
     if (context->isKeyPressed(keymap::MOVE_RIGHT_BUTTON)) {
         this->isRequestingMove = true;
-        // this->moveX(2.5 * this->size);
         this->rotateY(1 * this->size);
     }
     if (context->isKeyPressed(keymap::MOVE_LEFT_BUTTON)) {
         this->isRequestingMove = true;
-        // this->moveX(-2.5 * this->size);
         this->rotateY(-1 * this->size);
     }
 
@@ -178,19 +188,24 @@ void Player::handleJump() {
 
 void Player::shoot() {
     glm::mat4 t = glm::mat4(1.0);
-    glm::fvec4 position = glm::fvec4{this->getPosition(), 1};
-    t = glm::translate(t, glm::vec3(0, -this->size * 0.3f, 0));
-    t = glm::translate(t, glm::vec3(0, armPosition, 0));
-    t = glm::rotate(t, this->visualRotation.x, glm::vec3(1, 0, 0));
-    t = glm::rotate(t, this->visualRotation.y, glm::vec3(0, 1, 0));
-    t = glm::rotate(t, this->visualRotation.z, glm::vec3(0, 0, 1));
+    glm::fvec4 position = glm::fvec4{0, 0, 0, 1};
+    t = glm::translate(
+        t, glm::vec3(this->getPosition().x,
+                     this->getPosition().y - this->size * 0.3 + armPosition,
+                     this->getPosition().z));
+    glm::rotate(t, this->visualRotation.x, glm::vec3(1, 0, 0));
+    glm::rotate(t, this->visualRotation.y, glm::vec3(0, 1, 0));
+    glm::rotate(t, this->visualRotation.z, glm::vec3(0, 0, 1));
 
-    // t = glm::rotate(t, this->armAngle, glm::vec3(0, 0, 1));
+    t = glm::rotate(t, (float)(this->armAngle * M_PI / 180),
+                    glm::vec3(0, 0, 1));
+
+    t = glm::translate(t, glm::vec3(0, this->armHeight + 0.2 * this->size, 0));
 
     position = t * position;
 
-    float rotY = this->visualRotation.y;
-    float rotZ = this->visualRotation.z;
+    // float rotY = this->visualRotation.y;
+    // float rotZ = this->visualRotation.z;
 
     context->getGameRef()->createProjectile(
         position.x, position.y, position.z, 0.1 * this->size,

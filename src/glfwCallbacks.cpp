@@ -42,9 +42,9 @@ static void keyCallback(GLFWwindow* window, int key, int scancode, int action,
         context->updateKeyStatus(key, KEY_DOWN_STATUS);
 
         switch (key) {
-        // case keymap::CLOSE_PROGRAM_BUTTON:
-        //     glfwSetWindowShouldClose(window, true);
-        //     break;
+        case keymap::CLOSE_PROGRAM_BUTTON:
+            glfwSetWindowShouldClose(window, true);
+            break;
         case keymap::TOGGLE_DEBUG_INFO_BUTTON:
             context->toggleDebugInfo();
             break;
@@ -150,7 +150,7 @@ void init() {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
+    // glEnable(GL_LIGHTING);
     glDepthFunc(GL_LEQUAL);
     glShadeModel(GL_SMOOTH);
 

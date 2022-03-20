@@ -20,8 +20,8 @@ class Projectile : public Object {
     virtual ~Projectile();
     virtual void draw();
     virtual void idle();
-    virtual void setPosition(glfvec2 position);
-    virtual void setPosition(GLfloat x, GLfloat y);
+    virtual void setPosition(glfvec3 position);
+    virtual void setPosition(GLfloat x, GLfloat y, GLfloat z);
     bool checkCollisions();
     virtual std::vector<std::vector<Collider*>*> colliders();
 };

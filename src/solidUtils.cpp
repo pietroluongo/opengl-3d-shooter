@@ -66,7 +66,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     GLfloat materialEmission[] = {.0, .0, .0, 1};
     GLfloat materialColorA[] = {0.2, 0.2, 0.2, 1};
     // GLfloat materialColorD[] = {color.r, color.g, color.b, 1};
-    GLfloat materialColorD[] = {1.0f, 0.0f, 0.0f, 1};
+    GLfloat materialColorD[] = {1.0f, 1.0f, 1.0f, 1};
     GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1};
     GLfloat mat_shininess[] = {100.0};
     glColor3f(1, 1, 1);
