@@ -25,10 +25,13 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat z, GLfloat size)
 Enemy::~Enemy() {}
 
 void Enemy::draw() {
-    glfvec2 position = this->getPosition();
+    glfvec3 position = this->getPosition();
 
     glPushMatrix();
-    glTranslatef(position.x, position.y, 0.0f);
+    glTranslatef(position.x, position.y, position.z);
+    glRotatef(this->visualRotation.x, 1, 0, 0);
+    glRotatef(this->visualRotation.y, 0, 1, 0);
+    glRotatef(this->visualRotation.z, 0, 0, 1);
 
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
@@ -79,22 +82,30 @@ void Enemy::draw() {
 
 void Enemy::idle() {
     this->enemyShootTimer += context->getDeltaTime();
+    this->enemyTurnTimer += context->getDeltaTime();
     if (this->enemyShootTimer >= this->targetShootTimer) {
         this->enemyShootTimer = 0;
         this->targetShootTimer = rand() % 600 / 100 + 1;
         if (context->enemiesCanShoot)
             this->shoot();
     }
-    this->Object::idle();
+    if (this->enemyTurnTimer >= this->targetTurnTimer) {
+        this->enemyTurnTimer = 0;
+        this->targetTurnTimer = rand() % 600 / 100 + 1;
+    }
     this->updateArmAngle();
     if (this->getCollisionArr()[3]) {
         this->wasGrounded = true;
     }
-    if (this->getCollisionArr()[0]) {
-        this->moveDirection = 1;
-        this->setHeading(Heading::RIGHT);
-    } else if (this->getCollisionArr()[1]) {
-        this->moveDirection = -1;
+    if (context->getGameRef()->getCurrentRenderMode() == RenderMode::D2) {
+        if (this->getCollisionArr()[0]) {
+            this->moveDirection = 1;
+            this->setHeading(Heading::RIGHT);
+        } else if (this->getCollisionArr()[1]) {
+            this->moveDirection = -1;
+            this->setHeading(Heading::LEFT);
+        }
+    } else {
         this->setHeading(Heading::LEFT);
     }
 
@@ -108,10 +119,12 @@ void Enemy::idle() {
     }
     if (context->enemiesCanMove) {
         this->currentAnimState = AnimState::WALKING;
-        this->moveX(this->moveDirection * 10);
+        this->moveForward(this->moveDirection * 10);
     } else {
         this->currentAnimState = AnimState::IDLE;
     }
+    this->rotateY(1 * this->enemyShootTimer);
+    this->Object::idle();
 }
 
 void Enemy::updateArmAngle() {

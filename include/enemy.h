@@ -9,7 +9,9 @@ class Enemy : public Character {
     int moveDirection = 1;
     bool wasGrounded = false;
     double enemyShootTimer = 0;
+    double enemyTurnTimer = 0;
     int targetShootTimer = 0;
+    int targetTurnTimer = 0;
 
   public:
     Enemy(GLfloat x, GLfloat y, GLfloat z, GLfloat size);
