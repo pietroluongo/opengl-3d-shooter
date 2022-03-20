@@ -61,13 +61,14 @@ void Platform::draw() {
             glm::fvec3(this->width, 0, 0),
         };
         unsigned int tex = context->getTexture("floor.bmp");
+        unsigned int wallTex = context->getTexture("wall.bmp");
         CubeTextureData data = {
             top : tex,
             bottom : tex,
-            left : tex,
-            right : tex,
-            front : tex,
-            back : tex,
+            left : wallTex,
+            right : wallTex,
+            front : wallTex,
+            back : wallTex,
 
         };
         drawCubeFromExtrude(this->depth, this->color, vecs, data);

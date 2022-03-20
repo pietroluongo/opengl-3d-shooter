@@ -28,13 +28,13 @@ Player::Player(GLfloat x, GLfloat y, GLfloat z, GLfloat size,
     } else {
         this->mouseMode = MOUSE_MODE_DUAL_AXIS;
     }
-    this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 10));
+    this->head = std::unique_ptr<Sphere>(new Sphere(0.1 * size, 20));
 }
 
 Player::~Player() {}
 
 void Player::draw() {
-    this->head->setTexture(context->getTexture("earth.bmp"));
+    this->head->setTexture(context->getTexture("head.bmp"));
     glfvec3 position = this->getPosition();
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
@@ -57,17 +57,6 @@ void Player::draw() {
     glPopMatrix();
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
-
-    // glPushMatrix();
-    // glMultMatrixf(glm::value_ptr(t));
-    // glColor3f(0, 1, 1);
-    // glBegin(GL_QUADS);
-    // glVertex3f(-1, -1, 0);
-    // glVertex3f(1, -1, 0);
-    // glVertex3f(1, 1, 0);
-    // glVertex3f(-1, 1, 0);
-    // glEnd();
-    // glPopMatrix();
 }
 
 void Player::idle() {

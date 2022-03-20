@@ -62,7 +62,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     glEnd();
 
     // left ! top
-    glBindTexture(GL_TEXTURE_2D, textures.left);
+    glBindTexture(GL_TEXTURE_2D, textures.top);
     glBegin(GL_QUADS);
     {
         float textureS = 0.2;
@@ -82,7 +82,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     glEnd();
 
     // right ! bottom
-    glBindTexture(GL_TEXTURE_2D, textures.right);
+    glBindTexture(GL_TEXTURE_2D, textures.bottom);
     glBegin(GL_QUADS);
     {
         glNormal3f(-1, 0, 0);
@@ -98,7 +98,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     }
 
     // top ! right
-    glBindTexture(GL_TEXTURE_2D, textures.top);
+    glBindTexture(GL_TEXTURE_2D, textures.right);
     glBegin(GL_QUADS);
     {
         float textureS = 0.2;
@@ -120,7 +120,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
     glEnd();
 
     // bottom ! left
-    glBindTexture(GL_TEXTURE_2D, textures.bottom);
+    glBindTexture(GL_TEXTURE_2D, textures.left);
     glBegin(GL_QUADS);
     {
         glNormal3f(0, -1, 0);

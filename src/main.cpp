@@ -100,6 +100,8 @@ int main(int argc, char** argv) {
     glfw::init();
     context->loadTexture("./assets/earth.bmp");
     context->loadTexture("./assets/floor.bmp");
+    context->loadTexture("./assets/head.bmp");
+    context->loadTexture("./assets/wall.bmp");
     context->debugTextures();
 
     glfw::mainLoop();
