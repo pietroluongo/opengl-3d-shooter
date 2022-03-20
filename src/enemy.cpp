@@ -34,6 +34,7 @@ void Enemy::draw() {
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
     this->drawHead();
+    glTranslatef(0, -this->size * 0.3f, 0);
     this->drawLegs();
     glColor3f(1.0f, 0.0f, 0.0f);
     this->drawArm();
