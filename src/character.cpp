@@ -9,6 +9,16 @@ extern GlobalCtx* context;
 
 void Character::drawChest() {
     glPushMatrix();
+    unsigned int tex = context->getTexture("floor.bmp");
+    CubeTextureData data = {
+        top : tex,
+        bottom : tex,
+        left : tex,
+        right : tex,
+        front : tex,
+        back : tex,
+
+    };
     float chestXSize = this->size * 0.05f;
     float chestYSize = this->size * 0.2f;
     glColor3f(this->shirtColor.r, this->shirtColor.g, this->shirtColor.b);
@@ -26,13 +36,23 @@ void Character::drawChest() {
                                 glm::fvec3(chestXSize, -chestYSize, offset),
                                 glm::fvec3(chestXSize, chestYSize, offset),
                                 glm::fvec3(-chestXSize, chestYSize, offset)};
-        drawCubeFromExtrude(chestXSize, this->shirtColor, points);
+        drawCubeFromExtrude(chestXSize, this->shirtColor, points, data);
     }
 
     glPopMatrix();
 }
 
 void Character::drawArm() {
+    unsigned int tex = context->getTexture("floor.bmp");
+    CubeTextureData data = {
+        top : tex,
+        bottom : tex,
+        left : tex,
+        right : tex,
+        front : tex,
+        back : tex,
+
+    };
     glPushMatrix();
     glTranslatef(0.0f, armPosition, 0.0f);
     glRotatef(this->armAngle, 0.0f, 0.0f, 1.0f);
@@ -53,7 +73,7 @@ void Character::drawArm() {
             glm::fvec3(this->armWidth, 0, offset),
             glm::fvec3(this->armWidth, this->armHeight, offset),
             glm::fvec3(-this->armWidth, this->armHeight, offset)};
-        drawCubeFromExtrude(this->armWidth, glm::fvec3(1, 1, 1), points);
+        drawCubeFromExtrude(this->armWidth, glm::fvec3(1, 1, 1), points, data);
     }
     this->drawGun();
     glPopMatrix();
@@ -69,6 +89,16 @@ void Character::drawGun() {
     if (this->currentHeading == RIGHT) {
         glRotatef(180, 1.0f, 0, 0);
     }
+    unsigned int tex = context->getTexture("floor.bmp");
+    CubeTextureData data = {
+        top : tex,
+        bottom : tex,
+        left : tex,
+        right : tex,
+        front : tex,
+        back : tex,
+
+    };
     if (this->drawMode == CharacterDrawMode::CHARACTER_2D) {
         glBegin(GL_POLYGON);
         {
@@ -94,13 +124,15 @@ void Character::drawGun() {
             glm::fvec3(gunSizeSmall, -gunSizeBig, offset),
             glm::fvec3(gunSizeSmall, gunSizeSmall, offset),
             glm::fvec3(-gunSizeSmall, gunSizeSmall, offset)};
-        drawCubeFromExtrude(gunSizeSmall, glm::fvec3(.2f, .2f, .2f), points);
+        drawCubeFromExtrude(gunSizeSmall, glm::fvec3(.2f, .2f, .2f), points,
+                            data);
         glm::fvec3 points2[4] = {
             glm::fvec3(-gunSizeSmall, 0, offset),
             glm::fvec3(2 * gunSizeBig, 0, offset),
             glm::fvec3(2 * gunSizeBig, 2 * gunSizeSmall, offset),
             glm::fvec3(-gunSizeSmall, 2 * gunSizeSmall, offset)};
-        drawCubeFromExtrude(gunSizeSmall, glm::fvec3(.2f, .2f, .2f), points2);
+        drawCubeFromExtrude(gunSizeSmall, glm::fvec3(.2f, .2f, .2f), points2,
+                            data);
     }
 
     glPopMatrix();
@@ -128,6 +160,16 @@ void Character::drawHead() {
 }
 
 void Character::drawLegs() {
+    unsigned int tex = context->getTexture("floor.bmp");
+    CubeTextureData data = {
+        top : tex,
+        bottom : tex,
+        left : tex,
+        right : tex,
+        front : tex,
+        back : tex,
+
+    };
     glPushMatrix();
     this->nextAnimFrame();
     float legSizeX = this->size * 0.05f;
@@ -207,14 +249,16 @@ void Character::drawLegs() {
                                     glm::fvec3(legSizeX, 0, offset),
                                     glm::fvec3(legSizeX, legSizeY, offset),
                                     glm::fvec3(-legSizeX, legSizeY, offset)};
-            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points);
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points,
+                                data);
             glTranslatef(0, legSizeY, 0);
             glRotatef(legRotation[1], 0, 0, 1);
             glm::fvec3 points2[4] = {glm::fvec3(-legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, legSizeY, offset),
                                      glm::fvec3(-legSizeX, legSizeY, offset)};
-            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points2);
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points2,
+                                data);
             glPopMatrix();
         }
         {
@@ -224,14 +268,16 @@ void Character::drawLegs() {
                                      glm::fvec3(legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, legSizeY, offset),
                                      glm::fvec3(-legSizeX, legSizeY, offset)};
-            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points3);
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points3,
+                                data);
             glTranslatef(0, legSizeY, 0);
             glRotatef(legRotation[3], 0, 0, 1);
             glm::fvec3 points4[4] = {glm::fvec3(-legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, 0, offset),
                                      glm::fvec3(legSizeX, legSizeY, offset),
                                      glm::fvec3(-legSizeX, legSizeY, offset)};
-            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points4);
+            drawCubeFromExtrude(legSizeX, glm::fvec3(.2f, .2f, .2f), points4,
+                                data);
             glPopMatrix();
         }
     }

@@ -5,63 +5,8 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-void drawCubePure(glm::vec3 size, glm::vec3 color, PivotPoint pivot) {
-    glPushMatrix();
-    glColor3f(color.r, color.g, color.b);
-    if (pivot == PIVOT_CENTER_BOTTOM) {
-
-        glTranslatef(0, size.y, 0);
-    }
-
-    glBegin(GL_QUADS);
-
-    glVertex3f(-size.x, -size.y, size.z);
-    glVertex3f(size.x, -size.y, size.z);
-    glVertex3f(size.x, size.y, size.z);
-    glVertex3f(-size.x, size.y, size.z);
-
-    // back
-    glVertex3f(-size.x, -size.y, -size.z);
-    glVertex3f(-size.x, size.y, -size.z);
-    glVertex3f(size.x, size.y, -size.z);
-    glVertex3f(size.x, -size.y, -size.z);
-
-    // left
-    glVertex3f(-size.x, -size.y, size.z);
-    glVertex3f(-size.x, -size.y, -size.z);
-    glVertex3f(-size.x, size.y, -size.z);
-    glVertex3f(-size.x, size.y, size.z);
-
-    // right
-    glVertex3f(size.x, -size.y, size.z);
-    glVertex3f(size.x, size.y, size.z);
-    glVertex3f(size.x, size.y, -size.z);
-    glVertex3f(size.x, -size.y, -size.z);
-
-    // top
-    glVertex3f(-size.x, size.y, size.z);
-    glVertex3f(size.x, size.y, size.z);
-    glVertex3f(size.x, size.y, -size.z);
-    glVertex3f(-size.x, size.y, -size.z);
-
-    // bottom
-    glVertex3f(-size.x, -size.y, size.z);
-    glVertex3f(size.x, -size.y, size.z);
-    glVertex3f(size.x, -size.y, -size.z);
-    glVertex3f(-size.x, -size.y, -size.z);
-
-    glEnd();
-    glPopMatrix();
-}
-
-void drawCube(glm::vec3 pos, glm::vec3 size, glm::vec3 color) {
-    glPushMatrix();
-    glTranslatef(pos.x, pos.y, pos.z);
-    drawCubePure(size, color);
-    glPopMatrix();
-}
-
-void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
+void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
+                         CubeTextureData textures) {
 
     GLfloat materialEmission[] = {.0, .0, .0, 1};
     GLfloat materialColorA[] = {0.2, 0.2, 0.2, 1};
@@ -80,11 +25,10 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // X
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Y
 
-    glBindTexture(GL_TEXTURE_2D, 2);
-
     double textureS = 0.2; // Bigger than 1, repeat
 
     // front - ok
+    glBindTexture(GL_TEXTURE_2D, textures.front);
     glBegin(GL_QUADS);
     {
         glNormal3f(0, 0, -1);
@@ -101,6 +45,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glEnd();
 
     // back - ok
+    glBindTexture(GL_TEXTURE_2D, textures.back);
     glBegin(GL_QUADS);
     {
         glNormal3f(0, 0, 1);
@@ -117,7 +62,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glEnd();
 
     // left ! top
-
+    glBindTexture(GL_TEXTURE_2D, textures.left);
     glBegin(GL_QUADS);
     {
         float textureS = 0.2;
@@ -137,6 +82,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glEnd();
 
     // right ! bottom
+    glBindTexture(GL_TEXTURE_2D, textures.right);
     glBegin(GL_QUADS);
     {
         glNormal3f(-1, 0, 0);
@@ -152,6 +98,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     }
 
     // top ! right
+    glBindTexture(GL_TEXTURE_2D, textures.top);
     glBegin(GL_QUADS);
     {
         float textureS = 0.2;
@@ -173,6 +120,7 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]) {
     glEnd();
 
     // bottom ! left
+    glBindTexture(GL_TEXTURE_2D, textures.bottom);
     glBegin(GL_QUADS);
     {
         glNormal3f(0, -1, 0);

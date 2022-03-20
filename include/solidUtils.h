@@ -15,15 +15,17 @@ struct VertexData {
     glm::fvec2 txC;
 };
 
-void drawCube(glm::vec3 pos = glm::vec3(0, 0, 0),
-              glm::vec3 size = glm::vec3(1, 1, 1),
-              glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f));
+struct CubeTextureData {
+    unsigned int top;
+    unsigned int bottom;
+    unsigned int left;
+    unsigned int right;
+    unsigned int front;
+    unsigned int back;
+};
 
-void drawCubePure(glm::vec3 size = glm::vec3(1, 1, 1),
-                  glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f),
-                  PivotPoint pivot = PIVOT_CENTER);
-
-void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4]);
+void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
+                         CubeTextureData textures);
 
 void drawCoordinateSystem();
 

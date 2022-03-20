@@ -60,7 +60,17 @@ void Platform::draw() {
             glm::fvec3(this->width, this->height, 0),
             glm::fvec3(this->width, 0, 0),
         };
-        drawCubeFromExtrude(this->depth, this->color, vecs);
+        unsigned int tex = context->getTexture("floor.bmp");
+        CubeTextureData data = {
+            top : tex,
+            bottom : tex,
+            left : tex,
+            right : tex,
+            front : tex,
+            back : tex,
+
+        };
+        drawCubeFromExtrude(this->depth, this->color, vecs, data);
     }
 
     glPopMatrix();
