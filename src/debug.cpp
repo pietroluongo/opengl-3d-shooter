@@ -128,7 +128,7 @@ void drawCameraInfo() {
                            -180.0f, 180.0f);
         ImGui::Text(
             "Camera Behaviour: %s",
-            context->getGameRef()->getMainCamera()->getCameraBehaviour());
+            context->getGameRef()->getMainCamera()->getCameraBehaviourName());
         if (ImGui::Button("Orbital camera")) {
             context->getGameRef()->getMainCamera()->setCameraBehaviour(
                 CAMERA_ORBIT);

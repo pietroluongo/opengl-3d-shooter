@@ -83,7 +83,8 @@ class Camera {
             return "3D";
         }
     };
-    const char* getCameraBehaviour();
+    const char* getCameraBehaviourName();
+    CameraBehaviour getCameraBehaviour();
     void setCameraBehaviour(CameraBehaviour behaviour);
 };
 

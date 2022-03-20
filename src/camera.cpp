@@ -121,11 +121,19 @@ void Camera::idle() {
             case CAMERA_AIM:
                 glm::fvec3 playerGunPosition =
                     context->getGameRef()->getPlayer()->getGunPosition();
+                glm::fvec3 playerRotation =
+                    context->getGameRef()->getPlayer()->getVisualRotation();
+                float armAngle =
+                    context->getGameRef()->getPlayer()->getArmAngle();
+
                 this->position = playerGunPosition;
-                glm::fvec3 direction = {this->position.x + 10, this->position.y,
-                                        this->position.z};
-                this->projectionMatrix *=
-                    glm::lookAt(this->position, direction, this->up);
+                glm::fvec3 direction = {0, 0, 0};
+
+                direction = glm::rotateY(
+                    direction, (float)(playerRotation.y * M_PI / 180));
+
+                this->projectionMatrix *= glm::lookAt(
+                    this->position, this->position + direction, this->up);
                 break;
             }
         }
@@ -332,7 +340,7 @@ void Camera::setTargetYCoordinates(float y) { this->targetYCoordinate = y; }
 
 void Camera::setDesiredSize(glm::fvec2 size) { this->size = size; }
 
-const char* Camera::getCameraBehaviour() {
+const char* Camera::getCameraBehaviourName() {
     switch (this->behaviour) {
     case CAMERA_FREE:
         return "CAMERA_FREE";
@@ -348,6 +356,8 @@ const char* Camera::getCameraBehaviour() {
         return "CAMERA_UNKNOWN";
     }
 }
+
+CameraBehaviour Camera::getCameraBehaviour() { return this->behaviour; }
 
 void Camera::setCameraBehaviour(CameraBehaviour behaviour) {
     this->behaviour = behaviour;
