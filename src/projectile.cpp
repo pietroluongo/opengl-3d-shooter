@@ -28,13 +28,23 @@ void Projectile::draw() {
     glRotatef(this->angleZ * 180 / M_PI, 0, 0, 1);
     glRotatef(this->angleY * 180 / M_PI, 0, 1, 0);
     glColor3f(1.0f, 1.0f, 0.0f);
-    glBegin(GL_POLYGON);
-    glVertex2f(0, 0);
-    glVertex2f(this->size, 0);
-    glVertex2f(this->size, this->size / 2);
-    glVertex2f(0, this->size / 2);
+    glm::fvec3 points[4] = {glm::fvec3(0, 0, 0), glm::fvec3(this->size, 0, 0),
+                            glm::fvec3(this->size, this->size / 2, 0),
+                            glm::fvec3(0, this->size / 2, 0)};
+    // glBegin(GL_POLYGON);
+    // glVertex2f(0, 0);
+    // glVertex2f(this->size, 0);
+    // glVertex2f(this->size, this->size / 2);
+    // glVertex2f(0, this->size / 2);
+    unsigned int tex = context->getTexture("earth.bmp");
+    CubeTextureData texData{
+        tex, tex, tex, tex, tex, tex,
 
-    glEnd();
+    };
+
+    drawCubeFromExtrude(this->size / 2, glm::fvec3(1, 0, 0), points, texData);
+
+    // glEnd();
     glPopMatrix();
 }
 
@@ -43,9 +53,9 @@ void Projectile::idle() {
     if (hasThisBeenDeleted) {
         return;
     }
-    this->moveX(cos(this->angleZ) * this->speed);
+    this->moveX(cos(this->angleZ) * this->speed * sin(this->angleY + 90));
     this->moveY(sin(this->angleZ) * this->speed);
-    this->moveZ(-sin(this->angleY) * this->speed);
+    this->moveZ(-sin(this->angleY) * this->speed * cos(this->angleZ));
     this->collider->idle();
     this->Object::idle();
     glm::fvec4 worldBounds = context->getGameRef()->getMap()->getWorldBounds();
