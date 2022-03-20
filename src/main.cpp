@@ -1,6 +1,9 @@
 #if defined(_WIN32) || defined(WIN32)
 #define UNICODE
+#include <cstdint>
+#include <fcntl.h>
 #include <windows.h>
+
 #endif
 
 #ifdef USE_GLUT
@@ -40,9 +43,27 @@ void init() {
 }
 
 void checkParams(int argc, char** argv) {
+
+#if defined(_WIN32) || defined(WIN32)
+    AllocConsole();
+
+    HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+    int hCrt = _open_osfhandle((unsigned long long)handle_out, _O_TEXT);
+    FILE* hf_out = _fdopen(hCrt, "w");
+    setvbuf(hf_out, NULL, _IONBF, 1);
+    *stdout = *hf_out;
+
+    HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+    hCrt = _open_osfhandle((unsigned long long)handle_in, _O_TEXT);
+    FILE* hf_in = _fdopen(hCrt, "r");
+    setvbuf(hf_in, NULL, _IONBF, 128);
+    *stdin = *hf_in;
+#endif
+
     if (argc != 2) {
         printf("Usage: %s <arena file>\n", argv[0]);
 #if defined(_WIN32) || defined(WIN32)
+
         MessageBox(
             NULL,
             (LPCWSTR)L"Drag a .svg map file on to the executable to load it.",
