@@ -3,6 +3,11 @@
 #include "customTypes.h"
 #include "object.h"
 
+struct BoundingBox3D {
+    glm::fvec3 min;
+    glm::fvec3 max;
+};
+
 class Collider {
   private:
     glm::fvec3 position;
@@ -18,7 +23,7 @@ class Collider {
     ~Collider();
     void draw();
     void idle();
-    glm::fvec4 getBoundingBox();
+    BoundingBox3D getBoundingBox();
     glm::fvec3 getCenter();
     bool overlaps(Collider* other);
     glm::bvec4 getOverlapDirection(Collider* other, glm::bvec4 oldDirection);

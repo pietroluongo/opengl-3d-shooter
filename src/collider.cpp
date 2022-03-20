@@ -40,14 +40,28 @@ void Collider::idle() {
 bool Collider::overlaps(Collider* other) {
     if (this->owner == other->owner || !this->enabled || !other->enabled)
         return false;
-    glm::fvec4 thisBoundingBox = this->getBoundingBox();
-    glm::fvec4 otherBoundingBox = other->getBoundingBox();
-    if (thisBoundingBox[0] <= otherBoundingBox[1] &&
-        thisBoundingBox[1] >= otherBoundingBox[0] &&
-        thisBoundingBox[2] <= otherBoundingBox[3] &&
-        thisBoundingBox[3] >= otherBoundingBox[2]) {
+    BoundingBox3D thisBoundingBox = this->getBoundingBox();
+    BoundingBox3D otherBoundingBox = other->getBoundingBox();
+    glm::fvec3 thisCenter = this->getCenter();
+    glm::fvec3 otherCenter = other->getCenter();
+
+    glm::fvec4 selfBox = {thisBoundingBox.min.x, thisBoundingBox.max.x,
+                          thisBoundingBox.min.y, thisBoundingBox.max.y};
+
+    glm::fvec4 otherBox = {otherBoundingBox.min.x, otherBoundingBox.max.x,
+                           otherBoundingBox.min.y, otherBoundingBox.max.y};
+
+    if (selfBox[0] <= otherBox[1] && selfBox[1] >= otherBox[0] &&
+        selfBox[2] <= otherBox[3] && selfBox[3] >= otherBox[2]) {
         return true;
     }
+
+    // if (thisBoundingBox.min.x <= otherBoundingBox.max.x &&
+    //     thisBoundingBox.max.x >= otherBoundingBox.min.x &&
+    //     thisBoundingBox.min.y <= otherBoundingBox.max.y &&
+    //     thisBoundingBox.max.y >= otherBoundingBox.min.y) {
+    //     return true;
+    // }
     return false;
 }
 
@@ -56,20 +70,28 @@ bool Collider::overlaps(Collider* other) {
  *
  * @return glm::fvec4 [left, right, top, bottom]
  */
-glm::fvec4 Collider::getBoundingBox() {
+BoundingBox3D Collider::getBoundingBox() {
     switch (this->pivot) {
     case pivotPosition::CENTER:
-        return glm::fvec4(this->position.x - this->width / 2,
-                          this->position.x + this->width / 2,
-                          this->position.y - this->height / 2,
-                          this->position.y + this->height / 2);
+        return {glm::fvec3(this->position.x - this->width / 2,
+                           this->position.y - this->height / 2,
+                           this->position.z - this->depth / 2),
+                glm::fvec3(this->position.x + this->width / 2,
+                           this->position.y + this->height / 2,
+                           this->position.z + this->depth / 2)};
     case pivotPosition::BOT_LEFT:
-        return glm::fvec4(this->position.x, this->position.x + this->width,
-                          this->position.y - this->height, this->position.y);
+        return {
+            glm::fvec3(this->position.x, this->position.y, this->position.z),
+            glm::fvec3(this->position.x + this->width,
+                       this->position.y + this->height,
+                       this->position.z + this->depth)};
     case pivotPosition::TOP_LEFT:
     default:
-        return glm::fvec4(this->position.x, this->position.x + this->width,
-                          this->position.y, this->position.y + this->height);
+        return {
+            glm::fvec3(this->position.x, this->position.y, this->position.z),
+            glm::fvec3(this->position.x + this->width,
+                       this->position.y + this->height,
+                       this->position.z + this->depth)};
     }
 }
 

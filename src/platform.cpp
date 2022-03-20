@@ -16,6 +16,7 @@ Platform::Platform(float x, float y, float w, float h, pivotPosition pivot) {
     this->width = w;
     this->height = h;
     this->pivot = pivot;
+    // Z = 0 for all platforms
     this->collider = std::unique_ptr<Collider>(
         new Collider(x, y, 0, w, h, 1, nullptr, pivot));
 }
