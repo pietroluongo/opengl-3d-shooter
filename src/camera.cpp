@@ -127,7 +127,7 @@ void Camera::idle() {
                     context->getGameRef()->getPlayer()->getArmAngle();
 
                 this->position = playerGunPosition;
-                glm::fvec3 direction = {0, 0, 0};
+                glm::fvec3 direction = {1, 0, 0};
 
                 direction = glm::rotateY(
                     direction, (float)(playerRotation.y * M_PI / 180));

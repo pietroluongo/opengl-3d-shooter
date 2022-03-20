@@ -322,6 +322,10 @@ void drawPlayerInfo() {
                     context->getGameRef()->getPlayer()->getHeading());
         ImGui::Text("Player angle: %.2f, %.2f, %.2f", playerRotation.x,
                     playerRotation.y, playerRotation.z);
+        ImGui::Text("Player visual rotation: %.2f, %.2f, %.2f",
+                    context->getGameRef()->getPlayer()->getVisualRotation().x,
+                    context->getGameRef()->getPlayer()->getVisualRotation().y,
+                    context->getGameRef()->getPlayer()->getVisualRotation().z);
         ImGui::Text("Player jump time: %.2f",
                     context->getGameRef()->getPlayer()->getJumpTime());
         ImGui::Text("Player fall timer: %.2f",
