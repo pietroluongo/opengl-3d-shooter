@@ -53,12 +53,12 @@ class GlobalCtx {
     std::deque<double> enemyIdleTimerQueue;
 
     bool shouldDrawDebugInfo = false;
-    bool shouldDrawCameraInfo = true;
+    bool shouldDrawCameraInfo = false;
     bool shouldDrawPhysicsInfo = false;
-    bool shouldDrawPlayerInfo = true;
+    bool shouldDrawPlayerInfo = false;
     bool shouldDrawEnemyInfo = false;
     bool shouldDrawMemoryInfo = false;
-    bool shouldDrawLightingInfo = true;
+    bool shouldDrawLightingInfo = false;
 
     bool shouldObjectsDrawCoordinateSystem = false;
     bool shouldObjectsDrawColliders = false;
@@ -103,6 +103,7 @@ class GlobalCtx {
     void togglePhysicsInfo();
     void togglePlayerInfo();
     void toggleMemoryInfo();
+    void toggleLightingInfo();
     void updateKeyStatus(int key, int status);
     void updateKeyStatus(unsigned char key, int status);
     void updateMousePos(glm::ivec2 pos);

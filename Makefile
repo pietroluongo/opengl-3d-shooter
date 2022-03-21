@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := dev
 
 ifndef $(TARGET)
-TARGET = GLFW
+TARGET = GLUT
 endif
 
 GIT_HASH = `git rev-parse HEAD`
@@ -67,7 +67,7 @@ TINYXML_OBJS := $(TINYXML_SOURCES:%=$(BUILD_DIR)/tinyxml/%.o)
 all: trabalhocg
 
 dev: trabalhocg
-	./trabalhocg.exe /home/pietroluongo/ufes/arena_teste.svg
+	./trabalhocg /home/pietroluongo/ufes/arena_teste.svg
 
 slow: remake dev
 

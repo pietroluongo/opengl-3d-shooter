@@ -20,9 +20,9 @@ Game::Game() {
     for (int i = 0; i < 7; i++) {
         this->lights.push_back(
             std::unique_ptr<LightSource>(new LightSource(i)));
-        this->lights[i]->disable();
+        this->lights[i]->enable();
     }
-    lights[0]->enable();
+    lights[0]->disable();
     lights[0]->setType(LIGHT_SPOT);
 }
 
@@ -361,6 +361,7 @@ void Game::postInit() {
         LightSource* light = this->lights[i].get();
         light->setPosition(
             glm::fvec3(baseLightXPosition + i * lightXStep, lightYPosition, 0));
+        light->enable();
     }
 }
 

@@ -72,6 +72,9 @@ void specialDown(int key, int x, int y) {
     if (key == GLUT_KEY_F5) {
         context->toggleMemoryInfo();
     }
+    if (key == GLUT_KEY_F6) {
+        context->toggleLightingInfo();
+    }
     glutPostRedisplay();
 }
 
@@ -96,12 +99,22 @@ void keyUp(unsigned char key, int x, int y) {
 
 void setupGlut(int argc, char** argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
     debug::imgui_init();
     glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable(GL_TEXTURE_2D);
+    // glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_LIGHTING);
+    // glEnable(GL_CULL_FACE);
+    // glCullFace(GL_BACK);
+    // glDepthFunc(GL_LEQUAL);
+    // glEnable(GL_NORMALIZE);
+    // glShadeModel(GL_SMOOTH);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_TEXTURE_2D);
@@ -110,8 +123,6 @@ void setupGlut(int argc, char** argv) {
     glEnable(GL_LIGHTING);
     glDepthFunc(GL_LEQUAL);
     glShadeModel(GL_SMOOTH);
-
-    glEnable(GL_LIGHT0);
 
     glutDisplayFunc(display);
     glutPassiveMotionFunc(passiveMotion);

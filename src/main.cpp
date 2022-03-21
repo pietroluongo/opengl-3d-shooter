@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
 #ifdef USE_GLUT
     setupGlut(argc, argv);
     context->loadTexture("./assets/default.bmp");
-    context->loadTexture("./assets/earth.bmp");
+    context->loadTexture("./assets/grass.bmp");
     context->loadTexture("./assets/floor.bmp");
     context->loadTexture("./assets/head.bmp");
     context->loadTexture("./assets/wall.bmp");
@@ -102,12 +102,9 @@ int main(int argc, char** argv) {
     context->loadTexture("./assets/skybox/top_sky.bmp");
     context->loadTexture("./assets/skybox/bottom_sky.bmp");
     context->debugTextures();
-#endif
-
-    init();
-
-#ifdef USE_GLUT
+    context->postInit();
     glutMainLoop();
+
 #else
     glfw::init();
     context->loadTexture("./assets/default.bmp");
