@@ -17,11 +17,11 @@ Game::Game() {
     this->map = std::unique_ptr<Map>(new Map());
     this->cam = std::unique_ptr<Camera>(new Camera(CameraMode::CAMERA_3D));
     this->cam->setFollowMode(CAMERA_FOLLOW_MODE_SINGLE_AXIS);
-    this->lights.push_back(
-        std::unique_ptr<LightSource>(new LightSource(PLAYER_FLASHLIGHT)));
-    this->lights.push_back(std::unique_ptr<LightSource>(new LightSource(1)));
-    this->lights[1]->setPosition(map->getWorldCenter());
-    this->lights[1]->enable();
+    for (int i = 0; i < 7; i++) {
+        this->lights.push_back(
+            std::unique_ptr<LightSource>(new LightSource(i)));
+        this->lights[i]->disable();
+    }
 }
 
 Game::~Game() {}
@@ -351,6 +351,19 @@ void Game::postInit() {
         if (!isGrounded) {
             enemy->teleportToGround();
         }
+    }
+
+    glm::fvec3 worldBounds = this->map->getWorldBounds();
+    glm::fvec2 worldSize = this->map->getWorldSize();
+    float baseLightXPosition = worldBounds[0];
+    float lightXStep = worldSize.x / 6;
+
+    float lightYPosition = worldBounds[2];
+
+    for (int i = 1; i < 7; i++) {
+        LightSource* light = this->lights[i].get();
+        light->setPosition(
+            glm::fvec3(baseLightXPosition + i * lightXStep, lightYPosition, 0));
     }
 }
 
