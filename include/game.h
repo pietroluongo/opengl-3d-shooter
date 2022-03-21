@@ -34,6 +34,8 @@ class Game {
 
     RenderMode renderMode = D3;
 
+    bool darkMode = false;
+
   public:
     Game();
     ~Game();
@@ -71,6 +73,9 @@ class Game {
     RenderMode getCurrentRenderMode() { return this->renderMode; }
     void postInit();
     std::vector<LightSource*> getLights();
+    void enableDarkMode();
+    void disableDarkMode();
+    void toggleDarkMode();
 };
 
 #endif

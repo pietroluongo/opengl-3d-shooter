@@ -257,6 +257,10 @@ void drawLightingInfo() {
     std::ostringstream os;
     ImGui::Begin("Lighting [F6]", &context->shouldDrawLightingInfo);
     {
+        if (ImGui::Button("Toggle Night Mode")) {
+            context->getGameRef()->toggleDarkMode();
+        }
+
         for (auto light : lights) {
             os.str("");
             os << "Light " << light->getId();

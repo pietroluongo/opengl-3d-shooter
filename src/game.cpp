@@ -374,3 +374,23 @@ std::vector<LightSource*> Game::getLights() {
     }
     return lights;
 }
+
+void Game::enableDarkMode() {
+    for (int i = 1; i < 7; i++) {
+        this->lights[i]->disable();
+    }
+    this->lights[0]->enable();
+    this->darkMode = true;
+}
+
+void Game::disableDarkMode() {
+    for (int i = 1; i < 7; i++) {
+        this->lights[i]->enable();
+    }
+    this->lights[0]->disable();
+    this->darkMode = false;
+}
+
+void Game::toggleDarkMode() {
+    this->darkMode ? this->disableDarkMode() : this->enableDarkMode();
+}
