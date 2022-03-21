@@ -100,7 +100,8 @@ constexpr const int CAMERA_SET_FPS = '1';
 constexpr const int CAMERA_SET_AIM = '2';
 constexpr const int CAMERA_SET_THIRD_PERSON = '3';
 
-constexpr const int TOGGLE_NIGHT_MODE = 'n';
+constexpr const int CAMERA_ZOOM_INCREASE = '+';
+constexpr const int CAMERA_ZOOM_DECREASE = '-';
 
 } // namespace keymap
 

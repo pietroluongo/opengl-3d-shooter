@@ -234,6 +234,12 @@ void Camera::handleInput() {
     this->xzAngle += mousePos.x - this->lastMousePosition.x;
     this->xyAngle += mousePos.y - this->lastMousePosition.y;
     this->lastMousePosition = mousePos;
+    if (context->isKeyPressed(keymap::CAMERA_ZOOM_INCREASE)) {
+        this->zoomLevel += 0.1f * context->getDeltaTime();
+    }
+    if (context->isKeyPressed(keymap::CAMERA_ZOOM_DECREASE)) {
+        this->zoomLevel -= 0.1f * context->getDeltaTime();
+    }
     if (context->isKeyPressed(keymap::CAMERA_SET_THIRD_PERSON)) {
         this->behaviour = CameraBehaviour::CAMERA_TPS;
     } else if (context->isKeyPressed(keymap::CAMERA_SET_FPS)) {
