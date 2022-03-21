@@ -43,17 +43,6 @@ bool Collider::overlaps(Collider* other) {
     BoundingBox3D thisBoundingBox = this->getBoundingBox();
     BoundingBox3D otherBoundingBox = other->getBoundingBox();
 
-    // glm::fvec4 selfBox = {thisBoundingBox.min.x, thisBoundingBox.max.x,
-    //                       thisBoundingBox.min.y, thisBoundingBox.max.y};
-
-    // glm::fvec4 otherBox = {otherBoundingBox.min.x, otherBoundingBox.max.x,
-    //                        otherBoundingBox.min.y, otherBoundingBox.max.y};
-
-    // if (selfBox[0] <= otherBox[1] && selfBox[1] >= otherBox[0] &&
-    //     selfBox[2] <= otherBox[3] && selfBox[3] >= otherBox[2]) {
-    //     return true;
-    // }
-
     if (thisBoundingBox.min.x <= otherBoundingBox.max.x &&
         thisBoundingBox.max.x >= otherBoundingBox.min.x &&
         thisBoundingBox.min.y <= otherBoundingBox.max.y &&
