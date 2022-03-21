@@ -44,21 +44,18 @@ void Game::draw() {
                             context->getTexture("front_sky.bmp"),
                             context->getTexture("back_sky.bmp"));
 
-        // CubeTextureData texData =
-        //     CubeTextureData(context->getTexture("bottom_sky.bmp"),
-        //                     context->getTexture("top_sky.bmp"),
-        //                     context->getTexture("front_sky.bmp"),
-        //                     context->getTexture("left_sky.bmp"),
-        //                     context->getTexture("back_sky.bmp"),
-        //                     context->getTexture("right_sky.bmp"));
         glm::vec3 points[4] = {
-            glm::vec3(bounds[0] - size.x, bounds[3] + size.x, -size.x),
-            glm::vec3(bounds[0] - size.x, bounds[2] - size.x, -size.x),
-            glm::vec3(bounds[1] + size.x, bounds[2] - size.x, -size.x),
-            glm::vec3(bounds[1] + size.x, bounds[3] + size.x, -size.x),
+            glm::vec3(bounds[0] - size.x * 4, bounds[3] + size.x * 4,
+                      -size.x * 4),
+            glm::vec3(bounds[0] - size.x * 4, bounds[2] - size.x * 4,
+                      -size.x * 4),
+            glm::vec3(bounds[1] + size.x * 4, bounds[2] - size.x * 4,
+                      -size.x * 4),
+            glm::vec3(bounds[1] + size.x * 4, bounds[3] + size.x * 4,
+                      -size.x * 4),
         };
         glDisable(GL_LIGHTING);
-        drawCubeFromExtrude(size.x * 2, glm::fvec3(1, 1, 1), points, texData,
+        drawCubeFromExtrude(size.x * 10, glm::fvec3(1, 1, 1), points, texData,
                             TEX_TILE_MODE_STRETCH);
         glEnable(GL_LIGHTING);
     }

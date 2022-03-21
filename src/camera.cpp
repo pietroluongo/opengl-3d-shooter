@@ -54,7 +54,7 @@ void Camera::idle() {
                 this->bounds[3], -1, 1);
     } else {
         this->projectionMatrix = glm::perspective(
-            45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 1000.0f);
+            45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 10000.0f);
         glm::fvec3 playerPosition =
             context->getGameRef()->getPlayer()->getPosition();
         if (freeCamEnabled) {
