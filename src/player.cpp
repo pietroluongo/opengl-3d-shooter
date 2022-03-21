@@ -288,3 +288,21 @@ glm::fvec3 Player::getGunPosition() {
     position = t * position;
     return position;
 }
+
+glm::fvec3 Player::getAimPosition() {
+    glm::mat4 t = glm::mat4(1.0);
+    glm::fvec4 position = glm::fvec4{0, 0, 0, 1};
+    t = glm::translate(
+        t, glm::vec3(this->getPosition().x,
+                     this->getPosition().y - this->size * 0.3 + armPosition,
+                     this->getPosition().z));
+    t = glm::rotate(t, (float)(this->visualRotation.y * M_PI / 180),
+                    glm::vec3(0, 1, 0));
+    t = glm::rotate(t, (float)(this->armAngle * M_PI / 180),
+                    glm::vec3(0, 0, 1));
+
+    t = glm::translate(t, glm::vec3(1, this->armHeight / 2, 0));
+
+    position = t * position;
+    return position;
+}

@@ -120,17 +120,24 @@ void Camera::idle() {
 
             case CAMERA_AIM:
                 glm::fvec3 playerGunPosition =
-                    context->getGameRef()->getPlayer()->getGunPosition();
+                    context->getGameRef()->getPlayer()->getAimPosition();
                 glm::fvec3 playerRotation =
                     context->getGameRef()->getPlayer()->getVisualRotation();
-                // float armAngle =
-                //     context->getGameRef()->getPlayer()->getArmAngle();
+                float armAngle =
+                    context->getGameRef()->getPlayer()->getArmAngle();
+
+                armAngle += 90;
+
+                armAngle *= cos(playerRotation.y * M_PI / 180);
 
                 this->position = playerGunPosition;
                 glm::fvec3 direction = {1, 0, 0};
 
                 direction = glm::rotateY(
                     direction, (float)(playerRotation.y * M_PI / 180));
+
+                direction =
+                    glm::rotateZ(direction, (float)(armAngle * M_PI / 180));
 
                 this->projectionMatrix *= glm::lookAt(
                     this->position, this->position + direction, this->up);

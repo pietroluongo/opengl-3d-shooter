@@ -43,6 +43,7 @@ class Player : public Character {
     glm::fvec3 getEyePosition();
     glm::fvec3 getDollyPosition();
     glm::fvec3 getGunPosition();
+    glm::fvec3 getAimPosition();
     virtual void kill();
     virtual std::vector<std::vector<Collider*>*> colliders();
 };
