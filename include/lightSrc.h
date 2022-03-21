@@ -5,11 +5,20 @@
 #include <GL/gl.h>
 #include <cstdio>
 
+enum LightType {
+    LIGHT_POINT,
+    LIGHT_DIRECTIONAL,
+    LIGHT_SPOT,
+};
+
 class LightSource {
     glm::fvec3 position = {};
     float intensity;
     bool enabled;
     int lightId;
+    LightType type = LIGHT_POINT;
+
+    glm::fvec3 direction = {};
 
   public:
     LightSource(int id);
@@ -31,6 +40,8 @@ class LightSource {
     void setIntensity(float intensity) { this->intensity = intensity; }
     void toggle();
     bool isEnabled() { return this->enabled; }
+    void setDirection(glm::fvec3 dir) { this->direction = dir; }
+    void setType(LightType) { this->type = type; }
 };
 
 #endif

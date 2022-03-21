@@ -16,10 +16,26 @@ void LightSource::draw() {
     }
     glPushMatrix();
     glLoadIdentity();
-    glm::fvec4 lightPos = glm::fvec4(this->position, 1.0f);
+    float fourth;
+    if (this->type == LIGHT_POINT || this->type == LIGHT_SPOT) {
+        fourth = 1;
+    } else {
+        fourth = 0;
+    }
+    glm::fvec4 lightPos = glm::fvec4(this->position, fourth);
     glLightfv(GL_LIGHT0 + this->lightId, GL_POSITION, glm::value_ptr(lightPos));
     glLightfv(GL_LIGHT0 + this->lightId, GL_DIFFUSE,
               glm::value_ptr(glm::fvec3(1.0f, 1.0f, 1.0f)));
+    if (this->type == LIGHT_SPOT) {
+        glLightf(GL_LIGHT0 + this->lightId, GL_SPOT_CUTOFF, 45.0);
+        glLightfv(GL_LIGHT0 + this->lightId, GL_SPOT_DIRECTION,
+                  glm::value_ptr(this->direction));
+    } else {
+        glLightf(GL_LIGHT0 + this->lightId, GL_SPOT_CUTOFF, 180.0);
+        glLightfv(GL_LIGHT0 + this->lightId, GL_SPOT_DIRECTION,
+                  glm::value_ptr(this->direction));
+    }
+
     glPopMatrix();
 }
 

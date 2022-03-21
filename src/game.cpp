@@ -71,15 +71,8 @@ void Game::draw() {
         light->draw();
     }
 
-    // {
-    //     glm::fvec3 playerPos = this->map->getWorldCenter();
-    //     glLightfv(GL_LIGHT0, GL_POSITION,
-    //               glm::value_ptr(
-    //                   glm::fvec4(playerPos.x, playerPos.y,
-    //                   playerPos.z, 1.0)));
-    //     glLightfv(GL_LIGHT0, GL_DIFFUSE,
-    //               glm::value_ptr(glm::fvec3(1.0f, 1.0f, 1.0f)));
-    // }
+    this->lights[0]->setPosition(this->player->getGunPosition());
+    this->lights[0]->setDirection({1, 0, 0});
 }
 
 Player* Game::getPlayer() { return this->player.get(); }
@@ -365,6 +358,7 @@ void Game::postInit() {
         light->setPosition(
             glm::fvec3(baseLightXPosition + i * lightXStep, lightYPosition, 0));
     }
+    lights[0]->setType(LightType::LIGHT_SPOT);
 }
 
 std::vector<LightSource*> Game::getLights() {
