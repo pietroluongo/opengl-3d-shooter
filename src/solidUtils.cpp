@@ -45,14 +45,13 @@ void drawCubeFromExtrude(float depth, glm::vec3 color, glm::vec3 points[4],
                      points[3].y * textures.frontScale);
         glVertex3f(points[3].x, points[3].y, points[3].z);
     } else {
-        glNormal3f(0, 0, -1);
         glTexCoord2f(0, 0);
         glVertex3f(points[0].x, points[0].y, points[0].z);
         glTexCoord2f(0, 1);
         glVertex3f(points[1].x, points[1].y, points[1].z);
-        glTexCoord2f(1, 0);
-        glVertex3f(points[2].x, points[2].y, points[2].z);
         glTexCoord2f(1, 1);
+        glVertex3f(points[2].x, points[2].y, points[2].z);
+        glTexCoord2f(1, 0);
         glVertex3f(points[3].x, points[3].y, points[3].z);
     }
 
