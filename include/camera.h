@@ -41,7 +41,7 @@ class Camera {
 
     CameraFollowMode followMode = CAMERA_FOLLOW_MODE_NONE;
     CameraMode mode = CAMERA_2D;
-    CameraBehaviour behaviour = CAMERA_2D_PERSPECTIVE;
+    CameraBehaviour behaviour = CAMERA_FPS;
 
     glm::mat4 projectionMatrix = glm::mat4(1.0f);
 

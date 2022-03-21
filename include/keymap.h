@@ -94,8 +94,13 @@ constexpr const int MOVE_CAMERA_IN_BUTTON = 't';
 constexpr const int MOVE_CAMERA_OUT_BUTTON = 'g';
 constexpr const int MOVE_CAMERA_HIGH_BUTTON = 'y';
 constexpr const int MOVE_CAMERA_LOW_BUTTON = 'r';
-constexpr const int CAMERA_SET_THIRD_PERSON = '3';
 constexpr const int CAMERA_TOGGLE_ORBIT = 'x';
+
+constexpr const int CAMERA_SET_FPS = '1';
+constexpr const int CAMERA_SET_AIM = '2';
+constexpr const int CAMERA_SET_THIRD_PERSON = '3';
+
+constexpr const int TOGGLE_NIGHT_MODE = 'n';
 
 } // namespace keymap
 

@@ -234,109 +234,103 @@ void Camera::handleInput() {
     this->xzAngle += mousePos.x - this->lastMousePosition.x;
     this->xyAngle += mousePos.y - this->lastMousePosition.y;
     this->lastMousePosition = mousePos;
-//     if (context->isKeyPressed(keymap::CAMERA_SET_THIRD_PERSON)) {
-//         this->behaviour = CameraBehaviour::CAMERA_TPS;
-//     }
-//     if (context->isKeyPressed(keymap::CAMERA_TOGGLE_ORBIT)) {
-//         this->behaviour = CAMERA_ORBIT;
-// #ifdef USE_GLFW
-//         glfwSetInputMode(context->getWindow(), GLFW_CURSOR,
-//                          GLFW_CURSOR_DISABLED);
-// #endif
-//     } else {
-// #ifdef USE_GLFW
-//         glfwSetInputMode(context->getWindow(), GLFW_CURSOR,
-//         GLFW_CURSOR_NORMAL);
-// #endif
-//     }
-#ifdef USE_GLFW
-    if (this->behaviour == CAMERA_ORBIT) {
-        glfwSetInputMode(context->getWindow(), GLFW_CURSOR,
-                         GLFW_CURSOR_DISABLED);
-    } else {
-        glfwSetInputMode(context->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    if (context->isKeyPressed(keymap::CAMERA_SET_THIRD_PERSON)) {
+        this->behaviour = CameraBehaviour::CAMERA_TPS;
+    } else if (context->isKeyPressed(keymap::CAMERA_SET_FPS)) {
+        this->behaviour = CameraBehaviour::CAMERA_FPS;
+    } else if (context->isKeyPressed(keymap::CAMERA_SET_AIM)) {
+        this->behaviour = CameraBehaviour::CAMERA_AIM;
     }
-#endif
-    // if (this->freeCamEnabled) {
-    if (true) {
-        // this->behaviour = CAMERA_FREE;
-        if (this->mode == CAMERA_2D) {
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
-                this->moveX(CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
-                this->moveX(-CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_UP_BUTTON)) {
-                this->moveY(-CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_DOWN_BUTTON)) {
-                this->moveY(CAMERA_SPEED);
-            }
-        } else {
-            if (context->nAxes >= 4) {
-                // X rotation: 5
-                // Y rotation: 2
-                // X movement: 0
-                // Y movement: 1
-                float rotX = 0, rotY = 0;
-                float movX = 0, movY = 0;
-                if (abs(context->axes[2]) < 0.1)
-                    rotY = 0;
-                else
-                    rotY = context->axes[2];
+    if (context->isKeyPressed(keymap::CAMERA_TOGGLE_ORBIT)) {
+        this->behaviour = CAMERA_ORBIT;
+    } else {
+    }
+    if (this->mode == CAMERA_2D) {
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_BUTTON)) {
+            this->moveX(CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_BUTTON)) {
+            this->moveX(-CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_UP_BUTTON)) {
+            this->moveY(-CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_DOWN_BUTTON)) {
+            this->moveY(CAMERA_SPEED);
+        }
+    } else {
+        if (context->nAxes >= 4) {
+            // X rotation: 5
+            // Y rotation: 2
+            // X movement: 0
+            // Y movement: 1
+            float rotX = 0, rotY = 0;
+            float movX = 0, movY = 0;
+            if (abs(context->axes[2]) < 0.1)
+                rotY = 0;
+            else
+                rotY = context->axes[2];
 
-                if (abs(context->axes[5]) < 0.1)
-                    rotX = 0;
-                else
-                    rotX = context->axes[5];
+            if (abs(context->axes[5]) < 0.1)
+                rotX = 0;
+            else
+                rotX = context->axes[5];
 
-                if (abs(context->axes[0]) < 0.1)
-                    movX = 0;
-                else
-                    movX = context->axes[0];
+            if (abs(context->axes[0]) < 0.1)
+                movX = 0;
+            else
+                movX = context->axes[0];
 
-                if (abs(context->axes[1]) < 0.1)
-                    movY = 0;
-                else
-                    movY = context->axes[1];
-                this->rotateY(rotY * CAMERA_ROTATE_SPEED);
-                this->rotateX(-rotX * CAMERA_ROTATE_SPEED);
-                this->moveSidesFromForward(-movX * CAMERA_SPEED);
-                this->moveForward(-movY * CAMERA_SPEED);
-            }
+            if (abs(context->axes[1]) < 0.1)
+                movY = 0;
+            else
+                movY = context->axes[1];
+            this->rotateY(rotY * CAMERA_ROTATE_SPEED);
+            this->rotateX(-rotX * CAMERA_ROTATE_SPEED);
+            this->moveSidesFromForward(-movX * CAMERA_SPEED);
+            this->moveForward(-movY * CAMERA_SPEED);
+        }
 
-            if (context->isKeyPressed(keymap::ROTATE_CAMERA_UP_BUTTON)) {
-                this->rotateX(CAMERA_ROTATE_SPEED);
-            }
-            if (context->isKeyPressed(keymap::ROTATE_CAMERA_DOWN_BUTTON)) {
-                this->rotateX(-CAMERA_ROTATE_SPEED);
-            }
-            if (context->isKeyPressed(keymap::ROTATE_CAMERA_LEFT_BUTTON)) {
-                this->rotateY(-CAMERA_ROTATE_SPEED);
-            }
-            if (context->isKeyPressed(keymap::ROTATE_CAMERA_RIGHT_BUTTON)) {
-                this->rotateY(CAMERA_ROTATE_SPEED);
-            }
+        // if (context->isKeyPressed(keymap::CAMERA_SET_THIRD_PERSON)) {
+        //     this->behaviour = CameraBehaviour::CAMERA_TPS;
+        // }
+        // if (context->isKeyPressed(keymap::CAMERA_TOGGLE_ORBIT) &&
+        //     this->behaviour == CAMERA_TPS) {
+        //     this->behaviour = CameraBehaviour::CAMERA_ORBIT;
+        // } else {
+        //     this->behaviour = CameraBehaviour::CAMERA_TPS;
+        // }
 
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_3D_BUTTON)) {
-                this->moveX(CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_3D_BUTTON)) {
-                this->moveX(-CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_HIGH_BUTTON)) {
-                this->moveY(-CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_LOW_BUTTON)) {
-                this->moveY(CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_IN_BUTTON)) {
-                this->moveForward(CAMERA_SPEED);
-            }
-            if (context->isKeyPressed(keymap::MOVE_CAMERA_OUT_BUTTON)) {
-                this->moveForward(-CAMERA_SPEED);
-            }
+        if (context->isKeyPressed(keymap::ROTATE_CAMERA_UP_BUTTON)) {
+            this->rotateX(CAMERA_ROTATE_SPEED);
+        }
+        if (context->isKeyPressed(keymap::ROTATE_CAMERA_DOWN_BUTTON)) {
+            this->rotateX(-CAMERA_ROTATE_SPEED);
+        }
+        if (context->isKeyPressed(keymap::ROTATE_CAMERA_LEFT_BUTTON)) {
+            this->rotateY(-CAMERA_ROTATE_SPEED);
+        }
+        if (context->isKeyPressed(keymap::ROTATE_CAMERA_RIGHT_BUTTON)) {
+            this->rotateY(CAMERA_ROTATE_SPEED);
+        }
+
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_RIGHT_3D_BUTTON)) {
+            this->moveX(CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_LEFT_3D_BUTTON)) {
+            this->moveX(-CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_HIGH_BUTTON)) {
+            this->moveY(-CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_LOW_BUTTON)) {
+            this->moveY(CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_IN_BUTTON)) {
+            this->moveForward(CAMERA_SPEED);
+        }
+        if (context->isKeyPressed(keymap::MOVE_CAMERA_OUT_BUTTON)) {
+            this->moveForward(-CAMERA_SPEED);
         }
     }
 }

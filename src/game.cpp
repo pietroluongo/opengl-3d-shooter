@@ -23,7 +23,7 @@ Game::Game() {
         this->lights[i]->enable();
     }
     lights[0]->disable();
-    lights[0]->setType(LIGHT_SPOT);
+    // lights[0]->setType(LIGHT_SPOT);
 }
 
 Game::~Game() {}
@@ -69,10 +69,9 @@ void Game::draw() {
         this->drawWinScreen();
     }
 
-    lights[0]->setType(LightType::LIGHT_SPOT);
+    // lights[0]->setType(LightType::LIGHT_SPOT);
 
     this->lights[0]->setPosition(this->player->getGunPosition());
-    // this->lights[0]->setDirection({, 0, 0});
 
     for (auto& light : this->lights) {
         light->draw();
@@ -374,18 +373,18 @@ std::vector<LightSource*> Game::getLights() {
 }
 
 void Game::enableDarkMode() {
+    this->lights[0]->enable();
     for (int i = 1; i < 7; i++) {
         this->lights[i]->disable();
     }
-    this->lights[0]->enable();
     this->darkMode = true;
 }
 
 void Game::disableDarkMode() {
+    this->lights[0]->disable();
     for (int i = 1; i < 7; i++) {
         this->lights[i]->enable();
     }
-    this->lights[0]->disable();
     this->darkMode = false;
 }
 

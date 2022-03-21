@@ -29,12 +29,8 @@ void keyDown(unsigned char key, int x, int y) {
 }
 
 void mouse(int button, int state, int x, int y) {
-    if (context->imguiHasMouseFocus) {
-        ImGui_ImplGLUT_MouseFunc(button, state, x, y);
-        ImGui_ImplGLUT_MotionFunc(x, y);
-        return;
-    }
-
+    ImGui_ImplGLUT_MouseFunc(button, state, x, y);
+    ImGui_ImplGLUT_MotionFunc(x, y);
     if (state == GLUT_DOWN) {
         if (button == GLUT_LEFT_BUTTON) {
             context->setMouseButtons(MOUSE_BUTTON_LEFT, true);
@@ -91,8 +87,8 @@ void keyUp(unsigned char key, int x, int y) {
     if (key == 'p') {
         context->getGameRef()->togglePause();
     }
-    if (key == 'm') {
-        context->imguiHasMouseFocus = !context->imguiHasMouseFocus;
+    if (key == 'n') {
+        context->getGameRef()->toggleDarkMode();
     }
     glutPostRedisplay();
 }
@@ -129,10 +125,7 @@ void setupGlut(int argc, char** argv) {
 }
 
 void passiveMotion(int x, int y) {
-    if (context->imguiHasMouseFocus) {
-        ImGui_ImplGLUT_MotionFunc(x, y);
-        return;
-    }
+    ImGui_ImplGLUT_MotionFunc(x, y);
     context->updateMousePos(glm::ivec2(x, y));
 }
 
