@@ -41,7 +41,8 @@ class LightSource {
     void toggle();
     bool isEnabled() { return this->enabled; }
     void setDirection(glm::fvec3 dir) { this->direction = dir; }
-    void setType(LightType) { this->type = type; }
+    void setType(LightType type) { this->type = type; }
+    const char* getMode();
 };
 
 #endif

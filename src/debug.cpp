@@ -268,6 +268,7 @@ void drawLightingInfo() {
                 ImGui::Text("Light Position: [%.2f, %.2f, %.2f]",
                             light->getPosition().x, light->getPosition().y,
                             light->getPosition().z);
+                ImGui::Text("%s", light->getMode());
                 if (light->isEnabled()) {
                     ImGui::Text("Enabled");
                     os.str("");

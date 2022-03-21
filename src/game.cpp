@@ -22,6 +22,8 @@ Game::Game() {
             std::unique_ptr<LightSource>(new LightSource(i)));
         this->lights[i]->disable();
     }
+    lights[0]->enable();
+    lights[0]->setType(LIGHT_SPOT);
 }
 
 Game::~Game() {}
@@ -67,12 +69,14 @@ void Game::draw() {
         this->drawWinScreen();
     }
 
+    lights[0]->setType(LightType::LIGHT_SPOT);
+
+    this->lights[0]->setPosition(this->player->getGunPosition());
+    // this->lights[0]->setDirection({, 0, 0});
+
     for (auto& light : this->lights) {
         light->draw();
     }
-
-    this->lights[0]->setPosition(this->player->getGunPosition());
-    this->lights[0]->setDirection({1, 0, 0});
 }
 
 Player* Game::getPlayer() { return this->player.get(); }
@@ -358,7 +362,6 @@ void Game::postInit() {
         light->setPosition(
             glm::fvec3(baseLightXPosition + i * lightXStep, lightYPosition, 0));
     }
-    lights[0]->setType(LightType::LIGHT_SPOT);
 }
 
 std::vector<LightSource*> Game::getLights() {
