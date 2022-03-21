@@ -3,6 +3,7 @@
 
 #include "../include/camera.h"
 #include "../include/enemy.h"
+#include "../include/lightSrc.h"
 #include "../include/map.h"
 #include "../include/platform.h"
 #include "../include/player.h"
@@ -24,6 +25,8 @@ class Game {
 
     std::vector<std::unique_ptr<Projectile>> projectiles;
     std::vector<Collider*> projectilesColliders;
+
+    std::vector<std::unique_ptr<LightSource>> lights;
 
     std::vector<Collider*> colliders;
 
@@ -67,6 +70,7 @@ class Game {
     void toggleDimensions();
     RenderMode getCurrentRenderMode() { return this->renderMode; }
     void postInit();
+    std::vector<LightSource*> getLights();
 };
 
 #endif

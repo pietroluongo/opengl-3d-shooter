@@ -5,6 +5,7 @@
 
 #include "../include/debug.h"
 #include "../include/game.h"
+#include "../include/lightSrc.h"
 
 namespace debug {
 void imgui_init() {
@@ -250,12 +251,38 @@ void drawMemoryInfo() {
 }
 
 void drawLightingInfo() {
-    GLfloat val[10];
-    glGetLightfv(GL_LIGHT0, GL_POSITION, val);
+    // GLfloat val[10];
+    // glGetLightfv(GL_LIGHT0, GL_POSITION, val);
+    std::vector<LightSource*> lights = context->getGameRef()->getLights();
+    std::ostringstream os;
     ImGui::Begin("Lighting [F6]", &context->shouldDrawLightingInfo);
     {
-        ImGui::Text("Light position: [%.2f, %.2f, %.2f]", val[0], val[1],
-                    val[2]);
+        for (auto light : lights) {
+            os.str("");
+            os << "Light " << light->getId();
+            if (ImGui::CollapsingHeader(os.str().c_str())) {
+                ImGui::Text("Light Position: [%.2f, %.2f, %.2f]",
+                            light->getPosition().x, light->getPosition().y,
+                            light->getPosition().z);
+                if (light->isEnabled()) {
+                    ImGui::Text("Enabled");
+                    os.str("");
+                    os << "Disable light " << light->getId();
+                    if (ImGui::Button(os.str().c_str())) {
+                        light->disable();
+                    }
+                } else {
+                    os.str("");
+                    os << "Enable light " << light->getId();
+                    ImGui::Text("Disabled");
+                    if (ImGui::Button(os.str().c_str())) {
+                        light->enable();
+                    }
+                }
+            }
+        }
+        // ImGui::Text("Light position: [%.2f, %.2f, %.2f]", val[0], val[1],
+        //             val[2]);
         // ImGui::Checkbox("Toggle Lighting",
         // &context->shouldLightingBeEnabled);
         ImGui::End();

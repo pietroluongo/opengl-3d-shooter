@@ -10,11 +10,18 @@
 
 extern GlobalCtx* context;
 
+#define PLAYER_FLASHLIGHT 0
+
 Game::Game() {
     this->player = nullptr;
     this->map = std::unique_ptr<Map>(new Map());
     this->cam = std::unique_ptr<Camera>(new Camera(CameraMode::CAMERA_3D));
     this->cam->setFollowMode(CAMERA_FOLLOW_MODE_SINGLE_AXIS);
+    this->lights.push_back(
+        std::unique_ptr<LightSource>(new LightSource(PLAYER_FLASHLIGHT)));
+    this->lights.push_back(std::unique_ptr<LightSource>(new LightSource(1)));
+    this->lights[1]->setPosition(map->getWorldCenter());
+    this->lights[1]->enable();
 }
 
 Game::~Game() {}
@@ -60,14 +67,19 @@ void Game::draw() {
         this->drawWinScreen();
     }
 
-    {
-        glm::fvec3 playerPos = this->map->getWorldCenter();
-        glLightfv(GL_LIGHT0, GL_POSITION,
-                  glm::value_ptr(
-                      glm::fvec4(playerPos.x, playerPos.y, playerPos.z, 1.0)));
-        glLightfv(GL_LIGHT0, GL_DIFFUSE,
-                  glm::value_ptr(glm::fvec3(1.0f, 1.0f, 1.0f)));
+    for (auto& light : this->lights) {
+        light->draw();
     }
+
+    // {
+    //     glm::fvec3 playerPos = this->map->getWorldCenter();
+    //     glLightfv(GL_LIGHT0, GL_POSITION,
+    //               glm::value_ptr(
+    //                   glm::fvec4(playerPos.x, playerPos.y,
+    //                   playerPos.z, 1.0)));
+    //     glLightfv(GL_LIGHT0, GL_DIFFUSE,
+    //               glm::value_ptr(glm::fvec3(1.0f, 1.0f, 1.0f)));
+    // }
 }
 
 Player* Game::getPlayer() { return this->player.get(); }
@@ -340,4 +352,12 @@ void Game::postInit() {
             enemy->teleportToGround();
         }
     }
+}
+
+std::vector<LightSource*> Game::getLights() {
+    std::vector<LightSource*> lights;
+    for (auto& light : this->lights) {
+        lights.push_back(light.get());
+    }
+    return lights;
 }

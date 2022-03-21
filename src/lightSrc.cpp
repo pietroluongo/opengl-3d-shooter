@@ -10,6 +10,10 @@ LightSource::LightSource(int id) {
 }
 
 void LightSource::draw() {
+    if (!enabled) {
+        glDisable(GL_LIGHT0 + lightId);
+    } else {
+    }
     glPushMatrix();
     glLoadIdentity();
     glm::fvec4 lightPos = glm::fvec4(this->position, 1.0f);
@@ -20,3 +24,5 @@ void LightSource::draw() {
 }
 
 void LightSource::setPosition(glm::fvec3 pos) { this->position = pos; }
+
+void LightSource::toggle() { this->enabled ? this->disable() : this->enable(); }

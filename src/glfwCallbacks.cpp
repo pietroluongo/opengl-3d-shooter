@@ -155,6 +155,7 @@ void init() {
     glShadeModel(GL_SMOOTH);
 
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
 
     int hasJoystick = glfwJoystickPresent(GLFW_JOYSTICK_1);
     if (hasJoystick) {
