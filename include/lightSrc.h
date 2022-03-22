@@ -26,12 +26,10 @@ class LightSource {
     void setPosition(glm::fvec3 pos);
     void enable() {
         this->enabled = true;
-        printf("enabling light %d\n", this->lightId);
         glEnable(GL_LIGHT0 + this->lightId);
     }
     void disable() {
         this->enabled = false;
-        printf("disabling light %d\n", this->lightId);
         glDisable(GL_LIGHT0 + this->lightId);
     }
     glm::fvec3 getPosition() { return this->position; }

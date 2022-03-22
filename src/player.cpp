@@ -41,7 +41,7 @@ void Player::draw() {
     glRotatef(this->visualRotation.x, 1, 0, 0);
     glRotatef(this->visualRotation.y, 0, 1, 0);
     glRotatef(this->visualRotation.z, 0, 0, 1);
-    drawCoordinateSystem();
+    // drawCoordinateSystem();
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -60,33 +60,35 @@ void Player::draw() {
     glPopMatrix();
     if (context->shouldObjectsDrawColliders)
         this->collider->draw();
-    {
-        glm::mat4 t = glm::mat4(1.0);
-        glm::fvec4 position = glm::fvec4{0, 0, 0, 1};
-        t = glm::translate(
-            t, glm::vec3(this->getPosition().x,
-                         this->getPosition().y - this->size * 0.3 + armPosition,
-                         this->getPosition().z));
-        t = glm::rotate(t, (float)(this->visualRotation.y * M_PI / 180),
-                        glm::vec3(0, 1, 0));
-        t = glm::rotate(t, (float)(this->armAngle * M_PI / 180),
-                        glm::vec3(0, 0, 1));
+    // Draw debug shot position
+    // {
+    //     glm::mat4 t = glm::mat4(1.0);
+    //     glm::fvec4 position = glm::fvec4{0, 0, 0, 1};
+    //     t = glm::translate(
+    //         t, glm::vec3(this->getPosition().x,
+    //                      this->getPosition().y - this->size * 0.3 +
+    //                      armPosition, this->getPosition().z));
+    //     t = glm::rotate(t, (float)(this->visualRotation.y * M_PI / 180),
+    //                     glm::vec3(0, 1, 0));
+    //     t = glm::rotate(t, (float)(this->armAngle * M_PI / 180),
+    //                     glm::vec3(0, 0, 1));
 
-        t = glm::translate(t,
-                           glm::vec3(0, this->armHeight + 0.2 * this->size, 0));
+    //     t = glm::translate(t,
+    //                        glm::vec3(0, this->armHeight + 0.2 * this->size,
+    //                        0));
 
-        position = t * position;
-        glColor3f(1, 0, 0);
-        glPushMatrix();
-        glDisable(GL_LIGHTING);
-        glMultMatrixf(glm::value_ptr(t));
-        glPointSize(15.0f);
-        glBegin(GL_POINTS);
-        glVertex3f(0, 0, 0);
-        glEnd();
-        glEnable(GL_LIGHTING);
-        glPopMatrix();
-    }
+    //     position = t * position;
+    //     glColor3f(1, 0, 0);
+    //     glPushMatrix();
+    //     glDisable(GL_LIGHTING);
+    //     glMultMatrixf(glm::value_ptr(t));
+    //     glPointSize(15.0f);
+    //     glBegin(GL_POINTS);
+    //     glVertex3f(0, 0, 0);
+    //     glEnd();
+    //     glEnable(GL_LIGHTING);
+    //     glPopMatrix();
+    // }
 }
 
 void Player::idle() {

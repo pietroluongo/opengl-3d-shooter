@@ -360,7 +360,7 @@ void Game::postInit() {
             }
         }
         if (!isGrounded) {
-            enemy->teleportToGround();
+            // enemy->teleportToGround();
         }
     }
 

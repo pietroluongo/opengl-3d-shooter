@@ -94,6 +94,8 @@ int main(int argc, char** argv) {
     context->loadTexture("./assets/grass.bmp");
     context->loadTexture("./assets/floor.bmp");
     context->loadTexture("./assets/head.bmp");
+    context->loadTexture("./assets/headEnemy.bmp");
+    context->loadTexture("./assets/playerBody.bmp");
     context->loadTexture("./assets/wall.bmp");
     context->loadTexture("./assets/skybox_day/back_sky_day.bmp");
     context->loadTexture("./assets/skybox_day/front_sky_day.bmp");

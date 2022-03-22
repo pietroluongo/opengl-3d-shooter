@@ -25,6 +25,8 @@ Enemy::Enemy(GLfloat x, GLfloat y, GLfloat z, GLfloat size)
 Enemy::~Enemy() {}
 
 void Enemy::draw() {
+    this->head->setTexture(context->getTexture("headEnemy.bmp"));
+
     glfvec3 position = this->getPosition();
 
     glPushMatrix();
@@ -92,6 +94,9 @@ void Enemy::idle() {
     if (this->enemyTurnTimer >= this->targetTurnTimer) {
         this->enemyTurnTimer = 0;
         this->targetTurnTimer = rand() % 600 / 100 + 1;
+        if (targetTurnTimer >= 4) {
+            this->moveDirection *= -1;
+        }
     }
     this->updateArmAngle();
     if (this->getCollisionArr()[3]) {
@@ -106,7 +111,7 @@ void Enemy::idle() {
             this->setHeading(Heading::LEFT);
         }
     } else {
-        this->setHeading(Heading::LEFT);
+        this->setHeading(Heading::RIGHT);
     }
 
     if (!this->isGrounded) {
@@ -123,7 +128,7 @@ void Enemy::idle() {
     } else {
         this->currentAnimState = AnimState::IDLE;
     }
-    this->rotateY(1 * this->enemyShootTimer);
+    this->rotateY(1 * this->enemyShootTimer * this->moveDirection);
     this->Object::idle();
 }
 

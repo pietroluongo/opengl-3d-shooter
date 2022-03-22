@@ -9,7 +9,7 @@ extern GlobalCtx* context;
 
 void Character::drawChest() {
     glPushMatrix();
-    unsigned int tex = context->getTexture("floor.bmp");
+    unsigned int tex = context->getTexture("playerBody.bmp");
     CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     float chestXSize = this->size * 0.05f;
     float chestYSize = this->size * 0.2f;
@@ -35,7 +35,7 @@ void Character::drawChest() {
 }
 
 void Character::drawArm() {
-    unsigned int tex = context->getTexture("floor.bmp");
+    unsigned int tex = context->getTexture("playerBody.bmp");
     CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     glPushMatrix();
     glTranslatef(0.0f, armPosition, 0.0f);
@@ -73,7 +73,7 @@ void Character::drawGun() {
     if (this->currentHeading == RIGHT) {
         glRotatef(180, 1.0f, 0, 0);
     }
-    unsigned int tex = context->getTexture("floor.bmp");
+    unsigned int tex = context->getTexture("playerBody.bmp");
     CubeTextureData data = CubeTextureData(tex, tex, tex, tex, tex, tex);
     if (this->drawMode == CharacterDrawMode::CHARACTER_2D) {
         glBegin(GL_POLYGON);
