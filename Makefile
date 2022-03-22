@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := dev
+.DEFAULT_GOAL := all
 
 ifndef $(TARGET)
 TARGET = GLUT

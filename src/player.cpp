@@ -45,8 +45,10 @@ void Player::draw() {
     glColor3f(0.0f, 1.0f, 1.0f);
     this->drawChest();
     glColor3f(1.0f, 1.0f, 1.0f);
-    if (context->getGameRef()->getMainCamera()->getCameraBehaviour() !=
-        CameraBehaviour::CAMERA_FPS) {
+    CameraBehaviour beh =
+        context->getGameRef()->getMainCamera()->getCameraBehaviour();
+    if (beh != CameraBehaviour::CAMERA_FPS &&
+        beh != CameraBehaviour::CAMERA_AIM) {
         this->drawHead();
     }
     glTranslatef(0, -this->size * 0.3f, 0);

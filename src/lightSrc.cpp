@@ -48,4 +48,5 @@ const char* LightSource::getMode() {
     } else if (this->type == LIGHT_SPOT) {
         return "spot light";
     }
+    return "unknown";
 }
