@@ -65,7 +65,7 @@ class GlobalCtx {
     bool shouldPlatformsShowCollisions = false;
     bool shouldEnemiesDrawInfo = false;
 
-    bool enemiesCanShoot = false;
+    bool enemiesCanShoot = true;
     bool enemiesCanMove = true;
 
     bool imguiHasMouseFocus = false;
