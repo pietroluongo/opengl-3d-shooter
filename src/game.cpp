@@ -37,12 +37,22 @@ void Game::draw() {
         glm::fvec3 size = {map->getWorldSize(), map->getWorldSize().y / 2};
         glm::fvec4 bounds = map->getWorldBounds();
         CubeTextureData texData =
-            CubeTextureData(context->getTexture("bottom_sky.bmp"),
-                            context->getTexture("top_sky.bmp"),
-                            context->getTexture("left_sky.bmp"),
-                            context->getTexture("right_sky.bmp"),
-                            context->getTexture("front_sky.bmp"),
-                            context->getTexture("back_sky.bmp"));
+            CubeTextureData(context->getTexture("bottom_sky_day.bmp"),
+                            context->getTexture("top_sky_day.bmp"),
+                            context->getTexture("left_sky_day.bmp"),
+                            context->getTexture("right_sky_day.bmp"),
+                            context->getTexture("front_sky_day.bmp"),
+                            context->getTexture("back_sky_day.bmp"));
+
+        if (this->darkMode) {
+            texData =
+                CubeTextureData(context->getTexture("bottom_sky_night.bmp"),
+                                context->getTexture("top_sky_night.bmp"),
+                                context->getTexture("left_sky_night.bmp"),
+                                context->getTexture("right_sky_night.bmp"),
+                                context->getTexture("front_sky_night.bmp"),
+                                context->getTexture("back_sky_night.bmp"));
+        }
 
         glm::vec3 points[4] = {
             glm::vec3(bounds[0] - size.x * 4, bounds[3] + size.x * 4,

@@ -95,12 +95,20 @@ int main(int argc, char** argv) {
     context->loadTexture("./assets/floor.bmp");
     context->loadTexture("./assets/head.bmp");
     context->loadTexture("./assets/wall.bmp");
-    context->loadTexture("./assets/skybox/back_sky.bmp");
-    context->loadTexture("./assets/skybox/front_sky.bmp");
-    context->loadTexture("./assets/skybox/left_sky.bmp");
-    context->loadTexture("./assets/skybox/right_sky.bmp");
-    context->loadTexture("./assets/skybox/top_sky.bmp");
-    context->loadTexture("./assets/skybox/bottom_sky.bmp");
+    context->loadTexture("./assets/skybox_day/back_sky_day.bmp");
+    context->loadTexture("./assets/skybox_day/front_sky_day.bmp");
+    context->loadTexture("./assets/skybox_day/left_sky_day.bmp");
+    context->loadTexture("./assets/skybox_day/right_sky_day.bmp");
+    context->loadTexture("./assets/skybox_day/top_sky_day.bmp");
+    context->loadTexture("./assets/skybox_day/bottom_sky_day.bmp");
+
+    context->loadTexture("./assets/skybox_night/back_sky_night.bmp");
+    context->loadTexture("./assets/skybox_night/front_sky_night.bmp");
+    context->loadTexture("./assets/skybox_night/left_sky_night.bmp");
+    context->loadTexture("./assets/skybox_night/right_sky_night.bmp");
+    context->loadTexture("./assets/skybox_night/top_sky_night.bmp");
+    context->loadTexture("./assets/skybox_night/bottom_sky_night.bmp");
+
     context->debugTextures();
     context->postInit();
     glutMainLoop();
